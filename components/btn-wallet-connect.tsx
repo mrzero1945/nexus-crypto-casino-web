@@ -42,8 +42,10 @@ const CustomConnectButton = () => {
 
         // UI ketika dompet sudah terhubung
         return (
-          <div style={{ display: 'flex', gap: '12px' }}>
-            {/* ... Konten ketika dompet terhubung */}
+          <div className='text-white mt-2' style={{ display: 'flex', gap: '12px' }}>
+            <span >{account.displayName}</span>
+            <span>{account.displayBalance ? `Saldo: ${account.displayBalance}` : ''}</span>
+            {/* Tambahkan tombol atau UI lain jika perlu */}
           </div>
         );
       }}
