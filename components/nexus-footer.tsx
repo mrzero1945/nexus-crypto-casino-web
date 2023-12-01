@@ -1,6 +1,5 @@
 import {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 class NexusFooter extends Component{
     render(){

@@ -3,6 +3,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { NexusNavbar } from '../components/nexus-navbar';
 import { NexusHome } from '../mypages/nexus-home';
+import { NexusFooter } from '../components/nexus-footer';
 
 const Home: NextPage = () => {
   return (
@@ -17,6 +18,7 @@ const Home: NextPage = () => {
       </Head>
         <NexusNavbar />
         <NexusHome />
+        <NexusFooter />
     </div>
   );
 };
