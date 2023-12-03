@@ -14,7 +14,7 @@ const StakePage: NextPage = () => {
             content="Developed by Mr Z"
             name="description"
           />
-          <link href={faviconImg.src} />
+          <link rel="icon" href={faviconImg.src} />
         </Head>
           <NexusNavbar />
           <NexusStake/>
