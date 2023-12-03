@@ -14,22 +14,36 @@ class NexusStake extends Component{
                 </div>
                 <div className="row align-items-center">
                     <div className="col-md-6">
-                        <img src={stakeImg.src} className="img-fluid" alt="Stake" />
+                        <img src={stakeImg.src} className="px-3 py-3 img-fluid" alt="Stake" style={{backgroundColor: "#242F38"}} />
                     </div>
                     <div className="col-md-3 text-center mt-3 mt-md-0 ms-md-2 py-3" style={{backgroundColor: "#242F38"}}>
-                        <p className="text-white">Stake $NXS and Earn $NXS</p>
+                        <p className="text-white" style={{fontFamily:"Inter", fontSize:"20px"}}>Stake $NXS and Earn $NXS</p>
+                        <label className="text-white" htmlFor="numberInput" style={{fontFamily:"Inter", fontSize:"18px"}}>Amount Stake</label>
                         <NumberForm />
                         <button className="my-md-3 px-md-3 my-2 btn px-5 text-white" style={{backgroundColor: "#59BE43", borderRadius: "15px"}}>Stake</button>
-                        <p className="text-white">Total staked</p>
-                        <p className="text-white">????</p>
+                        <p className="text-white">
+                            Total staked
+                            <br />
+                            ????
+                        </p>
                     </div>
                     <div className="col-md-2 ms-md-4 text-center py-3 mt-3 mt-md-0" style={{backgroundColor: "#242F38"}}>
-                        <p className="text-white">APR</p>
-                        <p className="text-white">??%</p>
-                        <p className="text-white">Deposit fee</p>
-                        <p className="text-white">2%</p>
-                        <p className="text-white">Unstaking fee</p>
-                        <p className="text-white">0 ~ 2%</p>
+                    <p className="text-white">
+                        APR
+                        <br />
+                        ??%
+                    </p>
+                    <p className="text-white">
+                        Deposit fee
+                        <br />
+                        2%
+                    </p>
+                    <p className="text-white">
+                        Unstaking fee
+                        <br />
+                        0 ~ 2%
+                    </p>
+
                     </div>
                 </div>
 
