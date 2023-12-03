@@ -2,13 +2,14 @@ import { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import stakeImg from '../resources/stake.png'
 
+
 class NexusStake extends Component{
     render(){
         return(
             <div className="mt-3 pb-3 container" style={{ backgroundColor: "#191F2D" }}>
                 <div className="row justify-content-center text-white">
                     <div className="col-12 text-center pt-3">
-                        <p className="text-white" style={{fontFamily: "Inter", fontSize: "25px"}}>Stake Pool</p>
+                        <p className="text-white" style={{fontFamily: "Inter", fontSize: "25px", backgroundColor: "background: #242F38"}}>Stake Pool</p>
                     </div>
                 </div>
                 <div className="row align-items-center">
