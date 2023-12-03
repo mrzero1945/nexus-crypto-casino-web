@@ -16,7 +16,7 @@ class NexusStake extends Component{
                     <div className="col-md-6">
                         <img src={stakeImg.src} className="px-3 py-3 img-fluid" alt="Stake" style={{backgroundColor: "#242F38"}} />
                     </div>
-                    <div className="col-md-3 text-center mt-3 mt-md-0 ms-md-2 py-3" style={{backgroundColor: "#242F38"}}>
+                    <div className="col-md-3 text-center mt-3 mt-md-0 ms-md-2 py-2" style={{backgroundColor: "#242F38"}}>
                         <p className="text-white" style={{fontSize:"20px"}}>Stake $NXS and Earn $NXS</p>
                         <label className="text-white" htmlFor="numberInput" style={{fontSize:"18px"}}>Amount Stake</label>
                         <NumberForm />
@@ -27,7 +27,7 @@ class NexusStake extends Component{
                             ????
                         </p>
                     </div>
-                    <div className="col-md-2 ms-md-4 text-center py-3 mt-3 mt-md-0" style={{backgroundColor: "#242F38"}}>
+                    <div className="col-md-2 ms-md-4 text-center py-2 mt-3 mt-md-0" style={{backgroundColor: "#242F38"}}>
                     <p className="text-white">
                         APR
                         <br />

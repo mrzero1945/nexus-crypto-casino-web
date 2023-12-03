@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 class NexusFooter extends Component{
     render(){
         return(
-            <footer className="mt-5 pt-5 pb-2" style={{ backgroundColor: "#191F2D" }}>
+            <footer className="mt-5 pt-4 pb-2" style={{ backgroundColor: "#191F2D" }}>
                 <div className="container text-white text-center">
                     {/* Isi footer Anda di sini */}
                     <p>© 2023 Nexus Casino. All rights reserved.</p>
