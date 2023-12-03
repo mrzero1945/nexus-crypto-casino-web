@@ -32,7 +32,7 @@ class NexusNavbar extends Component {
                                 <a className='nav-link active' aria-current="location" href='#'>Play</a>
                             </li>
                             <li className='nav-item'>
-                                <a className='nav-link active' aria-current="location" href='#'>Stake</a>
+                                <a className='nav-link active' aria-current="location" href='/stake'>Stake</a>
                             </li>
                             <li className='nav-item'>
                                 <a className='nav-link active' aria-current="location" href='#'>Contact</a>

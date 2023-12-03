@@ -44,7 +44,7 @@ const CustomConnectButton = () => {
         return (
           <div className='text-white mt-2' style={{ display: 'flex', gap: '12px' }}>
             <span >{account.displayName}</span>
-            <span>{account.displayBalance ? `Saldo: ${account.displayBalance}` : ''}</span>
+            <span>{account.displayBalance ? `Balance: ${account.displayBalance}` : ''}</span>
             {/* Tambahkan tombol atau UI lain jika perlu */}
           </div>
         );
