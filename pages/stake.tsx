@@ -6,21 +6,18 @@ import faviconImg from '../resources/favicon.ico'
 import { NexusStake } from "../mypages/nexus-stake";
 
 const StakePage: NextPage = () => {
-    return (
-      <div style={{backgroundColor: " #121724"}}>
-        <Head>
-          <title>Nexus Crypto Casino</title>
-          <meta
-            content="Developed by Mr Z"
-            name="description"
-          />
-          <link rel="icon" href={faviconImg.src} />
-        </Head>
+  return (
+      <div style={{ backgroundColor: "#121724" }}>
+          <Head>
+              <title>Nexus Crypto Casino</title>
+              <meta content="Developed by Mr Z" name="description" />
+              <link rel="icon" href={faviconImg.src} />
+          </Head>
           <NexusNavbar />
           <NexusStake/>
           <NexusFooter />
       </div>
-    );
-  };
+  );
+};
   
   export default StakePage;
