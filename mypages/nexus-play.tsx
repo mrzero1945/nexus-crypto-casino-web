@@ -3,6 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import pokerImg from '../resources/card.png';
 import lotteryImg from '../resources/lot-icon-2.png';
 import slotImg from '../resources/slot-machine-2.png';
+import Link from 'next/link';
+
+
 
 class NexusPlay extends Component {
     render(){
@@ -13,7 +16,7 @@ class NexusPlay extends Component {
                     <div className="col-md-4">
                         <img className="img-fluid" src={lotteryImg.src} style={{background: "#5D29F8"}} />
                         
-                        <p className="text-center" style={{background: "#191F2D"}}>Poker</p>
+                        <p className="text-center" style={{background: "#191F2D"}}>Lottery</p>
                         <div className="d-flex flex-column align-items-center">
                             <button className="btn text-white px-md-5" style={{background: "#59BE43", borderRadius: "15px"}}>Play</button>
                         </div>
@@ -27,9 +30,12 @@ class NexusPlay extends Component {
                     </div>
                     <div className="col-md-4">
                         <img className="img-fluid " src={slotImg.src} style={{background: "#5D29F8"}} />
-                        <p className="text-center" style={{background: "#191F2D"}}>Poker</p>
+                        <p className="text-center" style={{background: "#191F2D"}}>Slot Machine</p>
                         <div className="d-flex flex-column align-items-center">
+                        <Link href="/slots" passHref>
                             <button className="btn text-white px-md-5" style={{background: "#59BE43", borderRadius: "15px"}}>Play</button>
+                        </Link>
+                            
                         </div>
                     </div>
 
