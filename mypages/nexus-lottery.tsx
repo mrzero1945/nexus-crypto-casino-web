@@ -113,7 +113,222 @@ If you redeem a coupon and win the last four prizes($2), you will get another co
                         </button>
                     </div>
                 </div>
+
+                <div className="row  my-md-3">
+                    <div className="col-2 d-flex align-items-center justify-content-center" style={{background: "#1F2730", height: '100%'}}>
+                        <p className="mt-md-3" style={{color: "#09D02C"}}>10 WAYS TO WIN</p>
+                    </div>
+                </div>
+                <div className="row text-white"  style={{background: "#1F2730"}}>
+                    <div className="col-md-6 pt-md-5 text-center" >
+                        <p>Matches</p>
+                    </div>
+                    <div className="col-md-5 pt-md-5  d-flex justify-content-center" style={{background: "#1F2730"}}>
+                        <p>Prize</p>
+                    </div>
+                </div>
+                <div className="row px-md-5 d-flex justify-content-center" style={{background: "#1F2730"}}>
+                    <div className="col-md-5  py-md-3 d-flex justify-content-center align-items-center me-md-5" style={{background: "#242F38"}}>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <p className="text-white me-md-3 mt-md-2" style={{fontSize: "20px"}}>+</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#09D02C"/>
+                        </svg>
+                    </div>
+
+                    <div className="col-md-5 py-md-3 d-flex justify-content-center align-items-center" style={{background: "#242F38"}}>
+                        <p style={{color: "#5AC015"}}>$10000</p>
+                    </div>
+                </div>
+
+                <div className="row px-md-5 d-flex justify-content-center" style={{background: "#1F2730"}}>
+                    <div className="col-md-5 mt-md-3 py-md-3 d-flex justify-content-center align-items-center me-md-5" style={{background: "#242F38"}}>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                    </div>
+
+                    <div className="mt-md-3 col-md-5 py-md-3 d-flex justify-content-center align-items-center" style={{background: "#242F38"}}>
+                        <p className="text-white">$5000</p>
+                    </div>
+                </div>
+
+                <div className="row px-md-5 d-flex justify-content-center" style={{background: "#1F2730"}}>
+                    <div className="col-md-5 mt-md-3 py-md-3 d-flex justify-content-center align-items-center me-md-5" style={{background: "#242F38"}}>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <p className="text-white me-md-3 mt-md-2" style={{fontSize: "20px"}}>+</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#09D02C"/>
+                        </svg>
+                    </div>
+
+                    <div className="mt-md-3 col-md-5 py-md-3 d-flex justify-content-center align-items-center" style={{background: "#242F38"}}>
+                        <p className="text-white">$500</p>
+                    </div>
+                </div>
+
+                <div className="row px-md-5 d-flex justify-content-center" style={{background: "#1F2730"}}>
+                    <div className="col-md-5 mt-md-3 py-md-3 d-flex justify-content-center align-items-center me-md-5" style={{background: "#242F38"}}>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                    </div>
+
+                    <div className="mt-md-3 col-md-5 py-md-3 d-flex justify-content-center align-items-center" style={{background: "#242F38"}}>
+                        <p className="text-white">$50</p>
+                    </div>
+                </div>
+
+                <div className="row px-md-5 d-flex justify-content-center" style={{background: "#1F2730"}}>
+                    <div className="col-md-5 mt-md-3 py-md-3 d-flex justify-content-center align-items-center me-md-5" style={{background: "#242F38"}}>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <p className="text-white me-md-3 mt-md-2" style={{fontSize: "20px"}}>+</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#09D02C"/>
+                        </svg>
+                    </div>
+
+                    <div className="mt-md-3 col-md-5 py-md-3 d-flex justify-content-center align-items-center" style={{background: "#242F38"}}>
+                        <p className="text-white">$50</p>
+                    </div>
+                </div>
+
+                <div className="row px-md-5 d-flex justify-content-center" style={{background: "#1F2730"}}>
+                    <div className="col-md-5 mt-md-3 py-md-3 d-flex justify-content-center align-items-center me-md-5" style={{background: "#242F38"}}>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                    </div>
+
+                    <div className="mt-md-3 col-md-5 py-md-3 d-flex justify-content-center align-items-center" style={{background: "#242F38"}}>
+                        <p className="text-white">$4</p>
+                    </div>
+                </div>
+
+                <div className="row px-md-5 d-flex justify-content-center" style={{background: "#1F2730"}}>
+                    <div className="col-md-5 mt-md-3 py-md-3 d-flex justify-content-center align-items-center me-md-5" style={{background: "#242F38"}}>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <p className="text-white me-md-3 mt-md-2" style={{fontSize: "20px"}}>+</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#09D02C"/>
+                        </svg>
+                    </div>
+
+                    <div className="mt-md-3 col-md-5 py-md-3 d-flex justify-content-center align-items-center" style={{background: "#242F38"}}>
+                        <p className="text-white">$2</p>
+                    </div>
+                </div>
+
+                <div className="row px-md-5 d-flex justify-content-center" style={{background: "#1F2730"}}>
+                    <div className="col-md-5 mt-md-3 py-md-3 d-flex justify-content-center align-items-center me-md-5" style={{background: "#242F38"}}>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                    </div>
+
+                    <div className="mt-md-3 col-md-5 py-md-3 d-flex justify-content-center align-items-center" style={{background: "#242F38"}}>
+                        <p className="text-white">$2</p>
+                    </div>
+                </div>
+
+                <div className="row px-md-5 d-flex justify-content-center" style={{background: "#1F2730"}}>
+                    <div className="col-md-5 mt-md-3 py-md-3 d-flex justify-content-center align-items-center me-md-5" style={{background: "#242F38"}}>
+                        <svg className="me-md-3" xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#D9D9D9"/>
+                        </svg>
+                        <p className="text-white me-md-3 mt-md-2" style={{fontSize: "20px"}}>+</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#09D02C"/>
+                        </svg>
+                    </div>
+
+                    <div className="mt-md-3 col-md-5 py-md-3 d-flex justify-content-center align-items-center" style={{background: "#242F38"}}>
+                        <p className="text-white">$2</p>
+                    </div>
+                </div>
+
+                <div className="row px-md-5 d-flex justify-content-center pb-md-5" style={{background: "#1F2730"}}>
+                    <div className="col-md-5 mt-md-3 py-md-3 d-flex justify-content-center align-items-center me-md-5" style={{background: "#242F38"}}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
+                            <ellipse cx="9.5" cy="8" rx="9" ry="8" fill="#09D02C"/>
+                        </svg>
+                    </div>
+
+                    <div className="mt-md-3 col-md-5 py-md-3 d-flex justify-content-center align-items-center" style={{background: "#242F38"}}>
+                        <p className="text-white">$2</p>
+                    </div>
+                </div>
+
             </div>
+
 
 
                 
