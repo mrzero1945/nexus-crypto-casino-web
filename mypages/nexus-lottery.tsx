@@ -48,8 +48,8 @@ class NexusLottery extends Component{
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-6 col-6 text-white mt-md-5 py-4" style={{background: "#1F2730"}}>You have no ticket!</div>
-                    <div className="col-md-6 col-6 text-white d-flex mt-md-5 justify-content-end align-items-center" style={{background: "#1F2730"}}>
+                    <div className="col-md-6 col-6 text-white mt-md-2 py-4" style={{background: "#1F2730"}}>You have no ticket!</div>
+                    <div className="col-md-6 col-6 text-white d-flex mt-md-2 justify-content-end align-items-center" style={{background: "#1F2730"}}>
                         <button className="btn" style={{borderRadius: "5px", background: "#09EF1D"}}>
                         Buy ticket now!
                         </button>
