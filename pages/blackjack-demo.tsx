@@ -1,11 +1,11 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { NexusNavbar } from '../components/nexus-navbar';
-import { NexusReq } from '../components/req-api/req-demo';
+import { BlackjackComponent } from '../mypages/nexus-blackjack-gameplay';
 import { NexusFooter } from '../components/nexus-footer';
 import faviconImg from '../resources/favicon.ico'
 
-const APIDemo: NextPage = () => {
+const BlackJack: NextPage = () => {
   return (
     <div style={{backgroundColor: " #121724"}}>
       <Head>
@@ -17,10 +17,10 @@ const APIDemo: NextPage = () => {
         <link rel='icon' href={faviconImg.src} />
       </Head>
         <NexusNavbar />
-        <NexusReq />
+        <BlackjackComponent />
         <NexusFooter />
     </div>
   );
 };
 
-export default APIDemo;
+export default BlackJack;
