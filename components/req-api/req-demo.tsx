@@ -42,7 +42,7 @@ class NexusReq extends React.Component<{}, RequestState> {
             <div className='text-white container'>
                 {isLoading && <div>Loading...</div>}
                 {error && <div>Error: {error}</div>}
-                {!isLoading && !error && joke && <div>Joke: {joke}</div>}
+                {!isLoading && !error && joke && <div>{joke}</div>}
             </div>
         );
     }
