@@ -161,8 +161,14 @@ class BlackjackGame {
     }
 }
 
-class BlackjackComponent extends Component {
-    constructor(props) {
+interface BlackjackComponentState {
+    game: BlackjackGame;
+    playerHand: Card[];
+    enemyHand: Card[];
+    winner: string;
+}
+class BlackjackComponent extends Component<Record<string, never>, BlackjackComponentState> {
+    constructor(props: Record<string, never>) {
         super(props);
         this.state = {
             game: new BlackjackGame(),
@@ -202,7 +208,7 @@ class BlackjackComponent extends Component {
         });
     }
 
-    renderCard(card:any) {
+    renderCard(card: Card) {
         return <div key={card.suit + card.value}>{card.value} of {card.suit}</div>;
     }
 
@@ -214,11 +220,11 @@ class BlackjackComponent extends Component {
                 <h2>Blackjack</h2>
                 <div>
                     <h3>Player Hand</h3>
-                    {playerHand.map(card => this.renderCard(card))}
+                    {playerHand.map((card, index) => this.renderCard(card))}
                 </div>
                 <div>
                     <h3>Enemy Hand</h3>
-                    {enemyHand.map(card => this.renderCard(card))}
+                    {enemyHand.map((card, index) => this.renderCard(card))}
                 </div>
                 <button onClick={this.handleHit} disabled={!!winner}>Hit</button>
                 <button onClick={this.handleStand} disabled={!!winner}>Stand</button>
