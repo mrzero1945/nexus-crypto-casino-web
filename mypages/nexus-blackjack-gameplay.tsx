@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react';
 
 class Player {
     public hand: Card[];
@@ -161,49 +161,71 @@ class BlackjackGame {
     }
 }
 
-const BlackjackComponent = () => {
-    const [game, setGame] = useState(new BlackjackGame());
-    const [playerHand, setPlayerHand] = useState(game.player.hand);
-    const [enemyHand, setEnemyHand] = useState(game.enemy.hand);
-    const [winner, setWinner] = useState('');
+class BlackjackComponent extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            game: new BlackjackGame(),
+            playerHand: [],
+            enemyHand: [],
+            winner: ''
+        };
+    }
 
-    useEffect(() => {
-        setPlayerHand(game.player.hand);
-        setEnemyHand(game.enemy.hand);
-    }, [game.player.hand, game.enemy.hand]);
+    componentDidMount() {
+        this.dealInitialCards();
+    }
 
-    const handleHit = () => {
+    dealInitialCards() {
+        const { game } = this.state;
+        this.setState({
+            playerHand: game.player.hand,
+            enemyHand: game.enemy.hand
+        });
+    }
+
+    handleHit = () => {
+        const { game } = this.state;
         game.playerHit();
-        setPlayerHand([...game.player.hand]);
-    };
+        this.setState({
+            playerHand: [...game.player.hand]
+        });
+    }
 
-    const handleStand = () => {
+    handleStand = () => {
+        const { game } = this.state;
         game.playerStand();
         game.enemyTurn();
-        setEnemyHand([...game.enemy.hand]);
-        setWinner(game.checkWinner());
-    };
+        this.setState({
+            enemyHand: [...game.enemy.hand],
+            winner: game.checkWinner()
+        });
+    }
 
-    return (
-        <div>
-            <h2>Blackjack</h2>
+    renderCard(card:any) {
+        return <div key={card.suit + card.value}>{card.value} of {card.suit}</div>;
+    }
+
+    render() {
+        const { playerHand, enemyHand, winner } = this.state;
+
+        return (
             <div>
-                <h3>Player Hand</h3>
-                {playerHand.map((card, index) => (
-                    <div key={index}>{card.value} of {card.suit}</div>
-                ))}
+                <h2>Blackjack</h2>
+                <div>
+                    <h3>Player Hand</h3>
+                    {playerHand.map(card => this.renderCard(card))}
+                </div>
+                <div>
+                    <h3>Enemy Hand</h3>
+                    {enemyHand.map(card => this.renderCard(card))}
+                </div>
+                <button onClick={this.handleHit} disabled={!!winner}>Hit</button>
+                <button onClick={this.handleStand} disabled={!!winner}>Stand</button>
+                {winner && <h3>{winner}</h3>}
             </div>
-            <div>
-                <h3>Enemy Hand</h3>
-                {enemyHand.map((card, index) => (
-                    <div key={index}>{card.value} of {card.suit}</div>
-                ))}
-            </div>
-            <button onClick={handleHit} disabled={!!winner}>Hit</button>
-            <button onClick={handleStand} disabled={!!winner}>Stand</button>
-            {winner && <h3>{winner}</h3>}
-        </div>
-    );
-};
+        );
+    }
+}
 
 export {BlackjackComponent};
