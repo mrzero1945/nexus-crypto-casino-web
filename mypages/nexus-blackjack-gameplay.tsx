@@ -73,7 +73,6 @@ class Player {
 
 class Enemy {
     public hand: Card[];
-    private isFirstTimeCard = true;
 
     constructor() {
         this.hand = [];
@@ -81,14 +80,6 @@ class Enemy {
 
     public hit(card: Card) {
         this.hand.push(card);
-    }
-
-    public getIsFirstTimeCard(){
-       return this.isFirstTimeCard
-    }
-
-    public setIsFirstTimeCard(isFirstTimeCard:boolean){
-        this.isFirstTimeCard = isFirstTimeCard;
     }
 
   
@@ -226,6 +217,7 @@ interface BlackjackComponentState {
     playerHand: Card[];
     enemyHand: Card[];
     winner: string;
+    isFirstimeEnemyCard: boolean;
 }
 class BlackjackComponent extends Component<Record<string, never>, BlackjackComponentState> {
     constructor(props: Record<string, never>) {
@@ -234,13 +226,16 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             game: new BlackjackGame(),
             playerHand: [],
             enemyHand: [],
-            winner: ''
+            winner: '',
+            isFirstimeEnemyCard: true
         };
     }
 
     componentDidMount() {
         this.dealInitialCards();
     }
+
+
 
     dealInitialCards() {
         const { game } = this.state;
@@ -268,20 +263,19 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         });
     }
 
-    renderCard(card: Card, isEnemy:boolean) {
+    renderCard(card: Card, isEnemy:boolean, isFirstimeEnemyCard?:boolean) {
+        if(isEnemy && !isFirstimeEnemyCard){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardBackEnemyImg.src}/>
+                </div>
+            );
+        } 
+        else if(isEnemy && isFirstimeEnemyCard){
+            
+        }
         if(card.suit === 'Clubs' && card.value === '2'){
-            if(isEnemy){
-                if(!this.state.game.enemy.getIsFirstTimeCard()){
-                    return(
-                    <div className='col-2'>
-                        <img className='img-fluid' src={cardBackEnemyImg.src}/>
-                    </div>
-                    );
-                }
-                if(this.state.game.enemy.getIsFirstTimeCard()){
-                    this.state.game.enemy.setIsFirstTimeCard(false);
-                }
-            }
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardClubs2.src}/>
@@ -289,6 +283,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Clubs' && card.value === '3'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardClubs3.src}/>
@@ -296,6 +291,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Clubs' && card.value === '4'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardClubs4.src}/>
@@ -303,6 +299,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Clubs' && card.value === '5'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardClubs5.src}/>
@@ -310,6 +307,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Clubs' && card.value === '6'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardClubs6.src}/>
@@ -324,6 +322,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Clubs' && card.value === '8'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardClubs8.src}/>
@@ -331,6 +330,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Clubs' && card.value === '9'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardClubs9.src}/>
@@ -338,6 +338,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Clubs' && card.value === '10'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardClubs10.src}/>
@@ -345,6 +346,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'J'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardClubsJ.src}/>
@@ -352,6 +354,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'Q'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardClubsQ.src}/>
@@ -359,6 +362,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'K'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardClubsK.src}/>
@@ -366,6 +370,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'A'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardClubsA.src}/>
@@ -373,6 +378,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '2'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardDiamonds2.src}/>
@@ -380,6 +386,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '3'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardDiamonds3.src}/>
@@ -387,6 +394,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '4'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardDiamonds4.src}/>
@@ -394,6 +402,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '5'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardDiamonds5.src}/>
@@ -401,6 +410,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '6'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardDiamonds6.src}/>
@@ -408,6 +418,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '7'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardDiamonds7.src}/>
@@ -415,6 +426,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '8'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardDiamonds8.src}/>
@@ -422,6 +434,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '9'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardDiamonds9.src}/>
@@ -429,6 +442,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '10'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardDiamonds10.src}/>
@@ -436,6 +450,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'J'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardDiamondsJ.src}/>
@@ -443,6 +458,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'Q'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardDiamondsQ.src}/>
@@ -450,6 +466,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'K'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardDiamondsK.src}/>
@@ -457,6 +474,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'A'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardDiamondsA.src}/>
@@ -465,6 +483,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         }
 
         if(card.suit === 'Hearts' && card.value === '2'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardHearts2.src}/>
@@ -472,6 +491,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Hearts' && card.value === '3'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardHearts3.src}/>
@@ -479,6 +499,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Hearts' && card.value === '4'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardHearts4.src}/>
@@ -486,6 +507,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Hearts' && card.value === '5'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardHearts5.src}/>
@@ -493,6 +515,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Hearts' && card.value === '6'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardHearts6.src}/>
@@ -500,6 +523,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Hearts' && card.value === '7'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardHearts7.src}/>
@@ -507,6 +531,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Hearts' && card.value === '8'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardHearts8.src}/>
@@ -514,6 +539,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Hearts' && card.value === '9'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardHearts9.src}/>
@@ -521,6 +547,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Hearts' && card.value === '10'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardHearts10.src}/>
@@ -528,6 +555,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'J'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardHeartsJ.src}/>
@@ -535,6 +563,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'Q'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardHeartsQ.src}/>
@@ -542,6 +571,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'K'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardHeartsK.src}/>
@@ -549,12 +579,118 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'A'){
+            
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardHeartsA.src}/>
                 </div>
             );
         }
+        if(card.suit === 'Spades' && card.value === '2'){
+            
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardSpades2.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Spades' && card.value === '3'){
+            
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardSpades3.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Spades' && card.value === '4'){
+            
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardSpades4.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Spades' && card.value === '5'){
+            
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardSpades5.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Spades' && card.value === '6'){
+            
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardSpades6.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Spades' && card.value === '7'){
+            
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardSpades7.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Spades' && card.value === '8'){
+            
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardSpades8.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Spades' && card.value === '9'){
+            
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardSpades9.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Spades' && card.value === '10'){
+            
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardSpades10.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Spades' && card.value === 'J'){
+            
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardSpadesJ.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Spades' && card.value === 'Q'){
+            
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardSpadesQ.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Spades' && card.value === 'K'){
+            
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardSpadesK.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Spades' && card.value === 'A'){
+            
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardSpadesA.src}/>
+                </div>
+            );
+        }
+        
         
         
         // Repeat this pattern for Diamonds, Hearts, and Spades
@@ -567,12 +703,21 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
 
         return (
             <div className='container text-center text-white'>
-                <h1>BlackJack Demo</h1>
+                <h1>BlackJack Demo {this.state.isFirstimeEnemyCard.toString()}</h1>
                 
                 <div>
                     <h2>Enemy Hand</h2>
                     <div className='row'>
-                        {enemyHand.map((card, index) => this.renderCard(card, true))}
+                    {enemyHand.map((card, index) => {
+                        // Jika ini adalah kartu pertama musuh
+                        if (index === 0) {
+                            return this.renderCard(card, true, this.state.isFirstimeEnemyCard);
+                        } else {
+                            // Untuk kartu-kartu lainnya
+                            return this.renderCard(card, true, false);
+                        }
+                    })}
+
                     </div>
                     
                 </div>
