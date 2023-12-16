@@ -1,7 +1,8 @@
 import backgroundImg from '../resources/assets/PNG/background.png';
-import chipRedImg from '../resources/assets/PNG/Chips/chipRedWhite_side.png';
+// import chipRedImg from '../resources/assets/PNG/Chips/chipRedWhite_side.png';
 import { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Link from 'next/link';
 
 class NexusPlayBlackJack extends Component {
     render() {
@@ -22,14 +23,12 @@ class NexusPlayBlackJack extends Component {
                                     <h2 className="text-white">BlackJack</h2>
                                 </div>
                                 <div className='col-md-12'>
-                                    <button className="btn btn-primary px-5 py-2" style={{borderRadius:"25px"}}>Play</button>
+                                    <Link href="blackjack-demo">
+                                        <button className="btn btn-primary px-5 py-2" style={{borderRadius:"25px"}}>Play</button>
+                                    </Link>
+                                    
                                 </div>
-                                <div className='col-md-6 ms-4 position-relative' style={{ height: '200px' }}>
-                                    <img className='img-fluid zoom-on-hover position-absolute' style={{transition: "transform 0.5s ease", left: '0px', top: '0px', zIndex: 1}} src={chipRedImg.src} />
-                                    <img className='img-fluid zoom-on-hover position-absolute' style={{transition: "transform 0.5s ease", left: '20px', top: '20px', zIndex: 2}} src={chipRedImg.src} />
-                                    <img className='img-fluid zoom-on-hover position-absolute' style={{transition: "transform 0.5s ease", left: '40px', top: '40px', zIndex: 3}} src={chipRedImg.src} />
-                                    {/* Tambahkan lebih banyak gambar jika diperlukan */}
-                                </div>
+                                
 
                             </div>
         
@@ -45,3 +44,12 @@ class NexusPlayBlackJack extends Component {
 }
 
 export { NexusPlayBlackJack };
+
+/*
+<div className='col-md-6 ms-4 position-relative' style={{ height: '200px' }}>
+                                    <img className='img-fluid zoom-on-hover position-absolute' style={{transition: "transform 0.5s ease", left: '0px', top: '0px', zIndex: 1}} src={chipRedImg.src} />
+                                    <img className='img-fluid zoom-on-hover position-absolute' style={{transition: "transform 0.5s ease", left: '20px', top: '20px', zIndex: 2}} src={chipRedImg.src} />
+                                    <img className='img-fluid zoom-on-hover position-absolute' style={{transition: "transform 0.5s ease", left: '40px', top: '40px', zIndex: 3}} src={chipRedImg.src} />
+                                    
+                                </div>/
+*/

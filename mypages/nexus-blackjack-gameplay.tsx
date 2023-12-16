@@ -1,4 +1,58 @@
 import React, { Component } from 'react';
+import cardBackPlayerImg from '../resources/assets/PNG/Cards/cardBack_blue1.png';
+import cardClubs2 from '../resources/assets/PNG/Cards/cardClubs2.png';
+import cardClubs3 from '../resources/assets/PNG/Cards/cardClubs3.png';
+import cardClubs4 from '../resources/assets/PNG/Cards/cardClubs4.png';
+import cardClubs5 from '../resources/assets/PNG/Cards/cardClubs5.png';
+import cardClubs6 from '../resources/assets/PNG/Cards/cardClubs6.png';
+import cardClubs7 from '../resources/assets/PNG/Cards/cardClubs7.png';
+import cardClubs8 from '../resources/assets/PNG/Cards/cardClubs8.png';
+import cardClubs9 from '../resources/assets/PNG/Cards/cardClubs9.png';
+import cardClubs10 from '../resources/assets/PNG/Cards/cardClubs10.png';
+import cardClubsJ from '../resources/assets/PNG/Cards/cardClubsJ.png';
+import cardClubsQ from '../resources/assets/PNG/Cards/cardClubsQ.png';
+import cardClubsK from '../resources/assets/PNG/Cards/cardClubsK.png';
+import cardClubsA from '../resources/assets/PNG/Cards/cardClubsA.png';
+import cardDiamonds2 from '../resources/assets/PNG/Cards/cardDiamonds2.png';
+import cardDiamonds3 from '../resources/assets/PNG/Cards/cardDiamonds3.png';
+import cardDiamonds4 from '../resources/assets/PNG/Cards/cardDiamonds4.png';
+import cardDiamonds5 from '../resources/assets/PNG/Cards/cardDiamonds5.png';
+import cardDiamonds6 from '../resources/assets/PNG/Cards/cardDiamonds6.png';
+import cardDiamonds7 from '../resources/assets/PNG/Cards/cardDiamonds7.png';
+import cardDiamonds8 from '../resources/assets/PNG/Cards/cardDiamonds8.png';
+import cardDiamonds9 from '../resources/assets/PNG/Cards/cardDiamonds9.png';
+import cardDiamonds10 from '../resources/assets/PNG/Cards/cardDiamonds10.png';
+import cardDiamondsJ from '../resources/assets/PNG/Cards/cardDiamondsJ.png';
+import cardDiamondsQ from '../resources/assets/PNG/Cards/cardDiamondsQ.png';
+import cardDiamondsK from '../resources/assets/PNG/Cards/cardDiamondsK.png';
+import cardDiamondsA from '../resources/assets/PNG/Cards/cardDiamondsA.png';
+import cardHearts2 from '../resources/assets/PNG/Cards/cardHearts2.png';
+import cardHearts3 from '../resources/assets/PNG/Cards/cardHearts3.png';
+import cardHearts4 from '../resources/assets/PNG/Cards/cardHearts4.png';
+import cardHearts5 from '../resources/assets/PNG/Cards/cardHearts5.png';
+import cardHearts6 from '../resources/assets/PNG/Cards/cardHearts6.png';
+import cardHearts7 from '../resources/assets/PNG/Cards/cardHearts7.png';
+import cardHearts8 from '../resources/assets/PNG/Cards/cardHearts8.png';
+import cardHearts9 from '../resources/assets/PNG/Cards/cardHearts9.png';
+import cardHearts10 from '../resources/assets/PNG/Cards/cardHearts10.png';
+import cardHeartsJ from '../resources/assets/PNG/Cards/cardHeartsJ.png';
+import cardHeartsQ from '../resources/assets/PNG/Cards/cardHeartsQ.png';
+import cardHeartsK from '../resources/assets/PNG/Cards/cardHeartsK.png';
+import cardHeartsA from '../resources/assets/PNG/Cards/cardHeartsA.png';
+import cardSpades2 from '../resources/assets/PNG/Cards/cardSpades2.png';
+import cardSpades3 from '../resources/assets/PNG/Cards/cardSpades3.png';
+import cardSpades4 from '../resources/assets/PNG/Cards/cardSpades4.png';
+import cardSpades5 from '../resources/assets/PNG/Cards/cardSpades5.png';
+import cardSpades6 from '../resources/assets/PNG/Cards/cardSpades6.png';
+import cardSpades7 from '../resources/assets/PNG/Cards/cardSpades7.png';
+import cardSpades8 from '../resources/assets/PNG/Cards/cardSpades8.png';
+import cardSpades9 from '../resources/assets/PNG/Cards/cardSpades9.png';
+import cardSpades10 from '../resources/assets/PNG/Cards/cardSpades10.png';
+import cardSpadesJ from '../resources/assets/PNG/Cards/cardSpadesJ.png';
+import cardSpadesQ from '../resources/assets/PNG/Cards/cardSpadesQ.png';
+import cardSpadesK from '../resources/assets/PNG/Cards/cardSpadesK.png';
+import cardSpadesA from '../resources/assets/PNG/Cards/cardSpadesA.png';
+
 
 class Player {
     public hand: Card[];
@@ -19,7 +73,6 @@ class Player {
 
 class Enemy {
     public hand: Card[];
-    private isStand = false;
 
     constructor() {
         this.hand = [];
@@ -29,9 +82,7 @@ class Enemy {
         this.hand.push(card);
     }
 
-    public stand() {
-        this.isStand = true;
-    }
+  
 }
 
 
@@ -208,7 +259,100 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         });
     }
 
-    renderCard(card: Card) {
+    renderCard(card: Card, isEnemy:boolean) {
+        if(card.suit === 'Clubs' && card.value === '2'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardClubs2.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Clubs' && card.value === '3'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardClubs3.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Clubs' && card.value === '4'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardClubs4.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Clubs' && card.value === '5'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardClubs5.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Clubs' && card.value === '6'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardClubs6.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Clubs' && card.value === '7'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardClubs7.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Clubs' && card.value === '8'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardClubs8.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Clubs' && card.value === '9'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardClubs9.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Clubs' && card.value === '10'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardClubs10.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Clubs' && card.value === 'J'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardClubsJ.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Clubs' && card.value === 'Q'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardClubsQ.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Clubs' && card.value === 'K'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardClubsK.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Clubs' && card.value === 'A'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardClubsA.src}/>
+                </div>
+            );
+        }
+        // Repeat this pattern for Diamonds, Hearts, and Spades
+        
         return <div key={card.suit + card.value}>{card.value} of {card.suit}</div>;
     }
 
@@ -216,15 +360,22 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         const { playerHand, enemyHand, winner } = this.state;
 
         return (
-            <div>
-                <h2>Blackjack</h2>
+            <div className='container text-center text-white'>
+                <h1>BlackJack Demo</h1>
+                
                 <div>
-                    <h3>Player Hand</h3>
-                    {playerHand.map((card, index) => this.renderCard(card))}
+                    <h2>Enemy Hand</h2>
+                    <div className='row'>
+                        {enemyHand.map((card, index) => this.renderCard(card, true))}
+                    </div>
+                    
                 </div>
                 <div>
-                    <h3>Enemy Hand</h3>
-                    {enemyHand.map((card, index) => this.renderCard(card))}
+                    <h2>Player Hand</h2>
+                    <div className='row'>
+                        {playerHand.map((card, index) => this.renderCard(card, false))}
+                    </div>
+                    
                 </div>
                 <button onClick={this.handleHit} disabled={!!winner}>Hit</button>
                 <button onClick={this.handleStand} disabled={!!winner}>Stand</button>
