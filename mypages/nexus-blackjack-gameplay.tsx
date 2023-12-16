@@ -217,7 +217,7 @@ interface BlackjackComponentState {
     playerHand: Card[];
     enemyHand: Card[];
     winner: string;
-    isFirstimeEnemyCard: boolean;
+    isGameEnd: boolean;
 }
 class BlackjackComponent extends Component<Record<string, never>, BlackjackComponentState> {
     constructor(props: Record<string, never>) {
@@ -227,7 +227,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             playerHand: [],
             enemyHand: [],
             winner: '',
-            isFirstimeEnemyCard: true
+            isGameEnd: false
         };
     }
 
@@ -259,7 +259,8 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         game.enemyTurn();
         this.setState({
             enemyHand: [...game.enemy.hand],
-            winner: game.checkWinner()
+            winner: game.checkWinner(),
+            isGameEnd: true
         });
     }
 
@@ -271,9 +272,6 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
                 </div>
             );
         } 
-        else if(isEnemy && isFirstimeEnemyCard){
-            
-        }
         if(card.suit === 'Clubs' && card.value === '2'){
             
             return (
@@ -703,7 +701,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
 
         return (
             <div className='container text-center text-white'>
-                <h1>BlackJack Demo {this.state.isFirstimeEnemyCard.toString()}</h1>
+                <h1>BlackJack Demo {this.state.isGameEnd.toString()}</h1>
                 
                 <div>
                     <h2>Enemy Hand</h2>
@@ -711,10 +709,10 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
                     {enemyHand.map((card, index) => {
                         // Jika ini adalah kartu pertama musuh
                         if (index === 0) {
-                            return this.renderCard(card, true, this.state.isFirstimeEnemyCard);
+                            return this.renderCard(card, true, true);
                         } else {
                             // Untuk kartu-kartu lainnya
-                            return this.renderCard(card, true, false);
+                            return this.renderCard(card, true, this.state.isGameEnd);
                         }
                     })}
 
