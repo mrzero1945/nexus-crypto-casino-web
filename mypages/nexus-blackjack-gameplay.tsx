@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import cardBackPlayerImg from '../resources/assets/PNG/Cards/cardBack_blue1.png';
+import cardBackEnemyImg from '../resources/assets/PNG/Cards/cardBack_blue1.png';
 import cardClubs2 from '../resources/assets/PNG/Cards/cardClubs2.png';
 import cardClubs3 from '../resources/assets/PNG/Cards/cardClubs3.png';
 import cardClubs4 from '../resources/assets/PNG/Cards/cardClubs4.png';
@@ -73,6 +73,7 @@ class Player {
 
 class Enemy {
     public hand: Card[];
+    private isFirstTimeCard = true;
 
     constructor() {
         this.hand = [];
@@ -80,6 +81,14 @@ class Enemy {
 
     public hit(card: Card) {
         this.hand.push(card);
+    }
+
+    public getIsFirstTimeCard(){
+       return this.isFirstTimeCard
+    }
+
+    public setIsFirstTimeCard(isFirstTimeCard:boolean){
+        this.isFirstTimeCard = isFirstTimeCard;
     }
 
   
@@ -261,6 +270,18 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
 
     renderCard(card: Card, isEnemy:boolean) {
         if(card.suit === 'Clubs' && card.value === '2'){
+            if(isEnemy){
+                if(!this.state.game.enemy.getIsFirstTimeCard()){
+                    return(
+                    <div className='col-2'>
+                        <img className='img-fluid' src={cardBackEnemyImg.src}/>
+                    </div>
+                    );
+                }
+                if(this.state.game.enemy.getIsFirstTimeCard()){
+                    this.state.game.enemy.setIsFirstTimeCard(false);
+                }
+            }
             return (
                 <div className='col-2'>
                     <img className='img-fluid' src={cardClubs2.src}/>
@@ -351,6 +372,191 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
                 </div>
             );
         }
+        else if(card.suit === 'Diamonds' && card.value === '2'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardDiamonds2.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Diamonds' && card.value === '3'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardDiamonds3.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Diamonds' && card.value === '4'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardDiamonds4.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Diamonds' && card.value === '5'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardDiamonds5.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Diamonds' && card.value === '6'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardDiamonds6.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Diamonds' && card.value === '7'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardDiamonds7.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Diamonds' && card.value === '8'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardDiamonds8.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Diamonds' && card.value === '9'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardDiamonds9.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Diamonds' && card.value === '10'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardDiamonds10.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Diamonds' && card.value === 'J'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardDiamondsJ.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Diamonds' && card.value === 'Q'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardDiamondsQ.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Diamonds' && card.value === 'K'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardDiamondsK.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Diamonds' && card.value === 'A'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardDiamondsA.src}/>
+                </div>
+            );
+        }
+
+        if(card.suit === 'Hearts' && card.value === '2'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardHearts2.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Hearts' && card.value === '3'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardHearts3.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Hearts' && card.value === '4'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardHearts4.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Hearts' && card.value === '5'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardHearts5.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Hearts' && card.value === '6'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardHearts6.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Hearts' && card.value === '7'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardHearts7.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Hearts' && card.value === '8'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardHearts8.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Hearts' && card.value === '9'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardHearts9.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Hearts' && card.value === '10'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardHearts10.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Hearts' && card.value === 'J'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardHeartsJ.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Hearts' && card.value === 'Q'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardHeartsQ.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Hearts' && card.value === 'K'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardHeartsK.src}/>
+                </div>
+            );
+        }
+        else if(card.suit === 'Hearts' && card.value === 'A'){
+            return (
+                <div className='col-2'>
+                    <img className='img-fluid' src={cardHeartsA.src}/>
+                </div>
+            );
+        }
+        
+        
         // Repeat this pattern for Diamonds, Hearts, and Spades
         
         return <div key={card.suit + card.value}>{card.value} of {card.suit}</div>;
