@@ -311,6 +311,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             winner: '',
             isGameEnd: false
         };
+        this.startNewGame = this.startNewGame.bind(this);
     }
 
     componentDidMount() {
@@ -326,6 +327,20 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             enemyHand: game.enemy.hand
         });
     }
+
+    startNewGame() {
+        this.setState({
+            game: new BlackjackGame(),
+            playerHand: [],
+            enemyHand: [],
+            winner: '',
+            isGameEnd: false
+        }, () => {
+            // This callback function will be called after the state is updated
+            this.dealInitialCards();
+        });
+    }
+    
 
     handleHit = () => {
         const { game } = this.state;
@@ -810,7 +825,10 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
                 </div>
                 <button className='btn mx-md-3 my-md-3 px-4 btn-success' onClick={this.handleHit} disabled={!!winner}>Hit</button>
                 <button className='btn mx-md-3 my-md-3 btn-danger' onClick={this.handleStand} disabled={!!winner}>Stand</button>
-                {winner && <h3>{winner}</h3>}
+                {winner && <div>
+                    <h3>{winner}</h3>
+                    <button className='btn btn-primary' onClick={this.startNewGame}>New Game</button>
+                </div>}
             </div>
         );
     }
