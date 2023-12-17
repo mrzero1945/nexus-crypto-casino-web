@@ -267,7 +267,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
     renderCard(card: Card, isEnemy:boolean, isFirstimeEnemyCard?:boolean) {
         if(isEnemy && !isFirstimeEnemyCard){
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardBackEnemyImg.src}/>
                 </div>
             );
@@ -275,7 +275,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         if(card.suit === 'Clubs' && card.value === '2'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardClubs2.src}/>
                 </div>
             );
@@ -283,7 +283,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Clubs' && card.value === '3'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardClubs3.src}/>
                 </div>
             );
@@ -291,7 +291,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Clubs' && card.value === '4'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardClubs4.src}/>
                 </div>
             );
@@ -299,7 +299,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Clubs' && card.value === '5'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardClubs5.src}/>
                 </div>
             );
@@ -307,14 +307,14 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Clubs' && card.value === '6'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardClubs6.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '7'){
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardClubs7.src}/>
                 </div>
             );
@@ -322,7 +322,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Clubs' && card.value === '8'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardClubs8.src}/>
                 </div>
             );
@@ -330,7 +330,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Clubs' && card.value === '9'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardClubs9.src}/>
                 </div>
             );
@@ -338,7 +338,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Clubs' && card.value === '10'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardClubs10.src}/>
                 </div>
             );
@@ -346,7 +346,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Clubs' && card.value === 'J'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardClubsJ.src}/>
                 </div>
             );
@@ -354,7 +354,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Clubs' && card.value === 'Q'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardClubsQ.src}/>
                 </div>
             );
@@ -362,7 +362,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Clubs' && card.value === 'K'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardClubsK.src}/>
                 </div>
             );
@@ -370,7 +370,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Clubs' && card.value === 'A'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardClubsA.src}/>
                 </div>
             );
@@ -378,7 +378,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Diamonds' && card.value === '2'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardDiamonds2.src}/>
                 </div>
             );
@@ -386,7 +386,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Diamonds' && card.value === '3'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardDiamonds3.src}/>
                 </div>
             );
@@ -394,7 +394,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Diamonds' && card.value === '4'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardDiamonds4.src}/>
                 </div>
             );
@@ -402,7 +402,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Diamonds' && card.value === '5'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardDiamonds5.src}/>
                 </div>
             );
@@ -410,7 +410,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Diamonds' && card.value === '6'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardDiamonds6.src}/>
                 </div>
             );
@@ -418,7 +418,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Diamonds' && card.value === '7'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardDiamonds7.src}/>
                 </div>
             );
@@ -426,7 +426,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Diamonds' && card.value === '8'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardDiamonds8.src}/>
                 </div>
             );
@@ -434,7 +434,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Diamonds' && card.value === '9'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardDiamonds9.src}/>
                 </div>
             );
@@ -442,7 +442,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Diamonds' && card.value === '10'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardDiamonds10.src}/>
                 </div>
             );
@@ -450,7 +450,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Diamonds' && card.value === 'J'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardDiamondsJ.src}/>
                 </div>
             );
@@ -458,7 +458,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Diamonds' && card.value === 'Q'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardDiamondsQ.src}/>
                 </div>
             );
@@ -466,7 +466,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Diamonds' && card.value === 'K'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardDiamondsK.src}/>
                 </div>
             );
@@ -474,7 +474,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Diamonds' && card.value === 'A'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardDiamondsA.src}/>
                 </div>
             );
@@ -483,7 +483,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         if(card.suit === 'Hearts' && card.value === '2'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardHearts2.src}/>
                 </div>
             );
@@ -491,7 +491,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Hearts' && card.value === '3'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardHearts3.src}/>
                 </div>
             );
@@ -499,7 +499,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Hearts' && card.value === '4'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardHearts4.src}/>
                 </div>
             );
@@ -507,7 +507,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Hearts' && card.value === '5'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardHearts5.src}/>
                 </div>
             );
@@ -515,7 +515,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Hearts' && card.value === '6'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardHearts6.src}/>
                 </div>
             );
@@ -523,7 +523,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Hearts' && card.value === '7'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardHearts7.src}/>
                 </div>
             );
@@ -531,7 +531,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Hearts' && card.value === '8'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardHearts8.src}/>
                 </div>
             );
@@ -539,7 +539,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Hearts' && card.value === '9'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardHearts9.src}/>
                 </div>
             );
@@ -547,7 +547,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Hearts' && card.value === '10'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardHearts10.src}/>
                 </div>
             );
@@ -555,7 +555,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Hearts' && card.value === 'J'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardHeartsJ.src}/>
                 </div>
             );
@@ -563,7 +563,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Hearts' && card.value === 'Q'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardHeartsQ.src}/>
                 </div>
             );
@@ -571,7 +571,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Hearts' && card.value === 'K'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardHeartsK.src}/>
                 </div>
             );
@@ -579,7 +579,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Hearts' && card.value === 'A'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardHeartsA.src}/>
                 </div>
             );
@@ -587,7 +587,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         if(card.suit === 'Spades' && card.value === '2'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardSpades2.src}/>
                 </div>
             );
@@ -595,7 +595,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Spades' && card.value === '3'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardSpades3.src}/>
                 </div>
             );
@@ -603,7 +603,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Spades' && card.value === '4'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardSpades4.src}/>
                 </div>
             );
@@ -611,7 +611,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Spades' && card.value === '5'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardSpades5.src}/>
                 </div>
             );
@@ -619,7 +619,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Spades' && card.value === '6'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardSpades6.src}/>
                 </div>
             );
@@ -627,7 +627,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Spades' && card.value === '7'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardSpades7.src}/>
                 </div>
             );
@@ -635,7 +635,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Spades' && card.value === '8'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardSpades8.src}/>
                 </div>
             );
@@ -643,7 +643,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Spades' && card.value === '9'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardSpades9.src}/>
                 </div>
             );
@@ -651,7 +651,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Spades' && card.value === '10'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardSpades10.src}/>
                 </div>
             );
@@ -659,7 +659,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Spades' && card.value === 'J'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardSpadesJ.src}/>
                 </div>
             );
@@ -667,7 +667,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Spades' && card.value === 'Q'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardSpadesQ.src}/>
                 </div>
             );
@@ -675,7 +675,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Spades' && card.value === 'K'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardSpadesK.src}/>
                 </div>
             );
@@ -683,7 +683,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         else if(card.suit === 'Spades' && card.value === 'A'){
             
             return (
-                <div className='col-2'>
+                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
                     <img className='img-fluid' src={cardSpadesA.src}/>
                 </div>
             );
@@ -701,11 +701,11 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
 
         return (
             <div className='container text-center text-white'>
-                <h1>BlackJack Demo {this.state.isGameEnd.toString()}</h1>
+                <h1 className='my-md-5'>BlackJack Demo</h1>
                 
                 <div>
                     <h2>Enemy Hand</h2>
-                    <div className='row'>
+                    <div className='row d-flex justify-content-center'>
                     {enemyHand.map((card, index) => {
                         // Jika ini adalah kartu pertama musuh
                         if (index === 0) {
@@ -721,13 +721,13 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
                 </div>
                 <div>
                     <h2>Player Hand</h2>
-                    <div className='row'>
+                    <div className='row d-flex justify-content-center'>
                         {playerHand.map((card, index) => this.renderCard(card, false))}
                     </div>
                     
                 </div>
-                <button onClick={this.handleHit} disabled={!!winner}>Hit</button>
-                <button onClick={this.handleStand} disabled={!!winner}>Stand</button>
+                <button className='btn mx-md-3 my-md-3 px-4 btn-success' onClick={this.handleHit} disabled={!!winner}>Hit</button>
+                <button className='btn mx-md-3 my-md-3 btn-danger' onClick={this.handleStand} disabled={!!winner}>Stand</button>
                 {winner && <h3>{winner}</h3>}
             </div>
         );
