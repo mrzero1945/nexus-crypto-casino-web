@@ -56,7 +56,6 @@ import cardSpadesA from '../resources/assets/PNG/Cards/cardSpadesA.png';
 
 class Player {
     public hand: Card[];
-    private isStand = false;
 
     constructor() {
         this.hand = [];
@@ -64,10 +63,6 @@ class Player {
 
     public hit(card: Card) {
         this.hand.push(card);
-    }
-
-    public stand() {
-        this.isStand = true;
     }
 }
 
@@ -155,10 +150,7 @@ class BlackjackGame {
         }
     }
 
-    public playerStand() {
-        this.player.stand();
-        // Implementasi lebih lanjut diperlukan di sini
-    }
+  
     // dealer decisions
 
     private calculateGugur(probs: CardProbabilities): number {
@@ -250,7 +242,7 @@ class BlackjackGame {
     }
     
 
-    private calculateScore(hand: Card[]): number {
+    public calculateScore(hand: Card[]): number {
         // Implementasi logika menghitung skor
         // Perlu mempertimbangkan nilai 'A' sebagai 1 atau 11
         let score = 0;
@@ -345,6 +337,13 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
     handleHit = () => {
         const { game } = this.state;
         game.playerHit();
+        const currentScore = game.calculateScore(game.player.hand);
+        if(currentScore > 21){
+            this.setState({
+                winner: game.checkWinner(),
+                isGameEnd: true
+            });
+        }
         this.setState({
             playerHand: [...game.player.hand]
         });
@@ -352,7 +351,6 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
 
     handleStand = () => {
         const { game } = this.state;
-        game.playerStand();
         game.enemyTurn();
         this.setState({
             enemyHand: [...game.enemy.hand],
