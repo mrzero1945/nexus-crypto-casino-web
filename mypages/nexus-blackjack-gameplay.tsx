@@ -121,6 +121,9 @@ class Deck {
         }
     }
 }
+type CardProbabilities = {
+    [key in '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'J' | 'Q' | 'K' | 'A']: number;
+};
 
 class BlackjackGame {
     private deck: Deck;
@@ -156,17 +159,96 @@ class BlackjackGame {
         this.player.stand();
         // Implementasi lebih lanjut diperlukan di sini
     }
+    // dealer decisions
+
+    private calculateGugur(probs: CardProbabilities): number {
+        let gugurProbability = 0;
+        const currentScore = this.calculateScore(this.enemy.hand);
+
+        for (const card in probs) {
+            const cardProb = probs[card as keyof CardProbabilities];
+            let potentialScore = this.getCardValue(card as string) + currentScore;
+
+            // Handle Ace as either 1 or 11
+            if (card === 'A' && potentialScore + 10 <= 21) {
+                potentialScore += 10;
+            }
+
+            if (potentialScore > 21) {
+                gugurProbability += cardProb;
+            }
+        }
+
+        return gugurProbability;
+    }
+
+    private getCardValue(card: string): number {
+        if (['J', 'Q', 'K'].includes(card)) {
+            return 10;
+        } else if (card === 'A') {
+            return 1; // Ace initially counted as 1, it can be 11 if the score permits
+        } else {
+            return parseInt(card);
+        }
+    }
+    
+    private calculateCardProbabilities(playerCards: Card[], dealerCards: Card[]): CardProbabilities {
+        type Deck = {
+            [key in '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'J' | 'Q' | 'K' | 'A']: number;
+        };
+    
+        const deck: Deck = {
+            '2': 4, '3': 4, '4': 4, '5': 4, '6': 4, '7': 4, '8': 4, '9': 4, '10': 4,
+            'J': 4, 'Q': 4, 'K': 4, 'A': 4
+        };
+    
+        function removeCards(cards: Card[]) {
+            cards.forEach(card => {
+                const cardValue = card.value as keyof Deck;
+                if (deck[cardValue] !== undefined) {
+                    deck[cardValue]--;
+                }
+            });
+        }
+    
+        removeCards(playerCards);
+        removeCards(dealerCards);
+    
+        // Menghitung total kartu yang tersisa di deck
+        const totalCardsLeft = Object.values(deck).reduce((acc, count) => acc + count, 0);
+    
+        // Menghitung probabilitas untuk setiap kartu
+        const probabilities: CardProbabilities = {} as CardProbabilities;
+        for (const card in deck) {
+            probabilities[card as keyof Deck] = deck[card as keyof Deck] / totalCardsLeft;
+        }
+    
+        return probabilities;
+    
+    }
 
     public enemyTurn() {
-        // Sederhana: enemy akan hit sampai skor mencapai 17 atau lebih
-        // Logika ini bisa dibuat lebih kompleks
-        while (this.calculateScore(this.enemy.hand) < 17) {
-            const card = this.deck.cards.pop();
-            if (card) {
-                this.enemy.hit(card);
+        const threshold = 0.5; // Ambang batas risiko untuk melebihi 21
+        let shouldContinue = true;
+    
+        while (shouldContinue && this.calculateScore(this.enemy.hand) < 17) {
+            // Hitung probabilitas 'gugur' (melebihi 21)
+            const probs = this.calculateCardProbabilities(this.player.hand, this.enemy.hand);
+            const gugurProbability = this.calculateGugur(probs);
+    
+            if (gugurProbability < threshold) {
+                // Jika probabilitas gugur di bawah ambang batas, dealer hits
+                const card = this.deck.cards.pop();
+                if (card) {
+                    this.enemy.hit(card);
+                }
+            } else {
+                // Jika probabilitas melebihi ambang batas, dealer decides to stand
+                shouldContinue = false;
             }
         }
     }
+    
 
     private calculateScore(hand: Card[]): number {
         // Implementasi logika menghitung skor
@@ -706,7 +788,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
                 <div>
                     <h2>Enemy Hand</h2>
                     <div className='row d-flex justify-content-center'>
-                    {enemyHand.map((card, index) => {
+                    {enemyHand.map((card, index:number) => {
                         // Jika ini adalah kartu pertama musuh
                         if (index === 0) {
                             return this.renderCard(card, true, true);
