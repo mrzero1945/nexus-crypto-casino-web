@@ -1,7 +1,11 @@
 import { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import chipRedImg from '../resources/assets/PNG/Chips/chipRedWhite_side.png';
-import ASImg from '../resources/assets/cards/AS.svg';
+//import chipRedImg from '../resources/assets/PNG/Chips/chipRedWhite_side.png';
+
+import ASImg from '../resources/assets/PNG/Cards/cardClubsA.png';
+import cardDiamondsA from '../resources/assets/PNG/Cards/cardDiamondsA.png';
+import cardHeartsA from '../resources/assets/PNG/Cards/cardHeartsA.png';
+import cardSpadesA from '../resources/assets/PNG/Cards/cardSpadesA.png';
 
 class NexusPoker extends Component{
     render(){
@@ -12,21 +16,24 @@ class NexusPoker extends Component{
                         {/*<img className="img-fluid position-absolute w-100 h-100" src={backgroundImg.src} alt="Deskripsi Gambar"/>*/}
                         
                         <div className="text-center">
-                            <div className='row pt-5'>
+                            <div className='row py-5'>
                                 <div className='col-md-12'>
                                     <h2 className="text-white">Tien Len ( Vietnamese Poker) ( Thirteen Tienlen )</h2>
                                 </div>
-                                <div className='mt-5 col-md-12'>
+                                <div className='my-md-5 col-md-12'>
                                     <button className="btn btn-primary px-5 py-2" style={{borderRadius:"25px"}}>Play</button>
                                 </div>
-                                <div className="col-md-4">
+                                <div className="col-md-3">
                                     <img className="img-fluid" src={ASImg.src}/>
                                 </div>
-                                <div className="col-md-4">
-                                    <img className="img-fluid" src={ASImg.src}/>
+                                <div className="col-md-3">
+                                    <img className="img-fluid" src={cardDiamondsA.src}/>
                                 </div>
-                                <div className="col-md-4">
-                                    <img className="img-fluid" src={ASImg.src}/>
+                                <div className="col-md-3">
+                                    <img className="img-fluid" src={cardHeartsA.src}/>
+                                </div>
+                                <div className="col-md-3">
+                                    <img className="img-fluid" src={cardSpadesA.src}/>
                                 </div>
 
                             </div>

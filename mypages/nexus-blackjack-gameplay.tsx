@@ -52,6 +52,7 @@ import cardSpadesJ from '../resources/assets/PNG/Cards/cardSpadesJ.png';
 import cardSpadesQ from '../resources/assets/PNG/Cards/cardSpadesQ.png';
 import cardSpadesK from '../resources/assets/PNG/Cards/cardSpadesK.png';
 import cardSpadesA from '../resources/assets/PNG/Cards/cardSpadesA.png';
+import backgroundImg from '../resources/assets/PNG/background.png';
 
 
 class Player {
@@ -362,215 +363,215 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
     renderCard(card: Card, isEnemy:boolean, isFirstimeEnemyCard?:boolean) {
         if(isEnemy && !isFirstimeEnemyCard){
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardBackEnemyImg.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardBackEnemyImg.src}/>
                 </div>
             );
         } 
         if(card.suit === 'Clubs' && card.value === '2'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardClubs2.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardClubs2.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '3'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardClubs3.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardClubs3.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '4'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardClubs4.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardClubs4.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '5'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardClubs5.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardClubs5.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '6'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardClubs6.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardClubs6.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '7'){
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardClubs7.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardClubs7.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '8'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardClubs8.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardClubs8.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '9'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardClubs9.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardClubs9.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '10'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardClubs10.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardClubs10.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'J'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardClubsJ.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardClubsJ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'Q'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardClubsQ.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardClubsQ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'K'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardClubsK.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardClubsK.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'A'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardClubsA.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardClubsA.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '2'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardDiamonds2.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardDiamonds2.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '3'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardDiamonds3.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardDiamonds3.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '4'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardDiamonds4.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardDiamonds4.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '5'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardDiamonds5.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardDiamonds5.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '6'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardDiamonds6.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardDiamonds6.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '7'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardDiamonds7.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardDiamonds7.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '8'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardDiamonds8.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardDiamonds8.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '9'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardDiamonds9.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardDiamonds9.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '10'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardDiamonds10.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardDiamonds10.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'J'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardDiamondsJ.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardDiamondsJ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'Q'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardDiamondsQ.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardDiamondsQ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'K'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardDiamondsK.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardDiamondsK.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'A'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardDiamondsA.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardDiamondsA.src}/>
                 </div>
             );
         }
@@ -578,208 +579,208 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         if(card.suit === 'Hearts' && card.value === '2'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardHearts2.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardHearts2.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '3'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardHearts3.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardHearts3.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '4'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardHearts4.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardHearts4.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '5'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardHearts5.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardHearts5.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '6'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardHearts6.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardHearts6.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '7'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardHearts7.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardHearts7.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '8'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardHearts8.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardHearts8.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '9'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardHearts9.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardHearts9.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '10'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardHearts10.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardHearts10.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'J'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardHeartsJ.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardHeartsJ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'Q'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardHeartsQ.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardHeartsQ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'K'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardHeartsK.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardHeartsK.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'A'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardHeartsA.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardHeartsA.src}/>
                 </div>
             );
         }
         if(card.suit === 'Spades' && card.value === '2'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardSpades2.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardSpades2.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '3'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardSpades3.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardSpades3.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '4'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardSpades4.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardSpades4.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '5'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardSpades5.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardSpades5.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '6'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardSpades6.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardSpades6.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '7'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardSpades7.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardSpades7.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '8'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardSpades8.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardSpades8.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '9'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardSpades9.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardSpades9.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '10'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardSpades10.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardSpades10.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === 'J'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardSpadesJ.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardSpadesJ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === 'Q'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardSpadesQ.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardSpadesQ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === 'K'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardSpadesK.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardSpadesK.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === 'A'){
             
             return (
-                <div className='col-1 py-md-3' style={{background: "#1F2730"}}>
-                    <img className='img-fluid' src={cardSpadesA.src}/>
+                <div className='col-2 py-md-3'>
+                    <img className='img-fluid w-auto h-auto' src={cardSpadesA.src}/>
                 </div>
             );
         }
@@ -797,36 +798,50 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         return (
             <div className='container text-center text-white'>
                 <h1 className='my-md-5'>BlackJack Demo</h1>
-                
-                <div>
-                    <h2>Enemy Hand</h2>
-                    <div className='row d-flex justify-content-center'>
-                    {enemyHand.map((card, index:number) => {
-                        // Jika ini adalah kartu pertama musuh
-                        if (index === 0) {
-                            return this.renderCard(card, true, true);
-                        } else {
-                            // Untuk kartu-kartu lainnya
-                            return this.renderCard(card, true, this.state.isGameEnd);
-                        }
-                    })}
+                <div className='row d-flex justify-content-center mt-md-4'>
+                        <div className="col-md-8 d-flex align-items-center justify-content-center position-relative" style={{ height: '100vh' }}>
+                            <img className="img-fluid position-absolute w-100 h-100" src={backgroundImg.src} alt="Deskripsi Gambar"/>
+                            
+                            <div className="position-absolute text-center top-0">
+                                <div className='row d-flex flex-wrap justify-content-center' style={{ maxWidth: '500px', maxHeight: '300px', overflow: 'auto' }}>
+                                    <div className='col-md-12 mt-md-5'>
+                                        <h2>Enemy Hand</h2>
+                                    </div>
+                                    {enemyHand.map((card, index:number) => {
+                                        // Jika ini adalah kartu pertama musuh
+                                        if (index === 0) {
+                                            return this.renderCard(card, true, true);
+                                        } else {
+                                            // Untuk kartu-kartu lainnya
+                                            return this.renderCard(card, true, this.state.isGameEnd);
+                                        }
+                                    })}
+                                </div>           
+                            </div>
 
+                            <div className='position-absolute text-center bottom-20 mt-md-5'>
+                                <div className='row d-flex flex-wrap justify-content-center' style={{ maxWidth: '500px', maxHeight: '300px', overflow: 'auto' }}>
+                                     <div className='col-md-12'>
+                                        <h2>Player Hand</h2>
+                                    </div>
+                                    <div className='row d-flex justify-content-center w-100 h-100'>
+                                        {playerHand.map((card, index) => this.renderCard(card, false))}
+                                    </div>
+                                    
+                                </div>
+                                
+                                <button className='btn mx-md-3 my-md-3 px-md-4 btn-success' onClick={this.handleHit} disabled={!!winner}>Hit</button>
+                                <button className='btn mx-md-3 my-md-3 btn-danger' onClick={this.handleStand} disabled={!!winner}>Stand</button>
+                            </div>
+                            <div className='position-absolute text-center start-0 bottom-20 ms-5'>
+                                    {winner && <div>
+                                        <h3>{winner}</h3>
+                                        <button className='btn btn-primary' onClick={this.startNewGame}>New Game</button>
+                                    </div>} 
+                            </div>
+                        </div>
                     </div>
-                    
-                </div>
-                <div>
-                    <h2>Player Hand</h2>
-                    <div className='row d-flex justify-content-center'>
-                        {playerHand.map((card, index) => this.renderCard(card, false))}
-                    </div>
-                    
-                </div>
-                <button className='btn mx-md-3 my-md-3 px-4 btn-success' onClick={this.handleHit} disabled={!!winner}>Hit</button>
-                <button className='btn mx-md-3 my-md-3 btn-danger' onClick={this.handleStand} disabled={!!winner}>Stand</button>
-                {winner && <div>
-                    <h3>{winner}</h3>
-                    <button className='btn btn-primary' onClick={this.startNewGame}>New Game</button>
-                </div>}
+                
             </div>
         );
     }

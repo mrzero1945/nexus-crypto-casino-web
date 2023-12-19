@@ -9,32 +9,33 @@ class NexusPlayBlackJack extends Component {
         return (
             <div className='container'>
                 <style jsx>{`
-                    .zoom-on-hover:hover {
-                        transform: scale(1.1);
-                    }
-                `}</style>
+                            .zoom-on-hover:hover {
+                                transform: scale(1.1);
+                            }
+                        `}
+                </style>
                     <div className='row d-flex justify-content-center mt-md-4'>
-                    <div className="col-md-8 d-flex align-items-center justify-content-center position-relative" style={{ height: '100vh' }}>
-                        <img className="img-fluid position-absolute w-100 h-100" src={backgroundImg.src} alt="Deskripsi Gambar"/>
-                        
-                        <div className="position-absolute text-center">
-                            <div className='row'>
-                                <div className='col-md-12'>
-                                    <h2 className="text-white">BlackJack</h2>
-                                </div>
-                                <div className='col-md-12'>
-                                    <Link href="blackjack-demo">
-                                        <button className="btn btn-primary px-5 py-2" style={{borderRadius:"25px"}}>Play</button>
-                                    </Link>
+                        <div className="col-md-8 d-flex align-items-center justify-content-center position-relative" style={{ height: '100vh' }}>
+                            <img className="img-fluid position-absolute w-100 h-100" src={backgroundImg.src} alt="Deskripsi Gambar"/>
+                            
+                            <div className="position-absolute text-center">
+                                <div className='row'>
+                                    <div className='col-md-12'>
+                                        <h2 className="text-white">BlackJack</h2>
+                                    </div>
+                                    <div className='col-md-12'>
+                                        <Link href="blackjack-demo">
+                                            <button className="btn btn-primary px-5 py-2" style={{borderRadius:"25px"}}>Play</button>
+                                        </Link>
+                                        
+                                    </div>
                                     
-                                </div>
-                                
 
+                                </div>
+            
+            
                             </div>
-        
-        
                         </div>
-                    </div>
                     </div>
             </div>
 
