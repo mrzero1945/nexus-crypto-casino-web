@@ -19,7 +19,12 @@ const PlayPage: NextPage = () => {
       </Head>
         <NexusNavbar />
         <NexusPlay />
-        <NexusFooter />
+        <div className='pt-md-5'>
+          <div className='pt-md-5'>
+            <NexusFooter />
+          </div>
+        </div>
+       
     </div>
   );
 };
