@@ -54,6 +54,42 @@ import cardSpadesK from '../resources/assets/PNG/Cards/cardSpadesK.png';
 import cardSpadesA from '../resources/assets/PNG/Cards/cardSpadesA.png';
 import backgroundImg from '../resources/assets/PNG/background.png';
 
+class Card {
+    suit: string;
+    value: string;
+
+    constructor(suit: string, value: string) {
+        this.suit = suit;
+        this.value = value;
+    }
+}
+
+
+class Deck {
+    private suits = ['Hearts', 'Clubs', 'Spades', 'Diamonds'];
+    private values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+    public cards: Card[];
+
+    constructor() {
+        this.cards = [];
+        this.initializeDeck();
+    }
+
+    private initializeDeck() {
+        for (const suit of this.suits) {
+            for (const value of this.values) {
+                this.cards.push(new Card(suit, value));
+            }
+        }
+    }
+
+    public shuffle() {
+        for (let i = this.cards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]]; // swap elements
+        }
+    }
+}
 
 class Player {
     public hand: Card[];
@@ -82,41 +118,8 @@ class Enemy {
 }
 
 
-class Card {
-    suit: string;
-    value: string;
 
-    constructor(suit: string, value: string) {
-        this.suit = suit;
-        this.value = value;
-    }
-}
 
-class Deck {
-    private suits = ['Hearts', 'Clubs', 'Spades', 'Diamonds'];
-    private values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-    public cards: Card[];
-
-    constructor() {
-        this.cards = [];
-        this.initializeDeck();
-    }
-
-    private initializeDeck() {
-        for (const suit of this.suits) {
-            for (const value of this.values) {
-                this.cards.push(new Card(suit, value));
-            }
-        }
-    }
-
-    public shuffle() {
-        for (let i = this.cards.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]]; // swap elements
-        }
-    }
-}
 type CardProbabilities = {
     [key in '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'J' | 'Q' | 'K' | 'A']: number;
 };
