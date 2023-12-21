@@ -245,14 +245,21 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
     }
 
     renderCard(card: Card, index:number) {
-        const zoomClass = this.state.choosenCard[index] ? 'zoomed' : '';
+        const isSelected = this.state.choosenCard[index];
+        const zoomStyle: any = isSelected ? {
+            transform: 'scale(1.5)',
+            transition: 'transform 0.3s ease-in-out',
+            boxShadow: '0px 0px 10px 3px rgba(0, 0, 0, 0.5)',
+            position: 'relative',
+            zIndex: 2
+        } : {};
 
         
         if(card.suit === 'Clubs' && card.value === '2'){
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardClubs2.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardClubs2.src}/>
                 </div>
             );
         }
@@ -260,7 +267,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardClubs3.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardClubs3.src}/>
                 </div>
             );
         }
@@ -268,7 +275,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardClubs4.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardClubs4.src}/>
                 </div>
             );
         }
@@ -276,7 +283,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardClubs5.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardClubs5.src}/>
                 </div>
             );
         }
@@ -284,14 +291,14 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardClubs6.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardClubs6.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '7'){
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardClubs7.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardClubs7.src}/>
                 </div>
             );
         }
@@ -299,7 +306,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardClubs8.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardClubs8.src}/>
                 </div>
             );
         }
@@ -307,7 +314,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardClubs9.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardClubs9.src}/>
                 </div>
             );
         }
@@ -315,7 +322,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardClubs10.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardClubs10.src}/>
                 </div>
             );
         }
@@ -323,7 +330,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardClubsJ.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardClubsJ.src}/>
                 </div>
             );
         }
@@ -331,7 +338,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardClubsQ.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardClubsQ.src}/>
                 </div>
             );
         }
@@ -339,7 +346,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardClubsK.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardClubsK.src}/>
                 </div>
             );
         }
@@ -347,7 +354,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardClubsA.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardClubsA.src}/>
                 </div>
             );
         }
@@ -355,7 +362,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds2.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds2.src}/>
                 </div>
             );
         }
@@ -363,7 +370,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds3.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds3.src}/>
                 </div>
             );
         }
@@ -371,7 +378,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds4.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds4.src}/>
                 </div>
             );
         }
@@ -379,7 +386,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds5.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds5.src}/>
                 </div>
             );
         }
@@ -387,7 +394,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds6.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds6.src}/>
                 </div>
             );
         }
@@ -395,7 +402,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds7.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds7.src}/>
                 </div>
             );
         }
@@ -403,7 +410,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds8.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds8.src}/>
                 </div>
             );
         }
@@ -411,7 +418,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds9.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds9.src}/>
                 </div>
             );
         }
@@ -419,7 +426,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds10.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds10.src}/>
                 </div>
             );
         }
@@ -427,7 +434,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardDiamondsJ.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardDiamondsJ.src}/>
                 </div>
             );
         }
@@ -435,7 +442,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardDiamondsQ.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardDiamondsQ.src}/>
                 </div>
             );
         }
@@ -443,7 +450,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardDiamondsK.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardDiamondsK.src}/>
                 </div>
             );
         }
@@ -451,7 +458,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardDiamondsA.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardDiamondsA.src}/>
                 </div>
             );
         }
@@ -460,7 +467,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardHearts2.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardHearts2.src}/>
                 </div>
             );
         }
@@ -468,7 +475,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardHearts3.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardHearts3.src}/>
                 </div>
             );
         }
@@ -476,7 +483,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardHearts4.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardHearts4.src}/>
                 </div>
             );
         }
@@ -484,7 +491,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardHearts5.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardHearts5.src}/>
                 </div>
             );
         }
@@ -492,7 +499,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardHearts6.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardHearts6.src}/>
                 </div>
             );
         }
@@ -500,7 +507,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardHearts7.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardHearts7.src}/>
                 </div>
             );
         }
@@ -508,7 +515,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardHearts8.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardHearts8.src}/>
                 </div>
             );
         }
@@ -516,7 +523,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardHearts9.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardHearts9.src}/>
                 </div>
             );
         }
@@ -524,7 +531,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardHearts10.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardHearts10.src}/>
                 </div>
             );
         }
@@ -532,7 +539,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardHeartsJ.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardHeartsJ.src}/>
                 </div>
             );
         }
@@ -540,7 +547,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardHeartsQ.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardHeartsQ.src}/>
                 </div>
             );
         }
@@ -548,7 +555,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardHeartsK.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardHeartsK.src}/>
                 </div>
             );
         }
@@ -556,7 +563,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardHeartsA.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardHeartsA.src}/>
                 </div>
             );
         }
@@ -564,7 +571,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardSpades2.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardSpades2.src}/>
                 </div>
             );
         }
@@ -572,7 +579,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardSpades3.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardSpades3.src}/>
                 </div>
             );
         }
@@ -580,7 +587,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardSpades4.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardSpades4.src}/>
                 </div>
             );
         }
@@ -588,7 +595,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardSpades5.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardSpades5.src}/>
                 </div>
             );
         }
@@ -596,7 +603,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardSpades6.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardSpades6.src}/>
                 </div>
             );
         }
@@ -604,7 +611,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardSpades7.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardSpades7.src}/>
                 </div>
             );
         }
@@ -612,7 +619,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardSpades8.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardSpades8.src}/>
                 </div>
             );
         }
@@ -620,7 +627,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardSpades9.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardSpades9.src}/>
                 </div>
             );
         }
@@ -628,7 +635,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardSpades10.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardSpades10.src}/>
                 </div>
             );
         }
@@ -636,7 +643,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardSpadesJ.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardSpadesJ.src}/>
                 </div>
             );
         }
@@ -644,7 +651,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardSpadesQ.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardSpadesQ.src}/>
                 </div>
             );
         }
@@ -652,7 +659,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardSpadesK.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardSpadesK.src}/>
                 </div>
             );
         }
@@ -660,7 +667,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img className={`img-fluid ${zoomClass}`} src={cardSpadesA.src}/>
+                    <img style={zoomStyle} className='img-fluid'  src={cardSpadesA.src}/>
                 </div>
             );
         }
@@ -679,26 +686,16 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
         const { playerHand, winner } = this.state;
         return(
             <div className='container text-white'>
-                <style jsx>
-                    {`
-                        .zoomed {
-                            transform: scale(1.5) !important;
-                            transition: transform 0.3s ease-in-out !important;
-                        }  
-                        .zoomed:hover {
-                            transform: scale(1.5) !important;
-                            transition: transform 0.3s ease-in-out !important;                      
-                    `}
-                </style>
+                
 
                 <h1>Poker VietNam</h1>
                 <div className='row'>
                 <div className='col d-flex justify-content-center'>
                         <div className='row'>
-                            <div className='col-5'>
+                            <div className='col-md-5'>
                                 <h2 className='text-center'>Enemy1</h2>
                             </div>
-                            <div className='col-3'>
+                            <div className='col-md-3'>
                                 <img className='img-fluid' src={cardBackEnemyImg.src} />
                             </div>
                         </div>
@@ -709,10 +706,10 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
                 <div className='row'>
                     <div className='col d-flex justify-content-start'>
                         <div className='row'>
-                            <div className='col-5'>
+                            <div className='col-md-5'>
                                 <h2>Enemy2</h2>
                             </div>
-                            <div className='col-3'>
+                            <div className='col-md-3'>
                                 <img className='img-fluid' src={cardBackEnemyImg.src} />
                             </div>
                         </div>
@@ -721,10 +718,10 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
 
                     <div className='col d-flex justify-content-end'>
                         <div className='row'>
-                             <div className='col-3'>
+                             <div className='col-md-3'>
                                 <img className='img-fluid' src={cardBackEnemyImg.src} />
                             </div>
-                            <div className='col ps-0'>
+                            <div className='col ps-md-0'>
                                 <h2>Enemy3</h2>
                             </div>
                            
@@ -741,11 +738,21 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
                     </div>
                     
                 </div>
-                <div className='row mt-5'>
-                    <h2>Player</h2>
+                <div className='row mt-md-5'>
+                    <h2 className='mb-md-5'>Player</h2>
                     <div className='row d-flex justify-content-center'>
                         {playerHand.map((card, index) => this.renderCard(card, index))}
                     </div>
+                    <div className='row justify-content-center mt-md-3'>
+                        <div className='col-md-auto d-flex justify-content-center'>
+                            <button className='btn px-md-4 btn-success' style={{borderRadius:'15px'}}>Play</button>
+                        </div>
+                        <div className='col-md-auto d-flex justify-content-center'>
+                            <button className='btn px-md-4 text-white btn-warning' style={{borderRadius:'15px'}}>Pass</button>
+                        </div>
+                    </div>
+
+
                 </div>
 
             </div>
