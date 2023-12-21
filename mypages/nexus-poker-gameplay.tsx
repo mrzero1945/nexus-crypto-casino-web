@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, RefObject } from 'react';
 import cardBackEnemyImg from '../resources/assets/PNG/Cards/cardBack_blue1.png';
 import cardClubs2 from '../resources/assets/PNG/Cards/cardClubs2.png';
 import cardClubs3 from '../resources/assets/PNG/Cards/cardClubs3.png';
@@ -52,6 +52,7 @@ import cardSpadesJ from '../resources/assets/PNG/Cards/cardSpadesJ.png';
 import cardSpadesQ from '../resources/assets/PNG/Cards/cardSpadesQ.png';
 import cardSpadesK from '../resources/assets/PNG/Cards/cardSpadesK.png';
 import cardSpadesA from '../resources/assets/PNG/Cards/cardSpadesA.png';
+
 
 
 class Card {
@@ -216,6 +217,8 @@ interface ThirteenPokerComponentState {
     winner: string;
     isGameEnd: boolean;
     choosenCard: boolean[];
+    animateCard: boolean;
+    animationStyle: React.CSSProperties;
 }
 
 class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPokerComponentState>{
@@ -229,8 +232,41 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             enemy3Hand: [],
             winner: '',
             isGameEnd: false,
-            choosenCard: new Array(13).fill(false) 
+            choosenCard: new Array(13).fill(false),
+            animateCard: false,
+            animationStyle: {}
         };
+        this.targetRef = React.createRef<HTMLDivElement>();
+        this.cardRef = React.createRef<HTMLImageElement>();
+    }
+    //proto
+    private cardRef: RefObject<HTMLImageElement>;
+    //proto
+    private targetRef: RefObject<HTMLDivElement>;
+
+    //proto 
+    triggerAnimation = () => {
+        if (this.targetRef.current && this.cardRef.current) {
+            const targetBounds = this.targetRef.current.getBoundingClientRect();
+            const cardBounds = this.cardRef.current.getBoundingClientRect();
+            
+            // Hitung perbedaan posisi
+            const diffX = targetBounds.left - cardBounds.left;
+            const diffY = targetBounds.top - cardBounds.top;
+
+            // Set state dengan perbedaan posisi untuk animasi
+            this.setState({ 
+                animateCard: true,
+                animationStyle: {
+                    transform: `translate(${diffX}px, ${diffY}px)`,
+                    transition: 'transform 5s ease-in-out'
+                }
+            });
+
+            setTimeout(() => {
+                this.setState({ animateCard: false, animationStyle: {} });
+            }, 5000); // Reset state setelah animasi selesai
+        }
     }
 
     toggleZoom = (index: number) => {
@@ -689,61 +725,48 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
                 
 
                 <h1>Poker VietNam</h1>
-                <div className='row'>
-                <div className='col d-flex justify-content-center'>
-                        <div className='row'>
-                            <div className='col-md-5'>
-                                <h2 className='text-center'>Enemy1</h2>
-                            </div>
-                            <div className='col-md-3'>
-                                <img className='img-fluid' src={cardBackEnemyImg.src} />
-                            </div>
-                        </div>
-                        
+                <div className='row justify-content-center'>
+                    <div className='col-md-12 text-center'>
+                        <h2>Enemy1</h2>
                     </div>
-                    
+                    <div className='text-center'>
+                        <img className='img-fluid col-md-1' src={cardBackEnemyImg.src} />
+                    </div>
                 </div>
+
+
+                
                 <div className='row'>
-                    <div className='col d-flex justify-content-start'>
-                        <div className='row'>
-                            <div className='col-md-5'>
-                                <h2>Enemy2</h2>
-                            </div>
-                            <div className='col-md-3'>
-                                <img className='img-fluid' src={cardBackEnemyImg.src} />
-                            </div>
+                    <div className='col-md-6'>
+                        <h2 className='text-start'>Enemy2</h2>
+                        <div className='text-start'>
+                            <img className='col-md-2 img-fluid' src={cardBackEnemyImg.src} />
                         </div>
-                        
                     </div>
 
-                    <div className='col d-flex justify-content-end'>
-                        <div className='row'>
-                             <div className='col-md-3'>
-                                <img className='img-fluid' src={cardBackEnemyImg.src} />
-                            </div>
-                            <div className='col ps-md-0'>
-                                <h2>Enemy3</h2>
-                            </div>
-                           
+                    <div className='col-md-6'>
+                        <h2 className='text-end'>Enemy3</h2>
+                        <div className='text-end'>
+                            <img className='col-md-2 img-fluid' src={cardBackEnemyImg.src} />
                         </div>
-                        
-                    </div>
-
-                    
-                    
+                    </div>     
                 </div>
+
+
                 <div className='row d-flex justify-content-center text-center'>
                     <div className='col'>
-                        <h2>Drawn Card</h2>
+                        <h2 ref={this.targetRef} className="d-inline-flex justify-content-center align-items-center">
+                            Drawn Card
+                        </h2>
                     </div>
-                    
                 </div>
-                <div className='row mt-md-5'>
-                    <h2 className='mb-md-5'>Player</h2>
+
+                <div className='row mt-md-2'>
+                    <h2 className='mb-md-2'>Player</h2>
                     <div className='row d-flex justify-content-center'>
                         {playerHand.map((card, index) => this.renderCard(card, index))}
                     </div>
-                    <div className='row justify-content-center mt-md-3'>
+                    <div className='row justify-content-center mt-md-2'>
                         <div className='col-md-auto d-flex justify-content-center'>
                             <button className='btn px-md-4 btn-success' style={{borderRadius:'15px'}}>Play</button>
                         </div>
@@ -753,6 +776,18 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
                     </div>
 
 
+                </div>
+
+                <div className='container'>
+                    <div className='row'>
+                        <div className='col-3'>
+                            <img ref={this.cardRef} className={`img-fluid ${this.state.animateCard ? 'animatedCard' : ''}`} 
+                            src={cardBackEnemyImg.src} 
+                            onClick={this.triggerAnimation}
+                            style={this.state.animationStyle} />
+                        </div>
+
+                    </div>
                 </div>
 
             </div>

@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import '../styles/animationPoker.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import type { AppProps } from 'next/app';
