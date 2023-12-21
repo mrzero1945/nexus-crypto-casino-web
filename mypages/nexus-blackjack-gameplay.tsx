@@ -792,7 +792,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         
         // Repeat this pattern for Diamonds, Hearts, and Spades
         
-        return <div key={card.suit + card.value}>{card.value} of {card.suit}</div>;
+        // return <div key={card.suit + card.value}>{card.value} of {card.suit}</div>;
     }
 
     render() {

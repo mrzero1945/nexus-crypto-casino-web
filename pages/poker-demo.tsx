@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { NexusNavbar } from '../components/nexus-navbar';
 import { NexusFooter } from '../components/nexus-footer';
 import faviconImg from '../resources/favicon.ico';
-import { TienLenComponent } from '../mypages/nexus-poker-gameplay';
+import { ThirteenPokerComponent } from '../mypages/nexus-poker-gameplay';
 
 const PokerDemo: NextPage = () => {
   return (
@@ -18,7 +18,7 @@ const PokerDemo: NextPage = () => {
         <link rel='icon' href={faviconImg.src} />
       </Head>
         <NexusNavbar />
-        <TienLenComponent />
+        <ThirteenPokerComponent />
         <NexusFooter />
     </div>
   );
