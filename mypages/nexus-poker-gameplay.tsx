@@ -724,33 +724,32 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             <div className='container text-white'>
                 
 
-                <h1>Poker VietNam</h1>
+                <h1 className='text-center'>Poker VietNam</h1>
                 <div className='row justify-content-center'>
-                    <div className='col-md-12 text-center'>
-                        <h2>Enemy1</h2>
-                    </div>
-                    <div className='text-center'>
-                        <img className='img-fluid col-md-1' src={cardBackEnemyImg.src} />
-                    </div>
-                </div>
+    <div className='col-md-6 text-center'>
+        <h2>Enemy1</h2>
+    </div>
+    <div className='text-center'>
+        <img width={50} src={cardBackEnemyImg.src} />
+    </div>
+</div>
 
+<div className='row'>
+    <div className='col-md-6'>
+        <h2 className='text-start'>Enemy2</h2>
+        <div className='text-start'>
+            <img width={50} src={cardBackEnemyImg.src} />
+        </div>
+    </div>
 
-                
-                <div className='row'>
-                    <div className='col-md-6'>
-                        <h2 className='text-start'>Enemy2</h2>
-                        <div className='text-start'>
-                            <img className='col-md-2 img-fluid' src={cardBackEnemyImg.src} />
-                        </div>
-                    </div>
+    <div className='col-md-6'>
+        <h2 className='text-end'>Enemy3</h2>
+        <div className='text-end'>
+            <img width={50} src={cardBackEnemyImg.src} />
+        </div>
+    </div>     
+</div>
 
-                    <div className='col-md-6'>
-                        <h2 className='text-end'>Enemy3</h2>
-                        <div className='text-end'>
-                            <img className='col-md-2 img-fluid' src={cardBackEnemyImg.src} />
-                        </div>
-                    </div>     
-                </div>
 
 
                 <div className='row d-flex justify-content-center text-center'>
@@ -761,7 +760,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
                     </div>
                 </div>
 
-                <div className='row mt-md-2'>
+                <div className='row'>
                     <h2 className='mb-md-2'>Player</h2>
                     <div className='row d-flex justify-content-center'>
                         {playerHand.map((card, index) => this.renderCard(card, index))}
