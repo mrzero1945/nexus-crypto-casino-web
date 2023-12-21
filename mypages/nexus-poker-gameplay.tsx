@@ -661,19 +661,59 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             <div className='container text-white'>
                 <h1>Poker VietNam</h1>
                 <div className='row'>
-                    <h2>Enemy1</h2>
+                <div className='col d-flex justify-content-center'>
+                        <div className='row'>
+                            <div className='col-5'>
+                                <h2 className='text-center'>Enemy1</h2>
+                            </div>
+                            <div className='col-3'>
+                                <img className='img-fluid' src={cardBackEnemyImg.src} />
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
                 </div>
                 <div className='row'>
-                    <h2>Enemy2</h2>
+                    <div className='col d-flex justify-content-start'>
+                        <div className='row'>
+                            <div className='col-5'>
+                                <h2>Enemy2</h2>
+                            </div>
+                            <div className='col-3'>
+                                <img className='img-fluid' src={cardBackEnemyImg.src} />
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <div className='col d-flex justify-content-end'>
+                        <div className='row'>
+                             <div className='col-3'>
+                                <img className='img-fluid' src={cardBackEnemyImg.src} />
+                            </div>
+                            <div className='col ps-0'>
+                                <h2>Enemy3</h2>
+                            </div>
+                           
+                        </div>
+                        
+                    </div>
+
+                    
+                    
                 </div>
-                <div className='row'>
-                    <h2>Enemy3</h2>
+                <div className='row d-flex justify-content-center text-center'>
+                    <div className='col'>
+                        <h2>Drawn Card</h2>
+                    </div>
+                    
                 </div>
-                <div className='row'>
+                <div className='row mt-5'>
                     <h2>Player</h2>
-                    <div className='row d-flex justify-content-center w-100 h-100'>
-                                        {playerHand.map((card, index) => this.renderCard(card, false))}
-                                    </div>
+                    <div className='row d-flex justify-content-center'>
+                        {playerHand.map((card, index) => this.renderCard(card, false))}
+                    </div>
                 </div>
 
             </div>
