@@ -52,7 +52,7 @@ import cardSpadesJ from '../resources/assets/PNG/Cards/cardSpadesJ.png';
 import cardSpadesQ from '../resources/assets/PNG/Cards/cardSpadesQ.png';
 import cardSpadesK from '../resources/assets/PNG/Cards/cardSpadesK.png';
 import cardSpadesA from '../resources/assets/PNG/Cards/cardSpadesA.png';
-import backgroundImg from '../resources/assets/PNG/background.png';
+
 
 class Card {
     suit: string;
@@ -97,6 +97,20 @@ class Player {
     constructor(){
         this.hand = [];
     }
+    sortHand() {
+        const valueOrder = ['3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A', '2'];
+        const suitOrder = ['Spades', 'Clubs', 'Diamonds', 'Hearts'];
+    
+        this.hand.sort((a, b) => {
+            let valueComparison = valueOrder.indexOf(a.value) - valueOrder.indexOf(b.value);
+            if (valueComparison !== 0) {
+                return valueComparison;
+            }
+            // Urutkan berdasarkan suit jika nilai sama
+            return suitOrder.indexOf(a.suit) - suitOrder.indexOf(b.suit);
+        });
+    }
+    
 }
 
 class Enemy {
@@ -133,6 +147,7 @@ class ThirteenPokerGame {
             const playerCard = this.deck.cards.shift();
             if (playerCard) {
                 this.player.hand.push(playerCard);
+                this.player.sortHand();
             }
     
             this.enemies.forEach(enemy => {
@@ -200,6 +215,7 @@ interface ThirteenPokerComponentState {
     enemy3Hand: Card[];
     winner: string;
     isGameEnd: boolean;
+    choosenCard: boolean[];
 }
 
 class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPokerComponentState>{
@@ -212,226 +228,230 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             enemy2Hand: [],
             enemy3Hand: [],
             winner: '',
-            isGameEnd: false
+            isGameEnd: false,
+            choosenCard: new Array(13).fill(false) 
         };
     }
+
+    toggleZoom = (index: number) => {
+        let updatedChoosenCard = [...this.state.choosenCard];
+        updatedChoosenCard[index] = !updatedChoosenCard[index];
+        this.setState({ choosenCard: updatedChoosenCard });
+    }
+    
 
     componentDidMount(): void {
         this.dealInitialCards();
     }
 
-    renderCard(card: Card, isEnemy:boolean) {
-        if(isEnemy){
-            return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardBackEnemyImg.src}/>
-                </div>
-            );
-        } 
+    renderCard(card: Card, index:number) {
+        const zoomClass = this.state.choosenCard[index] ? 'zoomed' : '';
+
+        
         if(card.suit === 'Clubs' && card.value === '2'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardClubs2.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardClubs2.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '3'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardClubs3.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardClubs3.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '4'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardClubs4.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardClubs4.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '5'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardClubs5.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardClubs5.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '6'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardClubs6.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardClubs6.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '7'){
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardClubs7.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardClubs7.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '8'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardClubs8.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardClubs8.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '9'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardClubs9.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardClubs9.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === '10'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardClubs10.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardClubs10.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'J'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardClubsJ.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardClubsJ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'Q'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardClubsQ.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardClubsQ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'K'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardClubsK.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardClubsK.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'A'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardClubsA.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardClubsA.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '2'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardDiamonds2.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds2.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '3'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardDiamonds3.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds3.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '4'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardDiamonds4.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds4.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '5'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardDiamonds5.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds5.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '6'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardDiamonds6.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds6.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '7'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardDiamonds7.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds7.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '8'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardDiamonds8.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds8.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '9'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardDiamonds9.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds9.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '10'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardDiamonds10.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardDiamonds10.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'J'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardDiamondsJ.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardDiamondsJ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'Q'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardDiamondsQ.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardDiamondsQ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'K'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardDiamondsK.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardDiamondsK.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'A'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardDiamondsA.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardDiamondsA.src}/>
                 </div>
             );
         }
@@ -439,208 +459,208 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
         if(card.suit === 'Hearts' && card.value === '2'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardHearts2.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardHearts2.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '3'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardHearts3.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardHearts3.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '4'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardHearts4.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardHearts4.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '5'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardHearts5.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardHearts5.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '6'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardHearts6.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardHearts6.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '7'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardHearts7.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardHearts7.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '8'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardHearts8.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardHearts8.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '9'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardHearts9.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardHearts9.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === '10'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardHearts10.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardHearts10.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'J'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardHeartsJ.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardHeartsJ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'Q'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardHeartsQ.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardHeartsQ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'K'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardHeartsK.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardHeartsK.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'A'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardHeartsA.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardHeartsA.src}/>
                 </div>
             );
         }
         if(card.suit === 'Spades' && card.value === '2'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardSpades2.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardSpades2.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '3'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardSpades3.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardSpades3.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '4'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardSpades4.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardSpades4.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '5'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardSpades5.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardSpades5.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '6'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardSpades6.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardSpades6.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '7'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardSpades7.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardSpades7.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '8'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardSpades8.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardSpades8.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '9'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardSpades9.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardSpades9.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === '10'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardSpades10.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardSpades10.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === 'J'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardSpadesJ.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardSpadesJ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === 'Q'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardSpadesQ.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardSpadesQ.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === 'K'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardSpadesK.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardSpadesK.src}/>
                 </div>
             );
         }
         else if(card.suit === 'Spades' && card.value === 'A'){
             
             return (
-                <div className='col py-md-3'>
-                    <img className='img-fluid w-auto h-auto' src={cardSpadesA.src}/>
+                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
+                    <img className={`img-fluid ${zoomClass}`} src={cardSpadesA.src}/>
                 </div>
             );
         }
@@ -659,6 +679,18 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
         const { playerHand, winner } = this.state;
         return(
             <div className='container text-white'>
+                <style jsx>
+                    {`
+                        .zoomed {
+                            transform: scale(1.5) !important;
+                            transition: transform 0.3s ease-in-out !important;
+                        }  
+                        .zoomed:hover {
+                            transform: scale(1.5) !important;
+                            transition: transform 0.3s ease-in-out !important;                      
+                    `}
+                </style>
+
                 <h1>Poker VietNam</h1>
                 <div className='row'>
                 <div className='col d-flex justify-content-center'>
@@ -712,7 +744,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
                 <div className='row mt-5'>
                     <h2>Player</h2>
                     <div className='row d-flex justify-content-center'>
-                        {playerHand.map((card, index) => this.renderCard(card, false))}
+                        {playerHand.map((card, index) => this.renderCard(card, index))}
                     </div>
                 </div>
 
