@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect, RefObject } from 'react';
 import { useSpring, animated } from 'react-spring';
+import { gsap } from 'gsap';
 
 interface MainProps{
   img:string;
@@ -25,29 +26,36 @@ const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isTarget= 
         };
   
 
- useEffect(() => {
-  console.log('useEffect dijalankan');
-
-  if (refAmmo.current && refTarget.current) {
-    console.log('Kedua ref ada:', refAmmo.current, refTarget.current);
-
-    const newOffsetX = refTarget.current.offsetLeft - refAmmo.current.offsetLeft;
-    const newOffsetY = refTarget.current.offsetTop - refAmmo.current.offsetTop;
-
-    console.log('Offset X:', newOffsetX, 'Offset Y:', newOffsetY);
-
-    setOffsetX(newOffsetX);
-    setOffsetY(newOffsetY);
-  } else {
-    // Log jika salah satu atau kedua ref tidak ada
-    if (!refAmmo.current) {
-      console.log('refAmmo.current tidak ada');
-    }
-    if (!refTarget.current) {
-      console.log('refTarget.current tidak ada');
-    }
-  }
-}, [toggle]); // Dependensi pada 'toggle'
+        useEffect(() => {
+          console.log('useEffect dijalankan');
+        
+          if (refAmmo.current && refTarget.current) {
+            console.log('Kedua ref ada:', refAmmo.current, refTarget.current);
+        
+            const ammoRect = refAmmo.current.getBoundingClientRect();
+            const targetRect = refTarget.current.getBoundingClientRect();
+        
+            const newOffsetX = targetRect.left - ammoRect.left;
+            const newOffsetY = targetRect.top - ammoRect.top;
+        
+            console.log('Offset X:', newOffsetX, 'Offset Y:', newOffsetY);
+        
+            // Animasi menggunakan GSAP
+            gsap.to(refAmmo.current, {
+              x: newOffsetX,
+              y: newOffsetY,
+              duration: 1 // Durasi animasi dalam detik
+            });
+          } else {
+            if (!refAmmo.current) {
+              //console.log('refAmmo.current tidak ada');
+            }
+            if (!refTarget.current) {
+              console.log('refTarget.current tidak ada');
+            }
+          }
+        }, [toggle]); // Dependensi pada 'toggle'
+        
 
 
   const animation = useSpring({
