@@ -1,3 +1,4 @@
+import { ImageTransition } from '../components/animation-move';
 import React, { Component, RefObject } from 'react';
 import cardBackEnemyImg from '../resources/assets/PNG/Cards/cardBack_blue1.png';
 import cardClubs2 from '../resources/assets/PNG/Cards/cardClubs2.png';
@@ -218,7 +219,8 @@ interface ThirteenPokerComponentState {
     isGameEnd: boolean;
     choosenCard: boolean[];
     animateCard: boolean;
-    animationStyle: React.CSSProperties;
+    animationStyles: { transform?: string; transition?: string }[];
+    toggleAnimation: boolean;
 }
 
 class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPokerComponentState>{
@@ -234,41 +236,56 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             isGameEnd: false,
             choosenCard: new Array(13).fill(false),
             animateCard: false,
-            animationStyle: {}
+            animationStyles: [],
+            toggleAnimation: false
         };
         this.targetRef = React.createRef<HTMLDivElement>();
-        this.cardRef = React.createRef<HTMLImageElement>();
+        // Inisialisasi cardRefs sebagai instance variable
+        this.cardRefs = Array(13).fill(null).map(() => React.createRef());
     }
     //proto
-    private cardRef: RefObject<HTMLImageElement>;
+    private cardRefs: RefObject<HTMLImageElement>[];
     //proto
     private targetRef: RefObject<HTMLDivElement>;
 
     //proto 
-    triggerAnimation = () => {
-        if (this.targetRef.current && this.cardRef.current) {
+    triggerAnimation = (cardIndex: number) => {
+        const cardRef = this.cardRefs[cardIndex];
+
+        if (cardRef.current && this.targetRef.current) {
             const targetBounds = this.targetRef.current.getBoundingClientRect();
-            const cardBounds = this.cardRef.current.getBoundingClientRect();
-            
-            // Hitung perbedaan posisi
+            const cardBounds = cardRef.current.getBoundingClientRect();
+
             const diffX = targetBounds.left - cardBounds.left;
             const diffY = targetBounds.top - cardBounds.top;
 
-            // Set state dengan perbedaan posisi untuk animasi
-            this.setState({ 
-                animateCard: true,
-                animationStyle: {
+            this.setState(prevState => {
+                const updatedStyles = prevState.animationStyles.slice();
+                updatedStyles[cardIndex] = {
                     transform: `translate(${diffX}px, ${diffY}px)`,
-                    transition: 'transform 5s ease-in-out'
-                }
+                    transition: 'transform 1s ease-in-out'
+                };
+                return {
+                    ...prevState, // Jangan lupa menyertakan sisa properti state
+                    animateCard: true,
+                    animationStyles: updatedStyles
+                };
             });
 
             setTimeout(() => {
-                this.setState({ animateCard: false, animationStyle: {} });
-            }, 5000); // Reset state setelah animasi selesai
+                this.setState(prevState => {
+                    const updatedStyles = prevState.animationStyles.slice();
+                    updatedStyles[cardIndex] = {};
+                    return {
+                        ...prevState, // Menyertakan sisa properti state
+                        animateCard: false,
+                        animationStyles: updatedStyles
+                    };
+                });
+            }, 1000);
         }
-    }
-
+    };
+    // proto
     toggleZoom = (index: number) => {
         let updatedChoosenCard = [...this.state.choosenCard];
         updatedChoosenCard[index] = !updatedChoosenCard[index];
@@ -280,431 +297,436 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
         this.dealInitialCards();
     }
 
+    // proto
+    setToggleAnimation = (value: boolean) => {
+        this.setState({ toggleAnimation: value });
+    };
+
     renderCard(card: Card, index:number) {
         const isSelected = this.state.choosenCard[index];
-        const zoomStyle: any = isSelected ? {
+        const zoomStyle:any = {
             transform: 'scale(1.5)',
             transition: 'transform 0.3s ease-in-out',
             boxShadow: '0px 0px 10px 3px rgba(0, 0, 0, 0.5)',
             position: 'relative',
             zIndex: 2
-        } : {};
+        };
+        const cardRef = this.cardRefs[index];
+        const targetCard: any = isSelected ? {cardRef} : {};
 
         
         if(card.suit === 'Clubs' && card.value === '2'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardClubs2.src}/>
-                </div>
+                <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs2.src} />
             );
         }
         else if(card.suit === 'Clubs' && card.value === '3'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardClubs3.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs3.src}/>
+                
             );
         }
         else if(card.suit === 'Clubs' && card.value === '4'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardClubs4.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs4.src}/>
+                
             );
         }
         else if(card.suit === 'Clubs' && card.value === '5'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardClubs5.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs5.src}/>
+                
             );
         }
         else if(card.suit === 'Clubs' && card.value === '6'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardClubs6.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs6.src}/>
+                
             );
         }
         else if(card.suit === 'Clubs' && card.value === '7'){
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardClubs7.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs7.src}/>
+                
             );
         }
         else if(card.suit === 'Clubs' && card.value === '8'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardClubs8.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs8.src}/>
+                
             );
         }
         else if(card.suit === 'Clubs' && card.value === '9'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardClubs9.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs9.src}/>
+                
             );
         }
         else if(card.suit === 'Clubs' && card.value === '10'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardClubs10.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs10.src}/>
+                
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'J'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardClubsJ.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsJ.src}/>
+                
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'Q'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardClubsQ.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsQ.src}/>
+                
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'K'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardClubsK.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsK.src}/>
+                
             );
         }
         else if(card.suit === 'Clubs' && card.value === 'A'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardClubsA.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsA.src}/>
+                
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '2'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds2.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds2.src}/>
+                
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '3'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds3.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds3.src}/>
+                
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '4'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds4.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds4.src}/>
+                
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '5'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds5.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds5.src}/>
+                
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '6'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds6.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds6.src}/>
+                
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '7'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds7.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds7.src}/>
+                
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '8'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds8.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds8.src}/>
+                
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '9'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds9.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds9.src}/>
+                
             );
         }
         else if(card.suit === 'Diamonds' && card.value === '10'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardDiamonds10.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds10.src}/>
+                
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'J'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardDiamondsJ.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsJ.src}/>
+                
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'Q'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardDiamondsQ.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsQ.src}/>
+                
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'K'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardDiamondsK.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsK.src}/>
+                
             );
         }
         else if(card.suit === 'Diamonds' && card.value === 'A'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardDiamondsA.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsA.src}/>
+                
             );
         }
 
         if(card.suit === 'Hearts' && card.value === '2'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardHearts2.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts2.src}/>
+                
             );
         }
         else if(card.suit === 'Hearts' && card.value === '3'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardHearts3.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts3.src}/>
+                
             );
         }
         else if(card.suit === 'Hearts' && card.value === '4'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardHearts4.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts4.src}/>
+                
             );
         }
         else if(card.suit === 'Hearts' && card.value === '5'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardHearts5.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts5.src}/>
+                
             );
         }
         else if(card.suit === 'Hearts' && card.value === '6'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardHearts6.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts6.src}/>
+                
             );
         }
         else if(card.suit === 'Hearts' && card.value === '7'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardHearts7.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts7.src}/>
+                
             );
         }
         else if(card.suit === 'Hearts' && card.value === '8'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardHearts8.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts8.src}/>
+                
             );
         }
         else if(card.suit === 'Hearts' && card.value === '9'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardHearts9.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts9.src}/>
+                
             );
         }
         else if(card.suit === 'Hearts' && card.value === '10'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardHearts10.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts10.src}/>
+                
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'J'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardHeartsJ.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsJ.src}/>
+                
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'Q'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardHeartsQ.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsQ.src}/>
+                
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'K'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardHeartsK.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsK.src}/>
+                
             );
         }
         else if(card.suit === 'Hearts' && card.value === 'A'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardHeartsA.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsA.src}/>
+                
             );
         }
         if(card.suit === 'Spades' && card.value === '2'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardSpades2.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades2.src}/>
+                
             );
         }
         else if(card.suit === 'Spades' && card.value === '3'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardSpades3.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades3.src}/>
+                
             );
         }
         else if(card.suit === 'Spades' && card.value === '4'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardSpades4.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades4.src}/>
+                
             );
         }
         else if(card.suit === 'Spades' && card.value === '5'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardSpades5.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades5.src}/>
+                
             );
         }
         else if(card.suit === 'Spades' && card.value === '6'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardSpades6.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades6.src}/>
+                
             );
         }
         else if(card.suit === 'Spades' && card.value === '7'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardSpades7.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades7.src}/>
+                
             );
         }
         else if(card.suit === 'Spades' && card.value === '8'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardSpades8.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades8.src}/>
+                
             );
         }
         else if(card.suit === 'Spades' && card.value === '9'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardSpades9.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades9.src}/>
+                
             );
         }
         else if(card.suit === 'Spades' && card.value === '10'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardSpades10.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades10.src}/>
+                
             );
         }
         else if(card.suit === 'Spades' && card.value === 'J'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardSpadesJ.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesJ.src}/>
+                
             );
         }
         else if(card.suit === 'Spades' && card.value === 'Q'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardSpadesQ.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesQ.src}/>
+                
             );
         }
         else if(card.suit === 'Spades' && card.value === 'K'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardSpadesK.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesK.src}/>
+                
             );
         }
         else if(card.suit === 'Spades' && card.value === 'A'){
             
             return (
-                <div className='col py-md-3' onClick={() => this.toggleZoom(index)}>
-                    <img style={zoomStyle} className='img-fluid'  src={cardSpadesA.src}/>
-                </div>
+                
+                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesA.src}/>
+                
             );
         }
     }
@@ -754,9 +776,9 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
 
                 <div className='row d-flex justify-content-center text-center'>
                     <div className='col'>
-                        <h2 ref={this.targetRef} className="d-inline-flex justify-content-center align-items-center">
-                            Drawn Card
-                        </h2>
+                    <div className="col-12 d-inline-flex justify-content-center" >
+                        <p ref={this.targetRef}>Target</p>
+                    </div>
                     </div>
                 </div>
 
@@ -767,27 +789,20 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
                     </div>
                     <div className='row justify-content-center mt-md-2'>
                         <div className='col-md-auto d-flex justify-content-center'>
-                            <button className='btn px-md-4 btn-success' style={{borderRadius:'15px'}}>Play</button>
+                            <button className='btn px-md-4 btn-success' style={{borderRadius:'15px'}} onClick={() => this.triggerAnimation(0)}>Play</button>
                         </div>
                         <div className='col-md-auto d-flex justify-content-center'>
                             <button className='btn px-md-4 text-white btn-warning' style={{borderRadius:'15px'}}>Pass</button>
                         </div>
                     </div>
+                    <ImageTransition refTarget={this.targetRef} img="" setToggle={this.setToggleAnimation} toggle={this.state.toggleAnimation} isTarget={false} isButton={true}/>
 
 
                 </div>
 
-                <div className='container'>
-                    <div className='row'>
-                        <div className='col-3'>
-                            <img ref={this.cardRef} className={`img-fluid ${this.state.animateCard ? 'animatedCard' : ''}`} 
-                            src={cardBackEnemyImg.src} 
-                            onClick={this.triggerAnimation}
-                            style={this.state.animationStyle} />
-                        </div>
+                
 
-                    </div>
-                </div>
+       
 
             </div>
         );
