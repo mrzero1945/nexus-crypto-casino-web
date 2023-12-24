@@ -802,12 +802,12 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             <div className='container text-center text-white'>
                 <h1 className='my-md-5'>BlackJack Demo</h1>
                 <div className='row d-flex justify-content-center mt-md-4'>
-                        <div className="col-md-8 d-flex align-items-center justify-content-center position-relative" style={{ height: '100vh' }}>
+                        <div className="col-md-8 col-12 d-flex align-items-center justify-content-center position-relative" style={{ height: '100vh' }}>
                             <img className="img-fluid position-absolute w-100 h-100" src={backgroundImg.src} alt="Deskripsi Gambar"/>
                             
                             <div className="position-absolute text-center top-0">
                                 <div className='row d-flex flex-wrap justify-content-center' style={{ maxWidth: '500px', maxHeight: '300px', overflow: 'auto' }}>
-                                    <div className='col-md-12 mt-md-5'>
+                                    <div className='col-md-12 col-12 mt-md-5'>
                                         <h2>Enemy Hand</h2>
                                     </div>
                                     {enemyHand.map((card, index:number) => {
@@ -824,7 +824,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
 
                             <div className='position-absolute text-center bottom-20 mt-md-5'>
                                 <div className='row d-flex flex-wrap justify-content-center' style={{ maxWidth: '500px', maxHeight: '300px', overflow: 'auto' }}>
-                                     <div className='col-md-12'>
+                                     <div className='col-md-12 col-12'>
                                         <h2>Player Hand</h2>
                                     </div>
                                     <div className='row d-flex justify-content-center w-100 h-100'>
@@ -833,15 +833,17 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
                                     
                                 </div>
                                 
-                                <button className='btn mx-md-3 my-md-3 px-md-4 btn-success' onClick={this.handleHit} disabled={!!winner}>Hit</button>
-                                <button className='btn mx-md-3 my-md-3 btn-danger' onClick={this.handleStand} disabled={!!winner}>Stand</button>
+                                <button className='btn mx-md-3 mx-2 my-2 px-4 my-md-3 px-md-4 btn-success' onClick={this.handleHit} disabled={!!winner}>Hit</button>
+                                <button className='btn mx-md-3 mx-2 my-md-3 px-3 btn-danger' onClick={this.handleStand} disabled={!!winner}>Stand</button>
+                                <div className='position-relative text-center'>
+                                {winner && <div>
+                                    <h3>{winner}</h3>
+                                    <button className='btn btn-primary' onClick={this.startNewGame}>New Game</button>
+                                </div>} 
                             </div>
-                            <div className='position-absolute text-center start-0 bottom-20 ms-5'>
-                                    {winner && <div>
-                                        <h3>{winner}</h3>
-                                        <button className='btn btn-primary' onClick={this.startNewGame}>New Game</button>
-                                    </div>} 
                             </div>
+                           
+
                         </div>
                     </div>
                 

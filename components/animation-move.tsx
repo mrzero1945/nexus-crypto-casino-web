@@ -2,16 +2,20 @@ import React, { useRef, useState, useEffect, RefObject } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { gsap } from 'gsap';
 
+class ConstCard {
+    valueOrder = ['3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A', '2'];
+    suitOrder = ['Spades', 'Clubs', 'Diamonds', 'Hearts'];
+}
+
 interface MainProps{
   img:string;
-  isTarget:boolean;
-  isButton:boolean;
+  isButton?:boolean;
   toggle:boolean;
   setToggle: (value: boolean) => void;
   refTarget: RefObject<HTMLDivElement>;
 }
 
-const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isTarget= false, isButton = false, toggle, setToggle, refTarget}) => {
+const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton = false, toggle, setToggle, refTarget}) => {
   const refAmmo = useRef<HTMLDivElement>(null);
   const [offsetX, setOffsetX] = useState(0);
   const [offsetY, setOffsetY] = useState(0);
@@ -80,7 +84,7 @@ const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isTarget= 
   }
 
   return (
-      <div ref={choosenCard ? refAmmo : null} className="col py-md-3 d-inline-flex justify-content-center">
+      <div ref={choosenCard ? refAmmo : null} className="col-2 py-3 mt-md-0 col-md py-md-3 d-inline-flex justify-content-center">
         <animated.img className="img-fluid" onClick={() => setChoosenCard(!choosenCard)}  src={img} style={combinedStyle} /> {/* Menggunakan prop 'text' */}
       </div>
   );

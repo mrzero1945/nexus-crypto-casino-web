@@ -14,8 +14,8 @@ class NexusContact extends Component{
                     }
                 `}</style>
                 <div className="row justify-content-center align-items-center">
-                    <div className="col-md-4 me-5 d-flex flex-column align-items-center justify-content-center px-md-3 py-md-3" style={{ height: "100%" }}>
-                        <button className="btn text-white my-md-2  d-flex align-items-center justify-content-start" style={{ background: "#59BE43", borderRadius: "15px", width: '100%' }}>
+                    <div className="col-md-4 col-9 py-3 py-md-0 me-md-5 d-flex flex-column align-items-center justify-content-center px-md-3 py-md-3" style={{ height: "100%" }}>
+                        <button className="btn text-white my-md-2 my-3  d-flex align-items-center justify-content-start" style={{ background: "#59BE43", borderRadius: "15px", width: '100%' }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                                 <path d="M20 18H18V9.25L12 13L6 9.25V18H4V6H5.2L12 10.25L18.8 6H20M20 4H4C2.89 4 2 4.89 2 6V18C2 18.5304 2.21071 19.0391 2.58579 19.4142C2.96086 19.7893 3.46957 20 4 20H20C20.5304 20 21.0391 19.7893 21.4142 19.4142C21.7893 19.0391 22 18.5304 22 18V6C22 5.46957 21.7893 4.96086 21.4142 4.58579C21.0391 4.21071 20.5304 4 20 4Z" fill="black"/>
                                 </svg>
@@ -28,13 +28,13 @@ class NexusContact extends Component{
                             t.me/Gregory2005_n
                         </button>
                     </div>
-                    <div className="col-md-11 mt-md-4 px-md-4 py-md-4">
+                    <div className="col-md-11 col-10 mt-3 mt-md-4 px-md-4 py-md-4">
                         <p>Get in touch with Nexus, your premier destination for crypto casino innovation. Our support team is on standby to assist with any inquiries or feedback regarding your online casino experience. Need help with a transaction, curious about our game selection, or have questions about securing your crypto assets? Send us an email or message us on Telegram, and discover why Nexus is the top choice for crypto casino enthusiasts.</p>
                     </div>
 
                     
 
-                    <div className="col-md-11 mt-md-3 px-md-4 py-md-4">
+                    <div className="col-md-11 col-10 mt-md-3 mt-3 px-md-4 py-md-4">
                         <p>Step into the future of gaming with Nexus, where the revolution of the gambling world unfolds at your fingertips. We're transcending the boundaries of the traditional casino experience, leveraging the power of cryptocurrency to offer you unparalleled privacy, lightning-fast transactions, and a global platform where fortune favors the bold. Join the vanguard of players who are reshaping the gambling landscape, as we unlock the full potential of blockchain technology to guarantee a fair, transparent, and truly thrilling gaming journey. Don't just gamble, be part of the revolution with Nexus – where every play is a step towards the future.</p>
                     </div>
                 </div>

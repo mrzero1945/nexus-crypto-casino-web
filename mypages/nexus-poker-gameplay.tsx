@@ -303,29 +303,19 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
     };
 
     renderCard(card: Card, index:number) {
-        const isSelected = this.state.choosenCard[index];
-        const zoomStyle:any = {
-            transform: 'scale(1.5)',
-            transition: 'transform 0.3s ease-in-out',
-            boxShadow: '0px 0px 10px 3px rgba(0, 0, 0, 0.5)',
-            position: 'relative',
-            zIndex: 2
-        };
-        const cardRef = this.cardRefs[index];
-        const targetCard: any = isSelected ? {cardRef} : {};
 
         
         if(card.suit === 'Clubs' && card.value === '2'){
             
             return (
-                <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs2.src} />
+                <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs2.src} />
             );
         }
         else if(card.suit === 'Clubs' && card.value === '3'){
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs3.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs3.src}/>
                 
             );
         }
@@ -333,7 +323,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs4.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs4.src}/>
                 
             );
         }
@@ -341,7 +331,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs5.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs5.src}/>
                 
             );
         }
@@ -349,14 +339,14 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs6.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs6.src}/>
                 
             );
         }
         else if(card.suit === 'Clubs' && card.value === '7'){
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs7.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs7.src}/>
                 
             );
         }
@@ -364,7 +354,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs8.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs8.src}/>
                 
             );
         }
@@ -372,7 +362,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs9.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs9.src}/>
                 
             );
         }
@@ -380,7 +370,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs10.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs10.src}/>
                 
             );
         }
@@ -388,7 +378,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsJ.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsJ.src}/>
                 
             );
         }
@@ -396,7 +386,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsQ.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsQ.src}/>
                 
             );
         }
@@ -404,7 +394,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsK.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsK.src}/>
                 
             );
         }
@@ -412,7 +402,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsA.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsA.src}/>
                 
             );
         }
@@ -420,7 +410,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds2.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds2.src}/>
                 
             );
         }
@@ -428,7 +418,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds3.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds3.src}/>
                 
             );
         }
@@ -436,7 +426,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds4.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds4.src}/>
                 
             );
         }
@@ -444,7 +434,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds5.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds5.src}/>
                 
             );
         }
@@ -452,7 +442,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds6.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds6.src}/>
                 
             );
         }
@@ -460,7 +450,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds7.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds7.src}/>
                 
             );
         }
@@ -468,7 +458,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds8.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds8.src}/>
                 
             );
         }
@@ -476,7 +466,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds9.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds9.src}/>
                 
             );
         }
@@ -484,7 +474,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds10.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds10.src}/>
                 
             );
         }
@@ -492,7 +482,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsJ.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsJ.src}/>
                 
             );
         }
@@ -500,7 +490,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsQ.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsQ.src}/>
                 
             );
         }
@@ -508,7 +498,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsK.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsK.src}/>
                 
             );
         }
@@ -516,7 +506,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsA.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsA.src}/>
                 
             );
         }
@@ -525,7 +515,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts2.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts2.src}/>
                 
             );
         }
@@ -533,7 +523,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts3.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts3.src}/>
                 
             );
         }
@@ -541,7 +531,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts4.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts4.src}/>
                 
             );
         }
@@ -549,7 +539,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts5.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts5.src}/>
                 
             );
         }
@@ -557,7 +547,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts6.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts6.src}/>
                 
             );
         }
@@ -565,7 +555,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts7.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts7.src}/>
                 
             );
         }
@@ -573,7 +563,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts8.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts8.src}/>
                 
             );
         }
@@ -581,7 +571,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts9.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts9.src}/>
                 
             );
         }
@@ -589,7 +579,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts10.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts10.src}/>
                 
             );
         }
@@ -597,7 +587,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsJ.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsJ.src}/>
                 
             );
         }
@@ -605,7 +595,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsQ.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsQ.src}/>
                 
             );
         }
@@ -613,7 +603,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsK.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsK.src}/>
                 
             );
         }
@@ -621,7 +611,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsA.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsA.src}/>
                 
             );
         }
@@ -629,7 +619,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades2.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades2.src}/>
                 
             );
         }
@@ -637,7 +627,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades3.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades3.src}/>
                 
             );
         }
@@ -645,7 +635,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades4.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades4.src}/>
                 
             );
         }
@@ -653,7 +643,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades5.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades5.src}/>
                 
             );
         }
@@ -661,7 +651,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades6.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades6.src}/>
                 
             );
         }
@@ -669,7 +659,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades7.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades7.src}/>
                 
             );
         }
@@ -677,7 +667,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades8.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades8.src}/>
                 
             );
         }
@@ -685,7 +675,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades9.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades9.src}/>
                 
             );
         }
@@ -693,7 +683,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades10.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades10.src}/>
                 
             );
         }
@@ -701,7 +691,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesJ.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesJ.src}/>
                 
             );
         }
@@ -709,7 +699,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesQ.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesQ.src}/>
                 
             );
         }
@@ -717,7 +707,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesK.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesK.src}/>
                 
             );
         }
@@ -725,7 +715,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition refTarget={this.targetRef} isTarget={false} isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesA.src}/>
+                    <ImageTransition refTarget={this.targetRef}  isButton={false} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesA.src}/>
                 
             );
         }
@@ -757,14 +747,14 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
 </div>
 
 <div className='row'>
-    <div className='col-md-6'>
+    <div className='col-md-6 col-6'>
         <h2 className='text-start'>Enemy2</h2>
         <div className='text-start'>
             <img width={50} src={cardBackEnemyImg.src} />
         </div>
     </div>
 
-    <div className='col-md-6'>
+    <div className='col-md-6 col-6'>
         <h2 className='text-end'>Enemy3</h2>
         <div className='text-end'>
             <img width={50} src={cardBackEnemyImg.src} />
@@ -787,15 +777,15 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
                     <div className='row d-flex justify-content-center'>
                         {playerHand.map((card, index) => this.renderCard(card, index))}
                     </div>
-                    <div className='row justify-content-center mt-md-2'>
-                        <div className='col-md-auto d-flex justify-content-center'>
-                            <button className='btn px-md-4 btn-success' style={{borderRadius:'15px'}} onClick={() => this.triggerAnimation(0)}>Play</button>
+                    <div className='row justify-content-center mt-md-2 '>
+                        <div className='col-md-auto col d-flex justify-content-center'>
+                            <button className='btn px-md-4 px-5 btn-success' style={{borderRadius:'15px'}} onClick={() => this.triggerAnimation(0)}>Play</button>
                         </div>
-                        <div className='col-md-auto d-flex justify-content-center'>
-                            <button className='btn px-md-4 text-white btn-warning' style={{borderRadius:'15px'}}>Pass</button>
+                        <div className='col-md-auto col d-flex justify-content-center'>
+                            <button className='btn px-md-4 px-5 text-white btn-warning' style={{borderRadius:'15px'}}>Pass</button>
                         </div>
                     </div>
-                    <ImageTransition refTarget={this.targetRef} img="" setToggle={this.setToggleAnimation} toggle={this.state.toggleAnimation} isTarget={false} isButton={true}/>
+                    <ImageTransition refTarget={this.targetRef} img="" setToggle={this.setToggleAnimation} toggle={this.state.toggleAnimation}  isButton={true}/>
 
 
                 </div>
