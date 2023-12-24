@@ -33,15 +33,15 @@ class NexusChatBot extends Component<{}, NexusChatBotState> {
 
   render() {
     return (
-      <div className="mt-md-3  container text-white">
+      <div className="mt-md-3 mt-2  container text-white">
         <h3 className="text-center">Nexus ChatBot</h3>
         <div className="row d-flex justify-content-center ">
           <div className="col-md-12">
-          <ul className="list-group mx-auto" style={{ maxWidth: "400px", height: "400px", overflowY: "scroll", backgroundColor: "#191F2D" }}>
+          <ul className="col-10 col-md-auto list-group mx-auto" style={{ maxWidth: "400px", height: "400px", overflowY: "scroll", backgroundColor: "#191F2D" }}>
             {this.state.combinedArray.map((message, index) => (
                 <div className={`${index % 2 ? "d-flex justify-content-end" : "d-flex justify-content-start"} row`}>
                 <div className={`col-auto`}>
-                    <li key={index} className={`px-md-3 mx-md-3 my-md-2 list-group-item`} style={{ maxWidth: "wrap-content", maxHeight: "wrap-content", borderRadius: "15px" }}>
+                    <li key={index} className={`px-md-3 my-3 mx-3 mx-md-3 my-md-3 list-group-item`} style={{ maxWidth: "wrap-content", maxHeight: "wrap-content", borderRadius: "15px" }}>
                     {message}
                     </li>
                 </div>
@@ -50,7 +50,7 @@ class NexusChatBot extends Component<{}, NexusChatBotState> {
 </ul>
 
           </div>
-          <div className="col-md-4 mt-md-2">
+          <div className="col-md-4 col-10 mt-2 mt-md-2">
             <form onSubmit={this.handleSubmit}>
               <div className="mb-md-2 form-group">
                 <input
@@ -61,7 +61,7 @@ class NexusChatBot extends Component<{}, NexusChatBotState> {
                   onChange={this.handleChange}
                 />
               </div>
-              <button type="submit" className="px-md-5 btn btn-primary">
+              <button type="submit" className="px-md-5 mt-md-0 mt-2 btn btn-primary">
                 Kirim
               </button>
             </form>
