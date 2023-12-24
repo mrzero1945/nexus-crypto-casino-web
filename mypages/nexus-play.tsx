@@ -15,7 +15,7 @@ class NexusPlay extends Component {
                 <button className="btn text-white my-3 my-md-0"  style={{background: "#191F2D"}}>Game list</button>
                 <div className="row mt-md-3">
                     
-                    <div className="col-md-3">
+                    <div className="col-md-3 col-6">
                         <img className="img-fluid" src={blackJackImg.src} style={{background: "#5D29F8"}} />
                         <p className="text-center" style={{background: "#191F2D"}}>BlackJack</p>
                         <div className="d-flex flex-column align-items-center mb-3 mb-md-0">
@@ -26,7 +26,7 @@ class NexusPlay extends Component {
                     </div>
                     
 
-                    <div className="col-md-3">
+                    <div className="col-md-3 col-6">
                         <img className="img-fluid " src={pokerImg.src} style={{background: "#5D29F8"}} />
                         <p className="text-center" style={{background: "#191F2D"}}>Poker</p>
                         <div className="d-flex flex-column align-items-center mb-3 mb-md-0">
@@ -36,7 +36,7 @@ class NexusPlay extends Component {
                         </div>
                     </div>
 
-                    <div className="col-md-3">
+                    <div className="col-md-3 col-6">
                         <img className="img-fluid " src={slotImg.src} style={{background: "#5D29F8"}} />
                         <p className="text-center" style={{background: "#191F2D"}}>Slot Machine</p>
                         <div className="d-flex flex-column align-items-center mb-3 mb-md-0">
@@ -45,7 +45,7 @@ class NexusPlay extends Component {
                             </Link> 
                         </div>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-3 col-6">
                         <img className="img-fluid" src={lotteryImg.src} style={{background: "#5D29F8"}} />
                         <p className="text-center" style={{background: "#191F2D"}}>Lottery</p>
                         <div className="d-flex flex-column align-items-center mb-3 mb-md-0">
