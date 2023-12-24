@@ -34,7 +34,7 @@ class NexusChatBot extends Component<{}, NexusChatBotState> {
   render() {
     return (
       <div className="mt-md-3 mt-2  container text-white">
-        <h3 className="text-center">Nexus ChatBot</h3>
+        <h3 className="text-center">Nexus ChatBot Beta</h3>
         <div className="row d-flex justify-content-center ">
           <div className="col-md-12">
           <ul className="col-10 col-md-auto list-group mx-auto" style={{ maxWidth: "400px", height: "400px", overflowY: "scroll", backgroundColor: "#191F2D" }}>
