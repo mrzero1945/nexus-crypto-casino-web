@@ -53,7 +53,7 @@ const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton =
           if(choosenCard && !toggle){
             if (card && setSelectedCard && selectedCard && choosenCard) {
               console.log("control flow 1, dijalankan")
-              const myCard: Card[] = [card];
+              const myCard: Card[] = [...selectedCard,card];
               //setSelectedCard(myCard);
               
           
@@ -61,7 +61,7 @@ const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton =
                 const valueOrder = ['3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A', '2'];
                 const suitOrder = ['Spades', 'Clubs', 'Diamonds', 'Hearts'];
           
-                  selectedCard.sort((a, b) => {
+                  myCard.sort((a, b) => {
                   let valueComparison = valueOrder.indexOf(a.value) - valueOrder.indexOf(b.value);
           
                   if (valueComparison !== 0) {

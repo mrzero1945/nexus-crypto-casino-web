@@ -261,6 +261,15 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
         this.dealInitialCards();
     }
 
+    //proto
+    componentDidUpdate(){
+        let index = 0;
+        for(const card of this.state.selectedCards){
+            index++;
+            console.log("obj", index, card.suit, card.value);
+        }
+    }
+
     // proto
     setToggleAnimation = (value: boolean) => {
         this.setState({ toggleAnimation: value });
@@ -269,7 +278,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
     setSelectedCard = (cards: Card[], isRemove?: boolean) => {
         if (!isRemove) {
             this.setState({
-              selectedCards: [...this.state.selectedCards, ...cards]
+              selectedCards: [...cards]
             }, () => {
               console.log("Added cards:", cards);
             });
