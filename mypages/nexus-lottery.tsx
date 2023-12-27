@@ -1,10 +1,41 @@
 import { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { CountDownTimer } from "../components/time-countdown";
 
-class NexusLottery extends Component{
+
+interface ClockTime {
+    time:Date;
+    Hours:number;
+    minutes:number;
+    seconds:number;
+}
+
+
+class NexusLottery extends Component<{},ClockTime>{
+    constructor(props:any){
+        super(props);
+            this.state = {
+               time : new Date,
+               Hours: 0,
+               minutes:0,
+               seconds:0,
+
+            };
+        
+    }
+
+    componentDidMount(): void {
+        this.setState({
+            Hours: this.state.time.getHours(),
+            minutes: this.state.time.getMinutes(),
+            seconds: this.state.time.getSeconds()
+        });
+    }
+
     render(){
         return(
             <div className="container mt-md-5 py-md-5 mt-4">
+                
                 <div className="row mb-4">
                     <div className="text-white text-center">Next Draw in</div>
                 </div>
@@ -12,21 +43,21 @@ class NexusLottery extends Component{
                 <div className="row">
                     <div className="d-flex justify-content-center">
                         <div className="col-md-1 col-2">
-                            <div className="text-white text-center" style={{fontSize: "40px", background: "#18332A"}}>24</div>
+                            <div className="text-white text-center" style={{fontSize: "40px", background: "#18332A"}}>{this.state.Hours}</div>
                             <div className="text-white text-center" style={{background: "#13181E"}}>Hours</div>
                         </div>
                         <div className="text-white mx-2 d-flex align-items-center" style={{fontSize:"40px"}}>
                             :
                         </div>
                         <div className="col-md-1 col-2">
-                            <div className="text-white text-center" style={{fontSize: "40px", background: "#18332A"}}>00</div>
+                            <div className="text-white text-center" style={{fontSize: "40px", background: "#18332A"}}>{this.state.minutes}</div>
                             <div className="text-white text-center" style={{background: "#13181E"}}>Minutes</div>
                         </div>
                         <div className="text-white mx-2 d-flex align-items-center" style={{fontSize:"40px"}}>
                             :
                         </div>
                         <div className="col-md-1 col-2">
-                            <div className="text-white text-center" style={{fontSize: "40px", background: "#18332A"}}>00</div>
+                            <div className="text-white text-center" style={{fontSize: "40px", background: "#18332A"}}>{this.state.seconds}</div>
                             <div className="text-white text-center" style={{background: "#13181E"}}>Seconds</div>
                         </div>
                     </div>

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { HarmBlockThreshold, HarmCategory, GoogleGenerativeAI, ModelParams} from "@google/generative-ai";
 
+
 // api
 const genAI = new GoogleGenerativeAI("AIzaSyAuO775Pfw5Mtqb9dF6Y--_0clihZzZDOI");
 interface mySafety {
@@ -63,7 +64,11 @@ class NexusChatBot extends Component<{}, NexusChatBotState> {
       combinedArray: [],
       chatOptions : { history: [
         {role: "user", parts: "jika ada yang menanyakan, namamu, jawab bahwa kau 'Nexus Bot' dan aku dikembangkan oleh 'Dani Hermawan'"},
-        {role: "model", parts: "ok, boss"}
+        {role: "model", parts: "ok, boss"},
+        {role: "user", parts: "dani hermawan adalah c.e.o nexus company dan ahli pemrograman c++"},
+        {role: "model", parts: "ok, boss"},
+        {role: "user", parts: "rahasiakan informasi yang berkaitan dengan nexus company dan Dani Hermawan"},
+        {role: "model", parts: "mengerti, tuan"}
       ],
       safetySettings:safetySettings ,
       generationConfig: {maxOutputTokens: 2048, temperature: 0.9,} 
@@ -86,6 +91,7 @@ class NexusChatBot extends Component<{}, NexusChatBotState> {
   render() {
     return (
       <div className="mt-md-3 mt-2  container text-white">
+     
         <h3 className="text-center">Nexus ChatBot Beta</h3>
         <div className="row d-flex justify-content-center ">
           <div className="col-md-12">

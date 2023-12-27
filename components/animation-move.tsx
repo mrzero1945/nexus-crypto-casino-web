@@ -2,10 +2,18 @@ import React, { useRef, useState, useEffect, RefObject } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { gsap } from 'gsap';
 
-class ConstCard {
-    valueOrder = ['3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A', '2'];
-    suitOrder = ['Spades', 'Clubs', 'Diamonds', 'Hearts'];
+
+class Card {
+  suit: string;
+  value: string;
+
+  constructor(suit: string, value: string) {
+      this.suit = suit;
+      this.value = value;
+  }
 }
+
+
 
 interface MainProps{
   img:string;
@@ -13,9 +21,12 @@ interface MainProps{
   toggle:boolean;
   setToggle: (value: boolean) => void;
   refTarget: RefObject<HTMLDivElement>;
+  card?: Card
+  selectedCard?:Card[]
+  setSelectedCard?: (value: Card[], another?:boolean) => void;
 }
 
-const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton = false, toggle, setToggle, refTarget}) => {
+const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton = false, toggle, setToggle, refTarget, card, selectedCard, setSelectedCard}) => {
   const refAmmo = useRef<HTMLDivElement>(null);
   const [offsetX, setOffsetX] = useState(0);
   const [offsetY, setOffsetY] = useState(0);
@@ -28,37 +39,91 @@ const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton =
             position: 'relative',
             zIndex: 2
         };
-  
 
         useEffect(() => {
-          console.log('useEffect dijalankan');
-        
-          if (refAmmo.current && refTarget.current) {
-            console.log('Kedua ref ada:', refAmmo.current, refTarget.current);
-        
-            const ammoRect = refAmmo.current.getBoundingClientRect();
-            const targetRect = refTarget.current.getBoundingClientRect();
-        
-            const newOffsetX = targetRect.left - ammoRect.left;
-            const newOffsetY = targetRect.top - ammoRect.top;
-        
-            console.log('Offset X:', newOffsetX, 'Offset Y:', newOffsetY);
-        
-            // Animasi menggunakan GSAP
-            gsap.to(refAmmo.current, {
-              x: newOffsetX,
-              y: newOffsetY,
-              duration: 1 // Durasi animasi dalam detik
-            });
-          } else {
-            if (!refAmmo.current) {
-              //console.log('refAmmo.current tidak ada');
-            }
-            if (!refTarget.current) {
-              console.log('refTarget.current tidak ada');
+          //if(selectedCard){
+            //for (const card of selectedCard) {
+              //console.log('selected card:', card.suit, card.value);
+              //setSelectedCard(myCard);
+            //}
+          //}
+          // Kode di sini akan dijalankan setelah state diperbarui
+          //console.log("nilai dari use efek", choosenCard);
+
+          if(choosenCard && !toggle){
+            if (card && setSelectedCard && selectedCard && choosenCard) {
+              console.log("control flow 1, dijalankan")
+              const myCard: Card[] = [card];
+              //setSelectedCard(myCard);
+              
+          
+              
+                const valueOrder = ['3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A', '2'];
+                const suitOrder = ['Spades', 'Clubs', 'Diamonds', 'Hearts'];
+          
+                  selectedCard.sort((a, b) => {
+                  let valueComparison = valueOrder.indexOf(a.value) - valueOrder.indexOf(b.value);
+          
+                  if (valueComparison !== 0) {
+                    return valueComparison;
+                  }
+          
+                  return suitOrder.indexOf(a.suit) - suitOrder.indexOf(b.suit);
+                });
+                setSelectedCard(myCard)
+              }  
+          }
+          else if(!choosenCard && !toggle) {
+            console.log("control flow 2 dijalankan")
+            if(card && selectedCard && setSelectedCard) {
+                        const myCard: Card[] = [];
+                        myCard.push(card);
+                    
+                        setSelectedCard(myCard, true);
             }
           }
-        }, [toggle]); // Dependensi pada 'toggle'
+          else if(toggle && choosenCard){
+            console.log("animasi dijalankan")
+            if (refAmmo.current && refTarget.current && toggle) {
+              console.log('Kedua ref ada:', refAmmo.current, refTarget.current);
+              const ammoRect = refAmmo.current.getBoundingClientRect();
+              const targetRect = refTarget.current.getBoundingClientRect();
+          
+              const newOffsetX = targetRect.left - ammoRect.left;
+              const newOffsetY = targetRect.top - ammoRect.top;
+          
+              console.log('Offset X:', newOffsetX, 'Offset Y:', newOffsetY);
+          
+              gsap.to(refAmmo.current, {
+                x: newOffsetX,
+                y: newOffsetY,
+                duration: 1
+              });
+            } else {
+              if (!refAmmo.current) {
+                // console.log('refAmmo.current tidak ada');
+              }
+              if (!refTarget.current) {
+                console.log('refTarget.current tidak ada');
+              }
+            }
+          }
+        }, [choosenCard, toggle]);
+
+       
+  
+
+        const handleCardChanges = async () => {
+          setChoosenCard(!choosenCard);// nilai awal adalah false dan di set ke true
+          // log memprint false walau sudah di set ke true
+          
+          
+             
+            
+          
+        
+          
+        };
         
 
 
@@ -85,7 +150,7 @@ const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton =
 
   return (
       <div ref={choosenCard ? refAmmo : null} className="col-2 py-3 mt-md-0 col-md py-md-3 d-inline-flex justify-content-center">
-        <animated.img className="img-fluid" onClick={() => setChoosenCard(!choosenCard)}  src={img} style={combinedStyle} /> {/* Menggunakan prop 'text' */}
+        <animated.img className="img-fluid" onClick={() => handleCardChanges()}  src={img} style={combinedStyle} /> {/* Menggunakan prop 'text' */}
       </div>
   );
 }
