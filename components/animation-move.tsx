@@ -84,12 +84,19 @@ const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton =
           }
           else if(toggle && choosenCard){
             console.log("animasi dijalankan")
-            if (refAmmo.current && refTarget.current && toggle) {
+            if (refAmmo.current && refTarget.current && toggle && selectedCard) {
+              let index = 0;
+              for(const myCard of selectedCard){
+                index++
+                if(myCard === card){
+                  break;
+                }
+              }
               console.log('Kedua ref ada:', refAmmo.current, refTarget.current);
               const ammoRect = refAmmo.current.getBoundingClientRect();
               const targetRect = refTarget.current.getBoundingClientRect();
           
-              const newOffsetX = targetRect.left - ammoRect.left;
+              const newOffsetX = targetRect.left - ammoRect.left + (index * 100);
               const newOffsetY = targetRect.top - ammoRect.top;
           
               console.log('Offset X:', newOffsetX, 'Offset Y:', newOffsetY);
