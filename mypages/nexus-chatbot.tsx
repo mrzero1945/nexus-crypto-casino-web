@@ -54,6 +54,9 @@ interface NexusChatBotState {
   newMessage: string;
   combinedArray: string[];
   chatOptions: ChatOptions;
+  voices: SpeechSynthesisVoice[];
+  selectedVoiceIndex: number;
+  text: string;
 }
 
 class NexusChatBot extends Component<{}, NexusChatBotState> {
@@ -72,12 +75,68 @@ class NexusChatBot extends Component<{}, NexusChatBotState> {
       ],
       safetySettings:safetySettings ,
       generationConfig: {maxOutputTokens: 2048, temperature: 0.9,} 
-    }
+    },
+    voices: [],
+    selectedVoiceIndex: 0,
+    text: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  
+  handleVoicesChanged = () => {
+    const availableVoices = window.speechSynthesis.getVoices();
+    this.setState({ voices: availableVoices, selectedVoiceIndex: 0 });
+  };
+
+  componentDidMount() {
+    window.speechSynthesis.onvoiceschanged = this.handleVoicesChanged;
+  }
+
+  componentWillUnmount() {
+    window.speechSynthesis.onvoiceschanged = null;
+  }
+
+  handleVoiceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    this.setState({ selectedVoiceIndex: Number(event.target.value) });
+  };
+
+  handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    this.setState({ text: event.target.value });
+  };
+
+  speak = () => {
+    const { voices, selectedVoiceIndex, text } = this.state;
+    console.log("speak dipanggil", text);
+
+    // Periksa apakah Web Speech API TTS tersedia
+    if (!window.speechSynthesis) {
+        console.error("Text-to-Speech tidak tersedia di browser ini.");
+        return;
+    }
+
+    // Membuat instance SpeechSynthesisUtterance
+    let speech = new SpeechSynthesisUtterance(text);
+
+    // Memeriksa apakah index suara terpilih valid
+    if (selectedVoiceIndex < voices.length) {
+        speech.voice = voices[selectedVoiceIndex];
+    } else {
+        console.error("Selected voice index is out of range.");
+        return;
+    }
+
+    // Menangani event error
+    speech.onerror = (event) => {
+        console.error("Error dalam proses speech synthesis:", event.error);
+    };
+
+    // Memulai proses speech synthesis
+    window.speechSynthesis.speak(speech);
+};
+
 
   async chatBot(prompt: string){
     
@@ -89,10 +148,19 @@ class NexusChatBot extends Component<{}, NexusChatBotState> {
   }
 
   render() {
+    const { selectedVoiceIndex, voices } = this.state;
+
     return (
       <div className="mt-md-3 mt-2  container text-white">
      
         <h3 className="text-center">Nexus ChatBot Beta</h3>
+        <select value={selectedVoiceIndex} onChange={this.handleVoiceChange}>
+          {voices.map((voice, index) => (
+            <option key={voice.name} value={index}>
+              {voice.name}
+            </option>
+          ))}
+        </select>
         <div className="row d-flex justify-content-center ">
           <div className="col-md-12">
           <ul className="col-10 col-md-auto list-group mx-auto" style={{ width: "500px", height: "400px", overflowY: "scroll", backgroundColor: "#191F2D" }}>
@@ -147,6 +215,7 @@ class NexusChatBot extends Component<{}, NexusChatBotState> {
           ]
         ;
         this.setState({
+          text: botResponse,
           newMessage: "",
           combinedArray: [...this.state.combinedArray, this.state.newMessage.replace(/^\s+/, ""), botResponse],
            // Update chatOptions with the merged history
@@ -154,7 +223,10 @@ class NexusChatBot extends Component<{}, NexusChatBotState> {
             ...this.state.chatOptions,
             history: [...this.state.chatOptions.history, ...newHistory],
           }
-        });
+        }, () => {
+          // Kode di sini akan dijalankan setelah state diperbarui
+          this.speak();
+      });
       }
       
     

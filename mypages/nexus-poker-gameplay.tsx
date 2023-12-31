@@ -224,6 +224,8 @@ interface ThirteenPokerComponentState {
     animateCard: boolean;
     animationStyles: { transform?: string; transition?: string }[];
     toggleAnimation: boolean;
+    thrownCards : Card[];
+    isDisabledPlayBtn: boolean;
 }
 
 class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPokerComponentState>{
@@ -242,7 +244,9 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             animationStyles: [],
             toggleAnimation: false,
             //proto
-            selectedCards: []
+            selectedCards: [],
+            thrownCards: [],
+            isDisabledPlayBtn: true
         };
         this.targetRef = React.createRef<HTMLDivElement>();
         // Inisialisasi cardRefs sebagai instance variable
@@ -261,19 +265,73 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
         this.dealInitialCards();
     }
 
+
+
+
+
     //proto
     componentDidUpdate(){
+        console.log("isdbslbtn", this.state.isDisabledPlayBtn)
         let index = 0;
-        for(const card of this.state.selectedCards){
+        const selectedCard = this.state.selectedCards; 
+        for(const card of selectedCard){
             index++;
             console.log("obj", index, card.suit, card.value);
         }
+        const ThrowTheCard = this.state.thrownCards
+        
+        
+        
     }
+
+    // proto
+    setIsDisableBtn = (value: boolean) => {
+        this.setState({
+            isDisabledPlayBtn: value
+        });
+    }
+
+    //proto
+    setThrownCards = (value: Card[]) =>{
+        this.setState({
+            thrownCards : value
+        }, () => {
+            console.log(this.state.thrownCards.length)
+        });
+    }
+
 
     // proto
     setToggleAnimation = (value: boolean) => {
         this.setState({ toggleAnimation: value });
     };
+
+    updateButtonPlay(){
+        // single
+        if(this.state.selectedCards.length === 1){
+            if(this.state.thrownCards.length === 1)      {
+                if(this.state.selectedCards[0].value > this.state.thrownCards[0].value ){
+                    this.setIsDisableBtn(false);
+                }
+            }       
+            this.setIsDisableBtn(false);
+          }
+          // pair
+        else if(this.state.selectedCards.length === 2){
+
+        }
+        // triple pair
+        else if(this.state.selectedCards.length === 3){
+
+        }
+        // four pair
+        else if(this.state.selectedCards.length === 4){
+            
+        }
+        else{
+            this.setIsDisableBtn(true);
+        }
+    }
     // proto
     setSelectedCard = (cards: Card[], isRemove?: boolean) => {
         if (!isRemove) {
@@ -281,6 +339,8 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
               selectedCards: [...cards]
             }, () => {
               console.log("Added cards:", cards);
+              this.updateButtonPlay();
+               
             });
        } else {
         const updatedSelectedCards = [...this.state.selectedCards];
@@ -301,6 +361,9 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
     
         this.setState({
           selectedCards: updatedSelectedCards
+        }, () => {
+            // update todo
+            this.updateButtonPlay();
         });
       }
       };
@@ -310,14 +373,14 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
         if(card.suit === 'Clubs' && card.value === '2'){
             
             return (
-                <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs2.src} />
+                <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs2.src} />
             );
         }
         else if(card.suit === 'Clubs' && card.value === '3'){
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs3.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs3.src}/>
                 
             );
         }
@@ -325,7 +388,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs4.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs4.src}/>
                 
             );
         }
@@ -333,7 +396,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs5.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs5.src}/>
                 
             );
         }
@@ -341,14 +404,14 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs6.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs6.src}/>
                 
             );
         }
         else if(card.suit === 'Clubs' && card.value === '7'){
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs7.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs7.src}/>
                 
             );
         }
@@ -356,7 +419,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs8.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs8.src}/>
                 
             );
         }
@@ -364,7 +427,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs9.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs9.src}/>
                 
             );
         }
@@ -372,7 +435,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs10.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs10.src}/>
                 
             );
         }
@@ -380,7 +443,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsJ.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsJ.src}/>
                 
             );
         }
@@ -388,7 +451,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsQ.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsQ.src}/>
                 
             );
         }
@@ -396,7 +459,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsK.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsK.src}/>
                 
             );
         }
@@ -404,7 +467,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsA.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsA.src}/>
                 
             );
         }
@@ -412,7 +475,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds2.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds2.src}/>
                 
             );
         }
@@ -420,7 +483,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds3.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds3.src}/>
                 
             );
         }
@@ -428,7 +491,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds4.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds4.src}/>
                 
             );
         }
@@ -436,7 +499,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds5.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds5.src}/>
                 
             );
         }
@@ -444,7 +507,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds6.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds6.src}/>
                 
             );
         }
@@ -452,7 +515,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds7.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds7.src}/>
                 
             );
         }
@@ -460,7 +523,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds8.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds8.src}/>
                 
             );
         }
@@ -468,7 +531,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds9.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds9.src}/>
                 
             );
         }
@@ -476,7 +539,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds10.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds10.src}/>
                 
             );
         }
@@ -484,7 +547,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsJ.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsJ.src}/>
                 
             );
         }
@@ -492,7 +555,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsQ.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsQ.src}/>
                 
             );
         }
@@ -500,7 +563,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsK.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsK.src}/>
                 
             );
         }
@@ -508,7 +571,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsA.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsA.src}/>
                 
             );
         }
@@ -517,7 +580,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts2.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts2.src}/>
                 
             );
         }
@@ -525,7 +588,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts3.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts3.src}/>
                 
             );
         }
@@ -533,7 +596,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts4.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts4.src}/>
                 
             );
         }
@@ -541,7 +604,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts5.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts5.src}/>
                 
             );
         }
@@ -549,7 +612,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts6.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts6.src}/>
                 
             );
         }
@@ -557,7 +620,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts7.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts7.src}/>
                 
             );
         }
@@ -565,7 +628,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts8.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts8.src}/>
                 
             );
         }
@@ -573,7 +636,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts9.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts9.src}/>
                 
             );
         }
@@ -581,7 +644,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts10.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts10.src}/>
                 
             );
         }
@@ -589,7 +652,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsJ.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsJ.src}/>
                 
             );
         }
@@ -597,7 +660,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsQ.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsQ.src}/>
                 
             );
         }
@@ -605,7 +668,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsK.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsK.src}/>
                 
             );
         }
@@ -613,7 +676,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsA.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsA.src}/>
                 
             );
         }
@@ -621,7 +684,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades2.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades2.src}/>
                 
             );
         }
@@ -629,7 +692,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades3.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades3.src}/>
                 
             );
         }
@@ -637,7 +700,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades4.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades4.src}/>
                 
             );
         }
@@ -645,7 +708,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades5.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades5.src}/>
                 
             );
         }
@@ -653,7 +716,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades6.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades6.src}/>
                 
             );
         }
@@ -661,7 +724,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades7.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades7.src}/>
                 
             );
         }
@@ -669,7 +732,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades8.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades8.src}/>
                 
             );
         }
@@ -677,7 +740,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades9.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades9.src}/>
                 
             );
         }
@@ -685,7 +748,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades10.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades10.src}/>
                 
             );
         }
@@ -693,7 +756,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesJ.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesJ.src}/>
                 
             );
         }
@@ -701,7 +764,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesQ.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesQ.src}/>
                 
             );
         }
@@ -709,7 +772,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesK.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesK.src}/>
                 
             );
         }
@@ -717,7 +780,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             
             return (
                 
-                    <ImageTransition card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesA.src}/>
+                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesA.src}/>
                 
             );
         }
@@ -780,14 +843,12 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
                         {playerHand.map((card, index) => this.renderCard(card, index))}
                     </div>
                     <div className='row justify-content-center mt-md-2 '>
-                        <div className='col-md-auto col d-flex justify-content-center'>
-                            <button className='btn px-md-4 px-5 btn-success' style={{borderRadius:'15px'}}>Play</button>
-                        </div>
+                        <ImageTransition thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} isDisabledPlayBtn={this.state.isDisabledPlayBtn} refTarget={this.targetRef} img="" setToggle={this.setToggleAnimation} toggle={this.state.toggleAnimation}  isButton={true}/>
                         <div className='col-md-auto col d-flex justify-content-center'>
                             <button className='btn px-md-4 px-5 text-white btn-warning' style={{borderRadius:'15px'}}>Pass</button>
                         </div>
                     </div>
-                    <ImageTransition refTarget={this.targetRef} img="" setToggle={this.setToggleAnimation} toggle={this.state.toggleAnimation}  isButton={true}/>
+                    
 
 
                 </div>

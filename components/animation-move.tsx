@@ -24,13 +24,18 @@ interface MainProps{
   card?: Card
   selectedCard?:Card[]
   setSelectedCard?: (value: Card[], another?:boolean) => void;
+  isDisabledPlayBtn? : boolean;
+  setIsDisabledPlayBtn? : (value: boolean) => void;
+  setThrownCards?: (value:Card[]) => void;
+  thrownCards?: Card[];
 }
 
-const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton = false, toggle, setToggle, refTarget, card, selectedCard, setSelectedCard}) => {
+const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton = false, toggle, setToggle, refTarget, card, selectedCard, setSelectedCard, isDisabledPlayBtn, setThrownCards, thrownCards, setIsDisabledPlayBtn}) => {
   const refAmmo = useRef<HTMLDivElement>(null);
   const [offsetX, setOffsetX] = useState(0);
   const [offsetY, setOffsetY] = useState(0);
   const [choosenCard, setChoosenCard] = useState(false);
+   
 
         const zoomStyle:any = {
             transform: 'scale(1.5)',
@@ -41,19 +46,12 @@ const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton =
         };
 
         useEffect(() => {
-          //if(selectedCard){
-            //for (const card of selectedCard) {
-              //console.log('selected card:', card.suit, card.value);
-              //setSelectedCard(myCard);
-            //}
-          //}
-          // Kode di sini akan dijalankan setelah state diperbarui
-          //console.log("nilai dari use efek", choosenCard);
 
-          if(choosenCard && !toggle){
-            if (card && setSelectedCard && selectedCard && choosenCard) {
+            if(choosenCard && !toggle){
+            if (card && setSelectedCard && selectedCard && choosenCard && thrownCards) {
               console.log("control flow 1, dijalankan")
-              const myCard: Card[] = [...selectedCard,card];
+              let myCard: Card[] = [...selectedCard,card];
+              
               //setSelectedCard(myCard);
               
           
@@ -70,7 +68,24 @@ const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton =
           
                   return suitOrder.indexOf(a.suit) - suitOrder.indexOf(b.suit);
                 });
-                setSelectedCard(myCard)
+
+                // Control flow to check if myCards array does not contain any cards from thrownCards
+                let containsThrownCard = myCard.some(myCard => 
+                  thrownCards.some(thrownCard => 
+                    myCard.suit === thrownCard.suit && myCard.value === thrownCard.value
+                  )
+                );
+
+                if (!containsThrownCard) {
+                  console.log('myCards does not contain any cards from thrownCards');
+                  setSelectedCard(myCard);
+                } else {
+                  console.log('myCards contains at least one card from thrownCards');
+                  myCard = [];
+                  setSelectedCard(myCard);
+                }
+                
+                
               }  
           }
           else if(!choosenCard && !toggle) {
@@ -84,7 +99,10 @@ const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton =
           }
           else if(toggle && choosenCard){
             console.log("animasi dijalankan")
-            if (refAmmo.current && refTarget.current && toggle && selectedCard) {
+            if (refAmmo.current && refTarget.current && toggle && selectedCard && setThrownCards && setIsDisabledPlayBtn && setSelectedCard) {
+              setThrownCards(selectedCard);
+              setToggle(false);
+              
               let index = 0;
               for(const myCard of selectedCard){
                 if(myCard === card){
@@ -92,6 +110,7 @@ const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton =
                 }
                 index++;
               }
+
               console.log('Kedua ref ada:', refAmmo.current, refTarget.current);
               const ammoRect = refAmmo.current.getBoundingClientRect();
               const targetRect = refTarget.current.getBoundingClientRect();
@@ -106,6 +125,10 @@ const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton =
                 y: newOffsetY,
                 duration: 1
               });
+              setIsDisabledPlayBtn(true);
+              setChoosenCard(false);
+              const myCard:Card[] = [];
+              setSelectedCard(myCard);
             } else {
               if (!refAmmo.current) {
                 // console.log('refAmmo.current tidak ada');
@@ -121,12 +144,10 @@ const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton =
   
 
         const handleCardChanges = async () => {
+          console.log("handle card changes called")
           setChoosenCard(!choosenCard);// nilai awal adalah false dan di set ke true
+          
           // log memprint false walau sudah di set ke true
-          
-          
-             
-            
           
         
           
@@ -146,18 +167,19 @@ const ImageTransition: React.FC<MainProps> = ({ img = "Teks Animasi", isButton =
   const combinedStyle = choosenCard ? { ...animation, ...zoomStyle } : animation;
 
  
+ 
 
   if(isButton === true) {
     return(
-    <button className="col-12 btn btn-primary mt-3" onClick={() => setToggle(!toggle)}>
-        Trigger Animasi {toggle.toString()}
-      </button>
+      <div className='col-md-auto col d-flex justify-content-center'>
+        <button className='btn px-md-4 px-5 btn-success' disabled={isDisabledPlayBtn} style={{borderRadius:"15px"}}  onClick={() => setToggle(!toggle)}>Play</button>
+      </div>
     );
   }
 
   return (
-      <div ref={choosenCard ? refAmmo : null} className="col-2 py-3 mt-md-0 col-md py-md-3 d-inline-flex justify-content-center">
-        <animated.img className="img-fluid" onClick={() => handleCardChanges()}  src={img} style={combinedStyle} /> {/* Menggunakan prop 'text' */}
+      <div ref={choosenCard ? refAmmo : null} className="col-2 py-3 mt-md-5 col-md py-md-3 d-inline-flex justify-content-center">
+        <animated.img className="img-fluid"  onClick={() => handleCardChanges()}  src={img} style={combinedStyle} /> {/* Menggunakan prop 'text' */}
       </div>
   );
 }
