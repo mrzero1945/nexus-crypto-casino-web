@@ -176,36 +176,6 @@ class ThirteenPokerGame {
         }
     }
 
-    public playerTurn(cards: Card[]) {
-        if (this.isFirstStart) {
-            // single
-            if (cards.length === 1) {
-                if (cards[0].suit === 'Spades' && cards[0].value === '3') {
-                    this.currentCardDrawn = cards;
-                    return;
-                }
-            }
-            // pair
-            else if (cards.length === 2) {
-                if ((cards[0].suit === 'Spades' || cards[1].suit === 'Spades') && 
-                    (cards[0].value === '3' && cards[1].value === '3')) {
-                    this.currentCardDrawn = cards;
-                    return;
-                }
-            }
-            // triple
-            else if (cards.length === 3) {
-                if (cards[0].value === cards[1].value && cards[1].value === cards[2].value) {
-                    if (cards.some(card => card.suit === 'Spades' && card.value === '3')) {
-                        this.currentCardDrawn = cards;
-                        return;
-                    }
-                }
-            }
-        }
-    
-        // Logika tambahan jika tidak memenuhi kondisi di atas
-    }
     
 
     
@@ -226,6 +196,8 @@ interface ThirteenPokerComponentState {
     toggleAnimation: boolean;
     thrownCards : Card[];
     isDisabledPlayBtn: boolean;
+    isFirstStart: boolean;
+    isFirstPlayerTurn: boolean;
 }
 
 class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPokerComponentState>{
@@ -233,6 +205,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
         super(props);
         this.state = {
             game: new ThirteenPokerGame(),
+            isFirstStart: false,
             playerHand: [],
             enemy1Hand: [],
             enemy2Hand: [],
@@ -246,7 +219,8 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             //proto
             selectedCards: [],
             thrownCards: [],
-            isDisabledPlayBtn: true
+            isDisabledPlayBtn: true,
+            isFirstPlayerTurn: false
         };
         this.targetRef = React.createRef<HTMLDivElement>();
         // Inisialisasi cardRefs sebagai instance variable
@@ -307,31 +281,78 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
     };
 
     updateButtonPlay(){
+        const enumNilai:any = {
+            '3': 1, '4': 2, '5': 3, '6': 4, '7': 5, 
+            '8': 6, '9': 7, '10': 8, 'J': 9, 'Q': 10, 
+            'K': 11, 'A': 12, '2': 13
+        };
+    
+        console.log("Memulai updateButtonPlay:", this.state);
+    
+        if(this.state.thrownCards.length === 0){
+            console.log("Tidak ada kartu yang dibuang atau dipilih");
+            for(const card of this.state.playerHand){
+                console.log("Memeriksa kartu di tangan pemain:", enumNilai[card.value]);
+                if(enumNilai[card.value] === 3 && card.suit === 'Spades'){
+                    console.log("Kartu 3 Spades ditemukan, giliran pemain pertama");
+                    this.setState({
+                        isFirstPlayerTurn: true
+                    }, () => {
+                        //if(this.state.isFirstPlayerTurn === true &&
+                          //  enumNilai[this.state.selectedCards[0].value] === 3 &&
+                            //this.state.selectedCards[0].suit === "Spades"){
+                            //console.log("Kartu 3 Spades dipilih di giliran pertama");
+                            //this.setIsDisableBtn(false);
+                        //}    
+                    });
+                    break;
+                }
+            }
+        }
+        
         // single
         if(this.state.selectedCards.length === 1){
-            if(this.state.thrownCards.length === 1)      {
+            console.log("Satu kartu dipilih");
+            if(this.state.thrownCards.length === 1){
+                console.log("Satu kartu dibuang");
                 if(this.state.selectedCards[0].value > this.state.thrownCards[0].value ){
+                    console.log("Kartu yang dipilih lebih tinggi dari yang dibuang");
                     this.setIsDisableBtn(false);
                 }
-            }       
-            this.setIsDisableBtn(false);
-          }
-          // pair
+            }
+              
+            
+        }
+        // pair
         else if(this.state.selectedCards.length === 2){
-
+            console.log("Dua kartu dipilih");
+            // Logika untuk pair
         }
         // triple pair
         else if(this.state.selectedCards.length === 3){
-
+            console.log("Tiga kartu dipilih");
+            // Logika untuk triple pair
         }
         // four pair
         else if(this.state.selectedCards.length === 4){
-            
+            console.log("Empat kartu dipilih");
+            // Logika untuk four pair
+        }
+        // bomb pair
+        else if(this.state.selectedCards.length === 6){
+            console.log("Enam kartu dipilih, memeriksa untuk bomb pair");
+            if(this.state.selectedCards[0].value === this.state.selectedCards[1].value &&
+                (enumNilai[this.state.selectedCards[1].value] + 1) === enumNilai[this.state.selectedCards[2].value]){
+                console.log("Kondisi bomb pair terpenuhi");
+                // Logika untuk bomb pair
+            }
         }
         else{
+            console.log("Kondisi lain, tombol non-aktif");
             this.setIsDisableBtn(true);
         }
     }
+    
     // proto
     setSelectedCard = (cards: Card[], isRemove?: boolean) => {
         if (!isRemove) {
