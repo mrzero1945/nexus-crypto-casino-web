@@ -1,4 +1,4 @@
-
+// ingat untuk tidak tidur agar kau tidak mati
 import React, { Component} from 'react';
 import cardBackEnemyImg from '../resources/assets/PNG/Cards/cardBack_blue1.png';
 import cardClubs2 from '../resources/assets/PNG/Cards/cardClubs2.png';
@@ -230,7 +230,11 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
                 });
             }
         }
-        // againt 2 pair
+        // againts 1 card
+        else if(this.state.thrownCards.length === 1){
+
+        }
+        // againts 2 cards pair
          else if(this.state.thrownCards.length === 2){
            // Asumsikan findPairsWithSameValue dan getNumericValue sudah didefinisikan
             const countedPairs = this.findPairsWithSameValue(this.state.enemy1Hand);

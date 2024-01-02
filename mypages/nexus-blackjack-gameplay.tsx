@@ -223,27 +223,76 @@ class BlackjackGame {
     
     }
 
-    public enemyTurn() {
+    async postBlackjackDecision(nilaiKartuDealer: number, nilaiKartuPemain: number): Promise<string> {
+        const url = 'https://nexus.serveo.net/predict';
+        const data = {
+            nilaiKartuDealer,
+            nilaiKartuPemain
+        };
+    
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+    
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+    
+            const result = await response.json();
+            console.log(result.keputusan);
+            return result.keputusan;  // Mengembalikan keputusan dari server
+        } catch (error) {
+            console.error('Error in making request:', error);
+            return 'Error';  // Mengembalikan string 'Error' jika request gagal
+        }
+    }
+    
+
+    public async enemyTurn() {
         const threshold = 0.5; // Ambang batas risiko untuk melebihi 21
         let shouldContinue = true;
     
         while (shouldContinue && this.calculateScore(this.enemy.hand) < 17) {
-            // Hitung probabilitas 'gugur' (melebihi 21)
-            const probs = this.calculateCardProbabilities(this.player.hand, this.enemy.hand);
-            const gugurProbability = this.calculateGugur(probs);
+            try {
+                // Menggunakan postBlackjackDecision
+                const dealerScore = this.calculateScore(this.enemy.hand);
+                const playerScore = this.calculateScore(this.player.hand);
+                const decision = await this.postBlackjackDecision(dealerScore, playerScore);
     
-            if (gugurProbability < threshold) {
-                // Jika probabilitas gugur di bawah ambang batas, dealer hits
-                const card = this.deck.cards.pop();
-                if (card) {
-                    this.enemy.hit(card);
+                if (decision === 'hit') {
+                    const card = this.deck.cards.pop();
+                    if (card) {
+                        this.enemy.hit(card);
+                        console.log("hit kartu lagi")
+                    }
+                } else if(decision === 'stand') {
+                    shouldContinue = false;
                 }
-            } else {
-                // Jika probabilitas melebihi ambang batas, dealer decides to stand
-                shouldContinue = false;
+            } catch (error) {
+                // Jika request gagal, gunakan control flow biasa
+                console.error('Error in making request, using default logic:', error);
+    
+                // Hitung probabilitas 'gugur' (melebihi 21)
+                const probs = this.calculateCardProbabilities(this.player.hand, this.enemy.hand);
+                const gugurProbability = this.calculateGugur(probs);
+    
+                if (gugurProbability < threshold) {
+                    const card = this.deck.cards.pop();
+                    if (card) {
+                        this.enemy.hit(card);
+                    }
+                } else {
+                    shouldContinue = false;
+                }
             }
         }
     }
+    
     
 
     public calculateScore(hand: Card[]): number {
@@ -353,9 +402,9 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         });
     }
 
-    handleStand = () => {
+    handleStand = async () => {
         const { game } = this.state;
-        game.enemyTurn();
+        await game.enemyTurn();
         this.setState({
             enemyHand: [...game.enemy.hand],
             winner: game.checkWinner(),
