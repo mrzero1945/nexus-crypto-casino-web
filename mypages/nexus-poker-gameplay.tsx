@@ -1,5 +1,4 @@
-import { ImageTransition } from '../components/animation-move';
-import React, { Component, RefObject } from 'react';
+import React, { Component} from 'react';
 import cardBackEnemyImg from '../resources/assets/PNG/Cards/cardBack_blue1.png';
 import cardClubs2 from '../resources/assets/PNG/Cards/cardClubs2.png';
 import cardClubs3 from '../resources/assets/PNG/Cards/cardClubs3.png';
@@ -53,758 +52,68 @@ import cardSpadesJ from '../resources/assets/PNG/Cards/cardSpadesJ.png';
 import cardSpadesQ from '../resources/assets/PNG/Cards/cardSpadesQ.png';
 import cardSpadesK from '../resources/assets/PNG/Cards/cardSpadesK.png';
 import cardSpadesA from '../resources/assets/PNG/Cards/cardSpadesA.png';
+import { ThirteenPokerGame, Card} from '../header/poker-game';
+import { gsap } from "gsap";
 
+const enumNilai : any = {
+    '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, 
+    '8': 8, '9': 9, '10': 10, 'J': 11, 'Q': 12, 
+    'K': 13, 'A': 14, '2': 15
+};
 
-
-class Card {
-    suit: string;
-    value: string;
-
-    constructor(suit: string, value: string) {
-        this.suit = suit;
-        this.value = value;
-    }
-}
-
-
-class Deck {
-    private suits = ['Hearts', 'Clubs', 'Spades', 'Diamonds'];
-    private values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-    public cards: Card[];
-
-    constructor() {
-        this.cards = [];
-        this.initializeDeck();
-    }
-
-    private initializeDeck() {
-        for (const suit of this.suits) {
-            for (const value of this.values) {
-                this.cards.push(new Card(suit, value));
-            }
-        }
-    }
-
-    public shuffle() {
-        for (let i = this.cards.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]]; // swap elements
-        }
-    }
-}
-
-class Player {
-    public hand: Card[];
-
-    constructor(){
-        this.hand = [];
-    }
-    sortHand() {
-        const valueOrder = ['3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A', '2'];
-        const suitOrder = ['Spades', 'Clubs', 'Diamonds', 'Hearts'];
-    
-        this.hand.sort((a, b) => {
-            let valueComparison = valueOrder.indexOf(a.value) - valueOrder.indexOf(b.value);
-            if (valueComparison !== 0) {
-                return valueComparison;
-            }
-            // Urutkan berdasarkan suit jika nilai sama
-            return suitOrder.indexOf(a.suit) - suitOrder.indexOf(b.suit);
-        });
-    }
-    
-}
-
-class Enemy {
-    public hand:Card[];
-
-    constructor(){
-        this.hand = [];
-    }
-}
-
-class ThirteenPokerGame {
-    private deck: Deck;
-    public player: Player;
-    public enemies: Enemy[];
-    // todo
-    private isPlayerStart = false;
-    private currentCombo = 'uninit';
-    private currentCardDrawn:any;
-    //todo
-    private isFirstStart = true;
-
-
-    constructor(){
-        this.deck = new Deck();
-        this.deck.shuffle();
-        this.player = new Player();
-        this.enemies = [];
-        for (let i = 0; i < 3; i++) {
-            this.enemies.push(new Enemy());
-        }
-        this.dealInitialCards();
-    }
-
-    private dealInitialCards(){
-        for (let i = 0; i < 13; i++) {
-            const playerCard = this.deck.cards.shift();
-            if (playerCard) {
-                this.player.hand.push(playerCard);
-                this.player.sortHand();
-            }
-    
-            this.enemies.forEach(enemy => {
-                const enemyCard = this.deck.cards.shift();
-                if (enemyCard) {
-                    enemy.hand.push(enemyCard);
-                }
-            });
-
-            for(const enemy of this.enemies){
-
-            }
-        }
-    }
-
-    public startGame(){
-        for (let card of this.player.hand){
-            if(card.suit === 'Spades' && card.value === '3'){
-                this.isPlayerStart = true;
-                break;
-            }
-        }
-    }
-
-    
-
-    
-}
-
-interface ThirteenPokerComponentState {
+const imgArr:any = { '3Spades':cardSpades3.src , '4Spades':cardSpades4.src , '5Spades':cardSpades5.src , '6Spades':cardSpades6.src , '7Spades':cardSpades7.src , '8Spades':cardSpades8.src , '9Spades':cardSpades9.src , '10Spades':cardSpades10.src , 'JSpades':cardSpadesJ.src , 'QSpades':cardSpadesQ.src , 'KSpades':cardSpadesK.src , 'ASpades':cardSpadesA.src , '2Spades':cardSpades2.src , '3Hearts':cardHearts3.src , '4Hearts':cardHearts4.src , '5Hearts':cardHearts5.src , '6Hearts':cardHearts6.src , '7Hearts':cardHearts7.src , '8Hearts':cardHearts8.src , '9Hearts':cardHearts9.src , '10Hearts':cardHearts10.src , 'JHearts':cardHeartsJ.src , 'QHearts':cardHeartsQ.src , 'KHearts':cardHeartsK.src , 'AHearts':cardHeartsA.src , '2Hearts':cardHearts2.src , '3Clubs':cardClubs3.src , '4Clubs':cardClubs4.src , '5Clubs':cardClubs5.src , '6Clubs':cardClubs6.src , '7Clubs':cardClubs7.src , '8Clubs':cardClubs8.src , '9Clubs':cardClubs9.src , '10Clubs':cardClubs10.src , 'JClubs':cardClubsJ.src , 'QClubs':cardClubsQ.src , 'KClubs':cardClubsK.src , 'AClubs':cardClubsA.src , '2Clubs':cardClubs2.src , '3Diamonds':cardDiamonds3.src , '4Diamonds':cardDiamonds4.src , '5Diamonds':cardDiamonds5.src , '6Diamonds':cardDiamonds6.src , '7Diamonds':cardDiamonds7.src , '8Diamonds':cardDiamonds8.src , '9Diamonds':cardDiamonds9.src , '10Diamonds':cardDiamonds10.src , 'JDiamonds':cardDiamondsJ.src , 'QDiamonds':cardDiamondsQ.src , 'KDiamonds':cardDiamondsK.src , 'ADiamonds':cardDiamondsA.src , '2Diamonds':cardDiamonds2.src  };
+interface MainState{
     game: ThirteenPokerGame;
     playerHand: Card[];
     enemy1Hand: Card[];
     enemy2Hand: Card[];
     enemy3Hand: Card[];
-    winner: string;
-    isGameEnd: boolean;
+    selectedCard: Card[];
+    enemy1SelectedCard: Card[];
+    enemy2SelectedCard: Card[];
+    enemy3SelectedCard: Card[];
     choosenCard: boolean[];
-    selectedCards: Card[];
-    animateCard: boolean;
-    animationStyles: { transform?: string; transition?: string }[];
-    toggleAnimation: boolean;
-    thrownCards : Card[];
-    isDisabledPlayBtn: boolean;
-    isFirstStart: boolean;
-    isFirstPlayerTurn: boolean;
+    showStartBtn : boolean;
+    playTurn: string;
+    thrownCards: Card[];
 }
 
-class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPokerComponentState>{
+class ThirteenPokerComponent extends Component<Record<string, never>, MainState>{
     constructor(props: Record<string, never>){
         super(props);
+        this.refAmmosPlayer =  Array.from({ length: 13 }, () => React.createRef<HTMLDivElement>());
+        this.refAmmosEnemy =  Array.from({ length: 13 }, () => React.createRef<HTMLDivElement>());
+        this.refTarget = React.createRef<HTMLDivElement>();
         this.state = {
             game: new ThirteenPokerGame(),
-            isFirstStart: false,
             playerHand: [],
             enemy1Hand: [],
             enemy2Hand: [],
             enemy3Hand: [],
-            winner: '',
-            isGameEnd: false,
+            selectedCard: [],
             choosenCard: new Array(13).fill(false),
-            animateCard: false,
-            animationStyles: [],
-            toggleAnimation: false,
-            //proto
-            selectedCards: [],
-            thrownCards: [],
-            isDisabledPlayBtn: true,
-            isFirstPlayerTurn: false
+            showStartBtn : true,
+            playTurn: "",
+            enemy1SelectedCard: [],
+            enemy2SelectedCard: [],
+            enemy3SelectedCard: [],
+            thrownCards: []
         };
-        this.targetRef = React.createRef<HTMLDivElement>();
-        // Inisialisasi cardRefs sebagai instance variable
-    
     }
-    //proto
-  
-    //proto
-    private targetRef: RefObject<HTMLDivElement>;
+    
+    refAmmosPlayer:React.RefObject<HTMLDivElement>[];
+    refAmmosEnemy:React.RefObject<HTMLDivElement>[];
+    refTarget:React.RefObject<HTMLDivElement>;
 
-    
-    
-    
+    setShowStartBtn(){
+        this.dealInitialCards();
+        this.setState({
+            showStartBtn: !this.state.showStartBtn
+        })
+    }
 
     componentDidMount(): void {
-        this.dealInitialCards();
-    }
-
-
-
-
-
-    //proto
-    componentDidUpdate(){
-        console.log("isdbslbtn", this.state.isDisabledPlayBtn)
-        let index = 0;
-        const selectedCard = this.state.selectedCards; 
-        for(const card of selectedCard){
-            index++;
-            console.log("obj", index, card.suit, card.value);
-        }
-        const ThrowTheCard = this.state.thrownCards
         
-        
-        
-    }
-
-    // proto
-    setIsDisableBtn = (value: boolean) => {
-        this.setState({
-            isDisabledPlayBtn: value
-        });
-    }
-
-    //proto
-    setThrownCards = (value: Card[]) =>{
-        this.setState({
-            thrownCards : value
-        }, () => {
-            console.log(this.state.thrownCards.length)
-        });
-    }
-
-
-    // proto
-    setToggleAnimation = (value: boolean) => {
-        this.setState({ toggleAnimation: value });
-    };
-
-    updateButtonPlay(){
-        const enumNilai:any = {
-            '3': 1, '4': 2, '5': 3, '6': 4, '7': 5, 
-            '8': 6, '9': 7, '10': 8, 'J': 9, 'Q': 10, 
-            'K': 11, 'A': 12, '2': 13
-        };
-    
-        console.log("Memulai updateButtonPlay:", this.state);
-    
-        if(this.state.thrownCards.length === 0){
-            console.log("Tidak ada kartu yang dibuang atau dipilih");
-            for(const card of this.state.playerHand){
-                console.log("Memeriksa kartu di tangan pemain:", enumNilai[card.value]);
-                if(enumNilai[card.value] === 3 && card.suit === 'Spades'){
-                    console.log("Kartu 3 Spades ditemukan, giliran pemain pertama");
-                    this.setState({
-                        isFirstPlayerTurn: true
-                    }, () => {
-                        //if(this.state.isFirstPlayerTurn === true &&
-                          //  enumNilai[this.state.selectedCards[0].value] === 3 &&
-                            //this.state.selectedCards[0].suit === "Spades"){
-                            //console.log("Kartu 3 Spades dipilih di giliran pertama");
-                            //this.setIsDisableBtn(false);
-                        //}    
-                    });
-                    break;
-                }
-            }
-        }
-        
-        // single
-        if(this.state.selectedCards.length === 1){
-            console.log("Satu kartu dipilih");
-            if(this.state.thrownCards.length === 1){
-                console.log("Satu kartu dibuang");
-                if(this.state.selectedCards[0].value > this.state.thrownCards[0].value ){
-                    console.log("Kartu yang dipilih lebih tinggi dari yang dibuang");
-                    this.setIsDisableBtn(false);
-                }
-            }
-              
-            
-        }
-        // pair
-        else if(this.state.selectedCards.length === 2){
-            console.log("Dua kartu dipilih");
-            // Logika untuk pair
-        }
-        // triple pair
-        else if(this.state.selectedCards.length === 3){
-            console.log("Tiga kartu dipilih");
-            // Logika untuk triple pair
-        }
-        // four pair
-        else if(this.state.selectedCards.length === 4){
-            console.log("Empat kartu dipilih");
-            // Logika untuk four pair
-        }
-        // bomb pair
-        else if(this.state.selectedCards.length === 6){
-            console.log("Enam kartu dipilih, memeriksa untuk bomb pair");
-            if(this.state.selectedCards[0].value === this.state.selectedCards[1].value &&
-                (enumNilai[this.state.selectedCards[1].value] + 1) === enumNilai[this.state.selectedCards[2].value]){
-                console.log("Kondisi bomb pair terpenuhi");
-                // Logika untuk bomb pair
-            }
-        }
-        else{
-            console.log("Kondisi lain, tombol non-aktif");
-            this.setIsDisableBtn(true);
-        }
-    }
-    
-    // proto
-    setSelectedCard = (cards: Card[], isRemove?: boolean) => {
-        if (!isRemove) {
-            this.setState({
-              selectedCards: [...cards]
-            }, () => {
-              console.log("Added cards:", cards);
-              this.updateButtonPlay();
-               
-            });
-       } else {
-        const updatedSelectedCards = [...this.state.selectedCards];
-        const cardsToRemove = cards.map((card) => card.suit + card.value);
-    
-        for (const cardToRemove of cardsToRemove) {
-          const indexToRemove = updatedSelectedCards.findIndex(
-            (card) => card.suit + card.value === cardToRemove
-          );
-    
-          if (indexToRemove !== -1) {
-            updatedSelectedCards.splice(indexToRemove, 1);
-            console.log(`Removed card: ${cardToRemove}`);
-          } else {
-            console.log(`Card not found: ${cardToRemove}`);
-          }
-        }
-    
-        this.setState({
-          selectedCards: updatedSelectedCards
-        }, () => {
-            // update todo
-            this.updateButtonPlay();
-        });
-      }
-      };
-    renderCard(card: Card, index:number) {
-
-        
-        if(card.suit === 'Clubs' && card.value === '2'){
-            
-            return (
-                <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs2.src} />
-            );
-        }
-        else if(card.suit === 'Clubs' && card.value === '3'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs3.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Clubs' && card.value === '4'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs4.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Clubs' && card.value === '5'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs5.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Clubs' && card.value === '6'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs6.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Clubs' && card.value === '7'){
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs7.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Clubs' && card.value === '8'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs8.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Clubs' && card.value === '9'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs9.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Clubs' && card.value === '10'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubs10.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Clubs' && card.value === 'J'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsJ.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Clubs' && card.value === 'Q'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsQ.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Clubs' && card.value === 'K'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsK.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Clubs' && card.value === 'A'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardClubsA.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Diamonds' && card.value === '2'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds2.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Diamonds' && card.value === '3'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds3.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Diamonds' && card.value === '4'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds4.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Diamonds' && card.value === '5'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds5.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Diamonds' && card.value === '6'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds6.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Diamonds' && card.value === '7'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds7.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Diamonds' && card.value === '8'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds8.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Diamonds' && card.value === '9'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds9.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Diamonds' && card.value === '10'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamonds10.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Diamonds' && card.value === 'J'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsJ.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Diamonds' && card.value === 'Q'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsQ.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Diamonds' && card.value === 'K'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsK.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Diamonds' && card.value === 'A'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardDiamondsA.src}/>
-                
-            );
-        }
-
-        if(card.suit === 'Hearts' && card.value === '2'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts2.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Hearts' && card.value === '3'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts3.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Hearts' && card.value === '4'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts4.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Hearts' && card.value === '5'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts5.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Hearts' && card.value === '6'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts6.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Hearts' && card.value === '7'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts7.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Hearts' && card.value === '8'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts8.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Hearts' && card.value === '9'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts9.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Hearts' && card.value === '10'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHearts10.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Hearts' && card.value === 'J'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsJ.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Hearts' && card.value === 'Q'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsQ.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Hearts' && card.value === 'K'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsK.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Hearts' && card.value === 'A'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardHeartsA.src}/>
-                
-            );
-        }
-        if(card.suit === 'Spades' && card.value === '2'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades2.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Spades' && card.value === '3'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades3.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Spades' && card.value === '4'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades4.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Spades' && card.value === '5'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades5.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Spades' && card.value === '6'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades6.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Spades' && card.value === '7'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades7.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Spades' && card.value === '8'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades8.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Spades' && card.value === '9'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades9.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Spades' && card.value === '10'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpades10.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Spades' && card.value === 'J'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesJ.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Spades' && card.value === 'Q'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesQ.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Spades' && card.value === 'K'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesK.src}/>
-                
-            );
-        }
-        else if(card.suit === 'Spades' && card.value === 'A'){
-            
-            return (
-                
-                    <ImageTransition isDisabledPlayBtn={this.state.isDisabledPlayBtn} setIsDisabledPlayBtn={this.setIsDisableBtn} thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} card={card} selectedCard={this.state.selectedCards} setSelectedCard={this.setSelectedCard} refTarget={this.targetRef} toggle={this.state.toggleAnimation} setToggle={this.setToggleAnimation} img={cardSpadesA.src}/>
-                
-            );
-        }
     }
 
     dealInitialCards(){
@@ -814,73 +123,442 @@ class ThirteenPokerComponent extends Component<Record<string, never>, ThirteenPo
             enemy1Hand: game.enemies[0].hand,
             enemy2Hand : game.enemies[1].hand,
             enemy3Hand : game.enemies[2].hand
+        }, () => {
+            const playerHands = {
+                player: this.state.playerHand,
+                enemy1: this.state.enemy1Hand,
+                enemy2: this.state.enemy2Hand,
+                enemy3: this.state.enemy3Hand
+              };
+              
+              for (const [player, hand] of Object.entries(playerHands)) {
+                if (hand.some(card => enumNilai[card.value] === 3 && card.suit === 'Spades')) {
+                  this.setState({
+                    playTurn: player
+                  }, () => {
+                    console.log("turn", this.state.playTurn);
+                    if(this.state.playTurn === 'enemy1'){
+                        this.turnEnemy1();
+                    }
+                    if(this.state.playTurn === 'enemy2'){
+                        this.turnEnemy2();
+                    }
+                    if(this.state.playTurn === 'enemy3'){
+                        this.turnEnemy3();
+                    }
+                  });
+                  break; // Keluar dari loop setelah menemukan pemain pertama dengan kartu 3 Spades
+                }
+              }
         });
     }
-    render(){
-        const { playerHand, winner } = this.state;
+
+    turnEnemy1(){
+        console.log("Memulai turnEnemy1");
+    
+        if(this.state.thrownCards.length === 0){
+            console.log("Tidak ada kartu yang dibuang. Mencari rangkaian berurutan...");
+    
+            const countedRuns = this.countingRun(this.state.enemy1Hand);
+            console.log("Rangkaian berurutan ditemukan:", countedRuns);
+    
+            if(countedRuns.length !== 0){
+                for(const runs of countedRuns){
+                    for(const run of runs){
+                        if(enumNilai[run.value] === 3 && run.suit === 'Spades'){
+                            console.log("Mengatur kartu terpilih enemy1 dengan rangkaian:", runs);
+                            this.setState({
+                                enemy1SelectedCard: runs
+                            }, () => {
+                                this.handleAnimationEnemy(this.state.enemy1SelectedCard);
+                            });
+                        }
+                    }
+                }
+            }
+    
+            if(this.state.enemy1SelectedCard.length === 0){
+                console.log("Tidak ada rangkaian yang valid. Memilih kartu dengan nilai 3...");
+    
+                let selectedCard = [];
+                for(const card of this.state.enemy1Hand){
+                    if(enumNilai[card.value] === 3){
+                        selectedCard.push(card);
+                    }
+                }
+    
+                console.log("Kartu terpilih berdasarkan nilai 3:", selectedCard);
+                this.setState({
+                    enemy1SelectedCard: selectedCard
+                }, () => {
+                    this.handleAnimationEnemy(this.state.enemy1SelectedCard);
+                });
+            }
+        } else {
+            console.log("Kartu sudah dibuang. Tidak melakukan aksi.");
+        }
+    }
+    
+
+    turnEnemy2(){
+        console.log("Memulai turnEnemy2");
+    
+        if(this.state.thrownCards.length === 0){
+            console.log("Tidak ada kartu yang dibuang. Mencari rangkaian berurutan...");
+    
+            const countedRuns = this.countingRun(this.state.enemy2Hand);
+            console.log("Rangkaian berurutan ditemukan:", countedRuns);
+    
+            if(countedRuns.length !== 0){
+                for(const runs of countedRuns){
+                    for(const run of runs){
+                        if(enumNilai[run.value] === 3 && run.suit === 'Spades'){
+                            console.log("Mengatur kartu terpilih enemy1 dengan rangkaian:", runs);
+                            this.setState({
+                                enemy2SelectedCard: runs
+                            }, () => {
+                                this.handleAnimationEnemy(this.state.enemy2SelectedCard);
+                            });
+                        }
+                    }
+                }
+            }
+    
+            if(this.state.enemy2SelectedCard.length === 0){
+                console.log("Tidak ada rangkaian yang valid. Memilih kartu dengan nilai 3...");
+    
+                let selectedCard = [];
+                for(const card of this.state.enemy2Hand){
+                    if(enumNilai[card.value] === 3){
+                        selectedCard.push(card);
+                    }
+                }
+    
+                console.log("Kartu terpilih berdasarkan nilai 3:", selectedCard);
+                this.setState({
+                    enemy2SelectedCard: selectedCard
+                }, () => {
+                    this.handleAnimationEnemy(this.state.enemy2SelectedCard);
+                });
+            }
+        } else {
+            console.log("Kartu sudah dibuang. Tidak melakukan aksi.");
+        }
+    }
+
+    turnEnemy3(){
+        console.log("Memulai turnEnemy3");
+    
+        if(this.state.thrownCards.length === 0){
+            console.log("Tidak ada kartu yang dibuang. Mencari rangkaian berurutan...");
+    
+            const countedRuns = this.countingRun(this.state.enemy3Hand);
+            console.log("Rangkaian berurutan ditemukan:", countedRuns);
+    
+            if(countedRuns.length !== 0){
+                for(const runs of countedRuns){
+                    for(const run of runs){
+                        if(enumNilai[run.value] === 3 && run.suit === 'Spades'){
+                            console.log("Mengatur kartu terpilih enemy1 dengan rangkaian:", runs);
+                            this.setState({
+                                enemy3SelectedCard: runs
+                            }, () => {
+                                this.handleAnimationEnemy(this.state.enemy3SelectedCard);
+                            });
+                        }
+                    }
+                }
+            }
+    
+            if(this.state.enemy3SelectedCard.length === 0){
+                console.log("Tidak ada rangkaian yang valid. Memilih kartu dengan nilai 3...");
+    
+                let selectedCard = [];
+                for(const card of this.state.enemy3Hand){
+                    if(enumNilai[card.value] === 3){
+                        selectedCard.push(card);
+                    }
+                }
+    
+                console.log("Kartu terpilih berdasarkan nilai 3:", selectedCard);
+                this.setState({
+                    enemy3SelectedCard: selectedCard
+                }, () => {
+                    this.handleAnimationEnemy(this.state.enemy3SelectedCard);
+                });
+            }
+        } else {
+            console.log("Kartu sudah dibuang. Tidak melakukan aksi.");
+        }
+    }
+
+
+    getNumericValue(card:Card) {
+        const valueMap:any = { 'J': 11, 'Q': 12, 'K': 13, 'A': 14, '2':15 };
+        return valueMap[card.value] || parseInt(card.value, 10);
+      }
+      
+
+    countingRun(arr:Card[]) {
+        if (arr.length < 3) return [];
+
+            arr.sort((a, b) => this.getNumericValue(a) - this.getNumericValue(b));
+
+            let longestLength = 1;
+            let currentSequence = [arr[0]];
+            let allSequences = [];
+
+            for (let i = 1; i < arr.length; i++) {
+                if (this.getNumericValue(arr[i]) === this.getNumericValue(arr[i - 1]) + 1) {
+                currentSequence.push(arr[i]);
+                longestLength = Math.max(longestLength, currentSequence.length);
+                } else if (this.getNumericValue(arr[i]) !== this.getNumericValue(arr[i - 1])) {
+                if (currentSequence.length === longestLength) {
+                    allSequences.push(currentSequence);
+                }
+                currentSequence = [arr[i]];
+                }
+            }
+
+            // Check the last sequence
+            if (currentSequence.length === longestLength) {
+                allSequences.push(currentSequence);
+            }
+
+            // Only return sequences that are of the same length as the longest sequence
+            return allSequences.filter(sequence => sequence.length === longestLength);
+        }
+      
+
+    setChoosenCard = (index:number, card:Card) => {
+        // Membuat salinan dari state yang ada
+        let newArr = [...this.state.choosenCard];
+        let mySelectedCard = [...this.state.selectedCard];
+    
+        // Toggle nilai di choosenCard
+        newArr[index] = !newArr[index];
+    
+        if (newArr[index]) {
+            // Jika kartu dipilih, tambahkan ke selectedCard
+            mySelectedCard.push(card);
+        } else {
+            // Jika kartu tidak lagi dipilih, hapus dari selectedCard
+            mySelectedCard = mySelectedCard.filter(obj => obj !== card);
+        }
+    
+        // Mengupdate state
+        this.setState({
+            choosenCard: newArr,
+            selectedCard: mySelectedCard
+        }, () => {
+            console.log(this.state.selectedCard)
+        });
+    }
+    
+
+    renderCard(card:Card, index:number){
+        const choosenCard = this.state.choosenCard;
+        const zoomStyle:any = {
+            transform: 'scale(1.5)',
+            transition: 'transform 0.3s ease-in-out',
+            boxShadow: '0px 0px 10px 3px rgba(0, 0, 0, 0.5)',
+            position: 'relative',
+            zIndex: 2
+        };
         return(
-            <div className='container text-white'>
+            
+            <div ref={this.refAmmosPlayer[index]} className='col'>
+                <img className='img-fluid' width={50} onClick={() => this.setChoosenCard(index, card)} style={choosenCard[index] ? zoomStyle : {}} src={imgArr[card.value + card.suit]}/>
+            </div>
+            
+        )
+    }
+
+    handlePlayBtn(){
+
+    }
+
+    handleAnimationEnemy(selectedCard:Card[]) {
+        console.log("Memulai animasi untuk enemy dengan kartu terpilih:", selectedCard);
+      
+        const countIndex = selectedCard.length;
+        for (let i = 0; i < countIndex; i++) { // Memperbaiki kondisi loop
+          console.log(`Memeriksa animasi untuk kartu ke-${i}`);
+      
+          if (this.refTarget?.current && this.refAmmosEnemy[i]?.current) {
+            console.log("refTarget dan refAmmosEnemy ada:", this.refTarget.current, this.refAmmosEnemy[i].current);
+      
+            const ammoRef = this.refAmmosEnemy[i].current;
+      
+            if (ammoRef) {
+              const ammoRect = ammoRef.getBoundingClientRect();
+              const targetRect = this.refTarget.current.getBoundingClientRect();
+              const newOffsetX = targetRect.left - ammoRect.left + (i * 25);
+              const newOffsetY = targetRect.top - ammoRect.top;
+      
+              console.log(`Offset untuk kartu ke-${i}: X=${newOffsetX}, Y=${newOffsetY}`);
+      
+              gsap.to(ammoRef, {
+                x: newOffsetX,
+                y: newOffsetY,
+                duration: 1
+              });
+              setTimeout(() => {
+                this.setState({
+                  thrownCards: selectedCard
+                }, () => {
+                  const emptyArr: Card[] = [];
+                  if (this.state.playTurn === 'enemy1') {
+                    let remainingCards = this.state.enemy1Hand.filter(card => 
+                      !this.state.thrownCards.some(thrownCard => 
+                        thrownCard.suit === card.suit && thrownCard.value === card.value)
+                    );
+                    this.setState({
+                      enemy1Hand: remainingCards,
+                      enemy1SelectedCard: emptyArr, 
+                      playTurn: 'enemy2'
+                    });
+                  }
+                  else if (this.state.playTurn === 'enemy2') {
+                    let remainingCards = this.state.enemy2Hand.filter(card => 
+                      !this.state.thrownCards.some(thrownCard => 
+                        thrownCard.suit === card.suit && thrownCard.value === card.value)
+                    );
+                    this.setState({
+                      enemy2Hand: remainingCards,
+                      enemy2SelectedCard: emptyArr,
+                      playTurn: 'player'
+                    });
+                  }
+                  else if (this.state.playTurn === 'enemy3') {
+                    let remainingCards = this.state.enemy3Hand.filter(card => 
+                      !this.state.thrownCards.some(thrownCard => 
+                        thrownCard.suit === card.suit && thrownCard.value === card.value)
+                    );
+                    this.setState({
+                      enemy3Hand: remainingCards,
+                      enemy3SelectedCard: emptyArr,
+                      playTurn: 'enemy1'
+                    });
+                  }
+                });
+              }, 1000);
+              
+              
+            } else {
+              console.log(`refAmmosEnemy ke-${i} adalah null atau undefined`);
+            }
+          } else {
+            if (!this.refTarget.current) {
+              console.log("refTarget.current tidak ada");
+            }
+            if (!this.refAmmosEnemy[i].current) {
+              console.log(`refAmmosEnemy ke-${i} tidak ada`);
+            }
+          }
+        }
+      }
+      
+
+    renderEnemyCard(card:Card, index:number){
+        return(
+            <div ref={this.refAmmosEnemy[index]} className='d-inline-flex'>
+                <img width={50} src={imgArr[card.value + card.suit]}/>
+            </div>
+            
+        )
+    }
+
+    renderThrownCard(card:Card){
+        return(
+            <div className='d-inline-flex'>
+                <img width={50} src={imgArr[card.value + card.suit]}/>
+            </div>
+        )
+    }
+
+    render(){
+        const playerHand = this.state.playerHand;
+        const showStartBtn = this.state.showStartBtn;
+        return(
+            // enemy
+        <div className="container text-white" style={{minHeight:"500px"}}>
+            <div className="row">
+                <div className="col-md-12">
+                    <h1 className="text-center">Poker Vietnam</h1>
+                </div>
+            </div>
+            
+            <div className="row">
+                <div className="col-md-12 text-center">
+                    <h2>Enemy 1</h2>
+                </div>
+            </div>
+
+            <div className='row'>
+                <div className='text-center'>
+                    <img width={50} src={cardBackEnemyImg.src} />
                 
+                </div>
+            </div>
+            <div className='row'>
+                <div className='text-center'>
+                    {this.state.enemy1SelectedCard.map((card, index) => this.renderEnemyCard(card, index))}
+                </div>
+            </div>
 
-                <h1 className='text-center'>Poker VietNam</h1>
-                <div className='row justify-content-center'>
-    <div className='col-md-6 text-center'>
-        <h2>Enemy1</h2>
-    </div>
-    <div className='text-center'>
-        <img width={50} src={cardBackEnemyImg.src} />
-    </div>
-</div>
-
-<div className='row'>
-    <div className='col-md-6 col-6'>
-        <h2 className='text-start'>Enemy2</h2>
-        <div className='text-start'>
-            <img width={50} src={cardBackEnemyImg.src} />
-        </div>
-    </div>
-
-    <div className='col-md-6 col-6'>
-        <h2 className='text-end'>Enemy3</h2>
-        <div className='text-end'>
-            <img width={50} src={cardBackEnemyImg.src} />
-        </div>
-    </div>     
-</div>
-
-
-
-                <div className='row d-flex justify-content-center text-center'>
-                    <div className='col'>
-                    <div className="col-12 d-inline-flex justify-content-center" >
-                        <p ref={this.targetRef}>Target</p>
-                    </div>
-                    </div>
+            <div className="row">
+                <div className="col-md-6 text-start">
+                    <h2>Enemy 2</h2>
                 </div>
 
-                <div className='row'>
-                    <h2 className='mb-md-2'>Player</h2>
-                    <div className='row d-flex justify-content-center'>
-                        {playerHand.map((card, index) => this.renderCard(card, index))}
-                    </div>
-                    <div className='row justify-content-center mt-md-2 '>
-                        <ImageTransition thrownCards={this.state.thrownCards} setThrownCards={this.setThrownCards} isDisabledPlayBtn={this.state.isDisabledPlayBtn} refTarget={this.targetRef} img="" setToggle={this.setToggleAnimation} toggle={this.state.toggleAnimation}  isButton={true}/>
-                        <div className='col-md-auto col d-flex justify-content-center'>
-                            <button className='btn px-md-4 px-5 text-white btn-warning' style={{borderRadius:'15px'}}>Pass</button>
-                        </div>
+                <div className='col-md-6 text-end'>
+                    <h2>Enemy 3</h2>
+                </div>
+            </div>
+
+            <div className='row'>
+                <div className='text-start col-md-4'>
+                    <img width={50} src={cardBackEnemyImg.src} />
+                    <div className='col-md-12'>
+                        {this.state.enemy2SelectedCard.map((card, index) => this.renderEnemyCard(card, index))}
                     </div>
                     
-
-
+                </div>
+                <div className='col-md-4 d-inline-flex justify-content-center'>
+                    <div ref={this.refTarget}  style={{minWidth:"50px" , minHeight:"50px"}} >
+                        {this.state.thrownCards.map((card, index) => this.renderThrownCard(card))}
+                    </div>
+                    
                 </div>
 
-                
-
-       
+                <div className='text-end col-md-4'>
+                    <img width={50} src={cardBackEnemyImg.src} />
+                    <div className='col-md-12'>
+                        {this.state.enemy3SelectedCard.map((card, index) => this.renderEnemyCard(card, index))}
+                    </div>
+                    
+                </div>
 
             </div>
+
+            {/*player*/}
+            
+            <div className='row text-center mt-md-5'>
+                {playerHand.map((card, index) => this.renderCard(card, index))}
+                {showStartBtn && <div className='col'> <button onClick={() => this.setShowStartBtn()} className='btn btn-primary'>Start</button> </div>}
+            </div>
+            {!showStartBtn && <div className='row d-flex justify-content-center mt-md-5'> <div className='col-md-auto col'>
+                            <button disabled={this.state.playTurn === 'player' ? false : true} className='btn px-md-4 px-5 text-white btn-success' style={{borderRadius:'15px'}}>Play</button>
+                        </div><div className='col-md-auto col'>
+                            <button className='btn px-md-4 px-5 text-white btn-warning' style={{borderRadius:'15px'}}>Pass</button>
+                        </div></div>}
+        </div>
+
+            
         );
     }
 }
+
 
 export {ThirteenPokerComponent}
