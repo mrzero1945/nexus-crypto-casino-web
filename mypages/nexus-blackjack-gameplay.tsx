@@ -120,6 +120,8 @@ class Enemy {
 
 
 
+
+
 type CardProbabilities = {
     [key in '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'J' | 'Q' | 'K' | 'A']: number;
 };
@@ -252,8 +254,7 @@ class BlackjackGame {
         }
     }
     
-
-    public async enemyTurn() {
+    public async enemyTurn(setEnemyState : (value: Card[]) => void) {
         const threshold = 0.5; // Ambang batas risiko untuk melebihi 21
         let shouldContinue = true;
     
@@ -269,6 +270,7 @@ class BlackjackGame {
                     if (card) {
                         this.enemy.hit(card);
                         console.log("hit kartu lagi")
+                        setEnemyState(this.enemy.hand);
                     }
                 } else if(decision === 'stand') {
                     shouldContinue = false;
@@ -402,14 +404,25 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         });
     }
 
+    setEnemyTurn = (value: Card[]) => {
+    setTimeout(() => {
+        this.setState({
+            enemyHand: value
+        });
+    }, 100); // Delay selama 1 detik (1000 milidetik)
+}
+
+
     handleStand = async () => {
         const { game } = this.state;
-        await game.enemyTurn();
+        await game.enemyTurn(this.setEnemyTurn);
+        setTimeout(() => {
         this.setState({
-            enemyHand: [...game.enemy.hand],
-            winner: game.checkWinner(),
-            isGameEnd: true
-        });
+                    winner: game.checkWinner(),
+                    isGameEnd: true
+                });
+        }, 1000)
+        
     }
 
     renderCard(card: Card, isEnemy:boolean, isFirstimeEnemyCard?:boolean) {
