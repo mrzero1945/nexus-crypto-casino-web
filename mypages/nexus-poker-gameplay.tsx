@@ -1,3 +1,4 @@
+
 import React, { Component} from 'react';
 import cardBackEnemyImg from '../resources/assets/PNG/Cards/cardBack_blue1.png';
 import cardClubs2 from '../resources/assets/PNG/Cards/cardClubs2.png';
@@ -76,6 +77,7 @@ interface MainState{
     showStartBtn : boolean;
     playTurn: string;
     thrownCards: Card[];
+    isValidSelectedCard: boolean;
 }
 
 class ThirteenPokerComponent extends Component<Record<string, never>, MainState>{
@@ -97,7 +99,8 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
             enemy1SelectedCard: [],
             enemy2SelectedCard: [],
             enemy3SelectedCard: [],
-            thrownCards: []
+            thrownCards: [],
+            isValidSelectedCard: false
         };
     }
     
@@ -115,7 +118,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
     componentDidMount(): void {
         
     }
-
+    // start initial
     dealInitialCards(){
         const {game} = this.state;
         this.setState({
@@ -153,7 +156,39 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
         });
     }
 
+    // find 2 pairs
+    findPairsWithSameValue(cards:Card[]) {
+        // Mengelompokkan kartu berdasarkan nilai numerik
+        const groupedByNumericValue:Card[][] = [];
+      
+        cards.forEach(card => {
+          const numericValue = this.getNumericValue(card);
+          if (!groupedByNumericValue[numericValue]) {
+            groupedByNumericValue[numericValue] = [];
+          }
+          groupedByNumericValue[numericValue].push(card);
+        });
+      
+        const pairs = [];
+      
+        // Mencari pasangan dengan nilai numerik yang sama tapi suit berbeda
+        for (const numericValue in groupedByNumericValue) {
+          const cardsWithSameNumericValue = groupedByNumericValue[numericValue];
+      
+          for (let i = 0; i < cardsWithSameNumericValue.length; i++) {
+            for (let j = i + 1; j < cardsWithSameNumericValue.length; j++) {
+              if (cardsWithSameNumericValue[i].suit !== cardsWithSameNumericValue[j].suit) {
+                pairs.push([cardsWithSameNumericValue[i], cardsWithSameNumericValue[j]]);
+              }
+            }
+          }
+        }
+      
+        return pairs;
+      }
+
     turnEnemy1(){
+        // first game
         console.log("Memulai turnEnemy1");
     
         if(this.state.thrownCards.length === 0){
@@ -194,7 +229,48 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
                     this.handleAnimationEnemy(this.state.enemy1SelectedCard);
                 });
             }
-        } else {
+        }
+        // againt 2 pair
+         else if(this.state.thrownCards.length === 2){
+           // Asumsikan findPairsWithSameValue dan getNumericValue sudah didefinisikan
+            const countedPairs = this.findPairsWithSameValue(this.state.enemy1Hand);
+            let mayThrownPair:Card[][] = [];
+            for (const pairs of countedPairs) {
+                // Cek apakah salah satu dari pasangan memiliki nilai lebih besar
+                let shouldAddPair = pairs.some(pair => 
+                    this.getNumericValue(pair) > this.getNumericValue(this.state.thrownCards[0])
+                );
+
+                if (shouldAddPair) {
+                    mayThrownPair.push(pairs);
+                }
+            }
+            // Iterasi untuk menemukan pasangan dengan nilai terkecil
+            let smallestPair = null;
+            let smallestValue = Infinity;
+
+            for (const pairs of mayThrownPair) {
+                let pairValue = pairs.reduce((acc, card) => acc + this.getNumericValue(card), 0);
+                if (pairValue < smallestValue) {
+                    smallestValue = pairValue;
+                    smallestPair = pairs;
+                }
+            }
+
+            // smallestPair sekarang berisi pasangan kartu dengan nilai total terkecil
+            if (smallestPair) {
+                console.log("Pasangan yang dipilih untuk dibuang:", smallestPair);
+                this.setState({
+                    enemy1SelectedCard: smallestPair
+                },()=>{
+                    this.handleAnimationEnemy(this.state.enemy1SelectedCard);
+                });
+            } else {
+                console.log("Tidak ada pasangan yang bisa dibuang");
+            }
+
+         }
+         else {
             console.log("Kartu sudah dibuang. Tidak melakukan aksi.");
         }
     }
@@ -328,6 +404,37 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
             // Only return sequences that are of the same length as the longest sequence
             return allSequences.filter(sequence => sequence.length === longestLength);
         }
+
+        isValidRun(cards:Card[]) {
+            console.log("Memeriksa run valid pada kartu:", cards);
+          
+            if (cards.length < 3) {
+              console.log("Kartu tidak cukup untuk membentuk run.");
+              return false;
+            }
+          
+            cards.sort((a, b) => this.getNumericValue(a) - this.getNumericValue(b));
+            console.log("Kartu setelah diurutkan:", cards);
+          
+            let consecutiveCount = 1;
+          
+            for (let i = 0; i < cards.length - 1; i++) {
+              if (this.getNumericValue(cards[i + 1]) === this.getNumericValue(cards[i]) + 1) {
+                consecutiveCount++;
+                console.log(`Kartu berurutan ditemukan: ${cards[i].value}, ${cards[i+1].value}`);
+                if (consecutiveCount >= 3) {
+                  console.log("Run valid ditemukan.");
+                  return true;
+                }
+              } else {
+                console.log(`Kartu tidak berurutan ditemukan: ${cards[i].value}, ${cards[i+1].value}`);
+                consecutiveCount = 1; // Reset hitungan jika tidak berurutan
+              }
+            }
+          
+            console.log("Tidak ada run valid yang ditemukan.");
+            return false;
+          }
       
 
     setChoosenCard = (index:number, card:Card) => {
@@ -351,7 +458,42 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
             choosenCard: newArr,
             selectedCard: mySelectedCard
         }, () => {
-            console.log(this.state.selectedCard)
+            let isValid = false;
+            console.log("Kartu yang dipilih:", this.state.selectedCard);
+
+            // Memeriksa apakah semua kartu dalam array memiliki nilai yang sama
+            const allCardsHaveSameValue = (cards:Card[]) => 
+            cards.every(card => card.value === cards[0].value);
+
+            // first start player
+            if (this.state.thrownCards.length === 0) {
+            const selectedCardLength = this.state.selectedCard.length;
+
+            // Memeriksa pair, triple pair, dan fourth pair
+            if (selectedCardLength >= 2 && selectedCardLength <= 4) {
+                if (allCardsHaveSameValue(this.state.selectedCard)) {
+                // Cek kartu 3 Spades untuk semua kombinasi valid
+                isValid = this.state.selectedCard.some(card => 
+                    card.suit === 'Spades' && enumNilai[card.value] === 3
+                );
+                }
+            }
+            // memeriksa jika selectedCard adalah run 
+            if(selectedCardLength >= 3){
+                const isValidRun = this.isValidRun(this.state.selectedCard);
+                if(isValidRun){
+                    isValid = this.state.selectedCard.some(card => 
+                        card.suit === 'Spades' && enumNilai[card.value] === 3
+                    );
+                }
+            }
+
+            this.setState({
+                isValidSelectedCard: isValid
+            });
+}
+
+            
         });
     }
     
@@ -372,10 +514,6 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
             </div>
             
         )
-    }
-
-    handlePlayBtn(){
-
     }
 
     handleAnimationEnemy(selectedCard:Card[]) {
@@ -417,6 +555,8 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
                       enemy1Hand: remainingCards,
                       enemy1SelectedCard: emptyArr, 
                       playTurn: 'enemy2'
+                    },()=>{
+                        this.turnEnemy2();
                     });
                   }
                   else if (this.state.playTurn === 'enemy2') {
@@ -439,6 +579,8 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
                       enemy3Hand: remainingCards,
                       enemy3SelectedCard: emptyArr,
                       playTurn: 'enemy1'
+                    },()=>{
+                        this.turnEnemy1();
                     });
                   }
                 });
@@ -549,7 +691,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
                 {showStartBtn && <div className='col'> <button onClick={() => this.setShowStartBtn()} className='btn btn-primary'>Start</button> </div>}
             </div>
             {!showStartBtn && <div className='row d-flex justify-content-center mt-md-5'> <div className='col-md-auto col'>
-                            <button disabled={this.state.playTurn === 'player' ? false : true} className='btn px-md-4 px-5 text-white btn-success' style={{borderRadius:'15px'}}>Play</button>
+                            <button disabled={this.state.playTurn === 'player' && this.state.isValidSelectedCard ? false : true} className='btn px-md-4 px-5 text-white btn-success' style={{borderRadius:'15px'}}>Play</button>
                         </div><div className='col-md-auto col'>
                             <button className='btn px-md-4 px-5 text-white btn-warning' style={{borderRadius:'15px'}}>Pass</button>
                         </div></div>}
