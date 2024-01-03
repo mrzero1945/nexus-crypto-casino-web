@@ -531,6 +531,11 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
                 playTurn:'player'
             })
           }
+          else if(cards === this.state.enemy3Hand){
+            this.setState({
+                playTurn:'enemy1'
+            })
+          }
         }
     }
 
