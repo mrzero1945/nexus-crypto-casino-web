@@ -1,4 +1,6 @@
 // ingat untuk tidak tidur agar kau tidak mati
+// rasa takut membuatmu lemah, jangan takut, aku bersamamu dani
+
 import React, { Component} from 'react';
 import cardBackEnemyImg from '../resources/assets/PNG/Cards/cardBack_blue1.png';
 import cardClubs2 from '../resources/assets/PNG/Cards/cardClubs2.png';
@@ -55,6 +57,7 @@ import cardSpadesK from '../resources/assets/PNG/Cards/cardSpadesK.png';
 import cardSpadesA from '../resources/assets/PNG/Cards/cardSpadesA.png';
 import { ThirteenPokerGame, Card} from '../header/poker-game';
 import { gsap } from "gsap";
+import { taikoJolnir } from 'viem/chains';
 
 const enumNilai : any = {
     '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, 
@@ -259,6 +262,167 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
             }
     }
 
+    findTriplesWithSameValue(cards: Card[]): Card[][] {
+        const groupedByValue: { [key: string]: Card[] } = {};
+    
+        // Mengelompokkan kartu berdasarkan nilai
+        cards.forEach(card => {
+            if (!groupedByValue[card.value]) {
+                groupedByValue[card.value] = [];
+            }
+            groupedByValue[card.value].push(card);
+        });
+    
+        const triples: Card[][] = [];
+    
+        // Mencari kelompok yang memiliki setidaknya tiga kartu
+        for (const value in groupedByValue) {
+            if (groupedByValue[value].length >= 3) {
+                // Mengambil tiga kartu pertama dari kelompok
+                triples.push(groupedByValue[value].slice(0, 3));
+            }
+        }
+    
+        return triples;
+    }
+
+    isRunHigher(cards1:Card[], card2:Card[]){
+        // mendapatkan nilai tertinggi setiap run
+        const maxCardValue1 = this.getNumericValue(cards1[cards1.length - 1]);
+        const maxCardValue2 = this.getNumericValue(card2[card2.length - 1]);
+        return maxCardValue1 > maxCardValue2;
+    }
+
+    threeCardPair(cards:Card[], selectedCard:Card[]) {
+        // Mencari kombinasi tiga kartu berpasangan
+        const countedTriples = this.findTriplesWithSameValue(cards);
+        if(countedTriples.length !== 0){
+            let mayThrowTriple = [];
+            for (const triple of countedTriples) {
+                // Cek apakah kombinasi memiliki nilai lebih besar
+                let shouldAddTriple = triple.some(tri => 
+                    this.getNumericValue(tri) > this.getNumericValue(this.state.thrownCards[0])
+                );
+        
+                if (shouldAddTriple) {
+                    mayThrowTriple.push(triple);
+                }
+            }
+        
+            // Iterasi untuk menemukan kombinasi dengan nilai terkecil
+            let smallestTriple = null;
+            let smallestValue = Infinity;
+        
+            for (const triple of mayThrowTriple) {
+                let tripleValue = triple.reduce((acc, card) => acc + this.getNumericValue(card), 0);
+                if (tripleValue < smallestValue) {
+                    smallestValue = tripleValue;
+                    smallestTriple = triple;
+                }
+            }
+        
+            // smallestTriple berisi kombinasi tiga kartu dengan nilai total terkecil
+            if (smallestTriple) {
+                console.log("Kombinasi yang dipilih untuk dibuang:", smallestTriple);
+                if(cards === this.state.enemy1Hand){
+                    this.setState({
+                        enemy1SelectedCard: smallestTriple
+                    },()=>{
+                        this.handleAnimationEnemy(selectedCard);
+                    });
+                }
+                else if(cards === this.state.enemy2Hand){
+                    this.setState({
+                        enemy2SelectedCard: smallestTriple
+                    },()=>{
+                        this.handleAnimationEnemy(selectedCard);
+                    })
+                }
+                else if(cards === this.state.enemy3Hand){
+                    this.setState({
+                        enemy3SelectedCard: smallestTriple
+                    },()=>{
+                        this.handleAnimationEnemy(selectedCard);
+                    })
+                }
+            } else { 
+                console.log("Tidak ada kombinasi tiga kartu yang bisa dibuang");
+            }
+        } 
+        else{
+            // run card
+            const countedCards = this.findConsecutiveCards(3, cards);
+            let mayThrownCards:Card[][] = [] 
+            for(const cards of countedCards){
+                if(this.isRunHigher(cards, this.state.thrownCards)){
+                    mayThrownCards.push(cards);
+                }
+            }
+            const thrownCards = this.findSmallesRun(mayThrownCards)
+            if(thrownCards.length !== 0){
+                console.log("Kombinasi yang dipilih untuk dibuang:", thrownCards);
+                if(cards === this.state.enemy1Hand){
+                    this.setState({
+                        enemy1SelectedCard: thrownCards
+                    },()=>{
+                        this.handleAnimationEnemy(selectedCard);
+                    });
+                }
+                else if(cards === this.state.enemy2Hand){
+                    this.setState({
+                        enemy2SelectedCard: thrownCards
+                    },()=>{
+                        this.handleAnimationEnemy(selectedCard);
+                    })
+                }
+                else if(cards === this.state.enemy3Hand){
+                    this.setState({
+                        enemy3SelectedCard: thrownCards
+                    },()=>{
+                        this.handleAnimationEnemy(selectedCard);
+                    })
+                }
+            }
+
+        }
+    }
+
+    // mencari run terkecil
+    findSmallesRun(runs: Card[][]): Card[]{
+        // Mendefinisikan variabel untuk menyimpan run terkecil
+        let smallestRun: Card[] = [];
+        let smallestRunValue = Infinity;
+
+        runs.forEach(run => {
+            // Cari nilai tertinggi dalam run ini
+            const highestCardValue = run.reduce((max, card) => Math.max(max, this.getNumericValue(card)), -Infinity);
+
+            // Perbarui run terkecil jika nilai tertinggi run ini lebih kecil
+            if (highestCardValue < smallestRunValue) {
+                smallestRun = run;
+                smallestRunValue = highestCardValue;
+            }
+        });
+
+        return smallestRun;
+    }    
+    // mencari run dengan panjang berdasarkan count
+    findConsecutiveCards(count: number, cards:Card[]): Card[][]{
+        const sortedCards = [...cards].sort((a, b)=> this.getNumericValue(a) - this.getNumericValue(b));
+        const consecutiveCards: Card[][] = [];
+        let tempConsecutive: Card[] = [];
+        for(let i = 0; i<sortedCards.length; i++){
+            tempConsecutive.push(sortedCards[i]);
+            if(tempConsecutive.length === count){
+                consecutiveCards.push([...tempConsecutive]);
+                tempConsecutive = [];
+            } else if(i < sortedCards.length - 1 && this.getNumericValue(sortedCards[i + 1]) !== this.getNumericValue(sortedCards[i])+ 1){
+                tempConsecutive = [];
+            }
+        }
+        return consecutiveCards.length > 0 ? consecutiveCards : [];
+    }
+
     enemyAgaintsTwoCardPair(cards:Card[], selectedCard:Card[]){
          // Asumsikan findPairsWithSameValue dan getNumericValue sudah didefinisikan
          const countedPairs = this.findPairsWithSameValue(cards);
@@ -357,6 +521,16 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
         } else {
           console.log("Tidak ada kartu yang lebih besar dari kartu yang dibuang.");
           // Lakukan tindakan alternatif
+          if(cards === this.state.enemy1Hand){
+            this.setState({
+                playTurn:'enemy2'
+            })
+          }
+          else if(cards === this.state.enemy2Hand){
+            this.setState({
+                playTurn:'player'
+            })
+          }
         }
     }
 
@@ -375,7 +549,12 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
         else if(this.state.thrownCards.length === 2){
             this.enemyAgaintsTwoCardPair(this.state.enemy1Hand, this.state.enemy1SelectedCard);
         }
-        
+        // againts 3 cards pair and 3 length run
+        else if(this.state.thrownCards.length === 3){
+            this.threeCardPair(this.state.enemy1Hand, this.state.enemy1SelectedCard);
+        }
+        // againts 4 cards pair and 4 legth run
+
     }
     
 
