@@ -187,96 +187,195 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
         return pairs;
       }
 
-    turnEnemy1(){
-        // first game
-        console.log("Memulai turnEnemy1");
+    handleFirstTurnEnemy(cards:Card[], selectedCard:Card[]){
+        console.log("Tidak ada kartu yang dibuang. Mencari rangkaian berurutan...");
     
-        if(this.state.thrownCards.length === 0){
-            console.log("Tidak ada kartu yang dibuang. Mencari rangkaian berurutan...");
-    
-            const countedRuns = this.countingRun(this.state.enemy1Hand);
+            const countedRuns = this.countingRun(cards);
             console.log("Rangkaian berurutan ditemukan:", countedRuns);
     
             if(countedRuns.length !== 0){
                 for(const runs of countedRuns){
                     for(const run of runs){
                         if(enumNilai[run.value] === 3 && run.suit === 'Spades'){
-                            console.log("Mengatur kartu terpilih enemy1 dengan rangkaian:", runs);
-                            this.setState({
+                            console.log("Mengatur kartu terpilih enemy dengan rangkaian:", runs);
+                            if(cards === this.state.enemy1Hand){
+                                this.setState({
                                 enemy1SelectedCard: runs
-                            }, () => {
-                                this.handleAnimationEnemy(this.state.enemy1SelectedCard);
-                            });
+                                }, () => {
+                                    this.handleAnimationEnemy(selectedCard);
+                                });
+                            }
+                            else if(cards === this.state.enemy2Hand){
+                                this.setState({
+                                    enemy2SelectedCard : runs
+                                }, () => {
+                                    this.handleAnimationEnemy(selectedCard)
+                                })
+                            }
+                            else if(cards === this.state.enemy3Hand){
+                                this.setState({
+                                    enemy3SelectedCard : runs
+                                }, () => {
+                                    this.handleAnimationEnemy(selectedCard)
+                                })
+                            }
+                            
                         }
                     }
                 }
             }
-    
-            if(this.state.enemy1SelectedCard.length === 0){
+            // jika kartu yang dipilih nol
+            if(selectedCard.length === 0){
                 console.log("Tidak ada rangkaian yang valid. Memilih kartu dengan nilai 3...");
     
-                let selectedCard = [];
-                for(const card of this.state.enemy1Hand){
+                let selectedCards = [];
+                for(const card of cards){
                     if(enumNilai[card.value] === 3){
-                        selectedCard.push(card);
+                        selectedCards.push(card);
                     }
                 }
     
-                console.log("Kartu terpilih berdasarkan nilai 3:", selectedCard);
-                this.setState({
-                    enemy1SelectedCard: selectedCard
-                }, () => {
-                    this.handleAnimationEnemy(this.state.enemy1SelectedCard);
-                });
+                console.log("Kartu terpilih berdasarkan nilai 3:", selectedCards);
+                if(cards === this.state.enemy1Hand){
+                    this.setState({
+                    enemy1SelectedCard: selectedCards
+                    }, () => {
+                        this.handleAnimationEnemy(selectedCard);
+                    });
+                }
+                else if(cards === this.state.enemy2Hand){
+                    this.setState({
+                        enemy2SelectedCard : selectedCards
+                    }, () => {
+                        this.handleAnimationEnemy(selectedCard)
+                    })
+                }
+                else if(cards === this.state.enemy3Hand){
+                    this.setState({
+                        enemy3SelectedCard : selectedCards
+                    })
+                }
+                
             }
+    }
+
+    enemyAgaintsTwoCardPair(cards:Card[], selectedCard:Card[]){
+         // Asumsikan findPairsWithSameValue dan getNumericValue sudah didefinisikan
+         const countedPairs = this.findPairsWithSameValue(cards);
+         let mayThrownPair:Card[][] = [];
+         for (const pairs of countedPairs) {
+             // Cek apakah salah satu dari pasangan memiliki nilai lebih besar
+             let shouldAddPair = pairs.some(pair => 
+                 this.getNumericValue(pair) > this.getNumericValue(this.state.thrownCards[0])
+             );
+
+             if (shouldAddPair) {
+                 mayThrownPair.push(pairs);
+             }
+         }
+         // Iterasi untuk menemukan pasangan dengan nilai terkecil
+         let smallestPair = null;
+         let smallestValue = Infinity;
+
+         for (const pairs of mayThrownPair) {
+             let pairValue = pairs.reduce((acc, card) => acc + this.getNumericValue(card), 0);
+             if (pairValue < smallestValue) {
+                 smallestValue = pairValue;
+                 smallestPair = pairs;
+             }
+         }
+
+         // smallestPair sekarang berisi pasangan kartu dengan nilai total terkecil
+         if (smallestPair) {
+             console.log("Pasangan yang dipilih untuk dibuang:", smallestPair);
+             if(this.state.enemy1Hand){
+                this.setState({
+                 enemy1SelectedCard: smallestPair
+                },()=>{
+                    this.handleAnimationEnemy(selectedCard);
+                });
+             }
+             else if(this.state.enemy2Hand){
+                this.setState({
+                    enemy2SelectedCard: smallestPair
+                }, ()=>{
+                    this.handleAnimationEnemy(selectedCard);
+                });
+             }
+             else if(this.state.enemy3Hand){
+                this.setState({
+                    enemy3SelectedCard:smallestPair
+                }, ()=>{
+                    this.handleAnimationEnemy(selectedCard);
+                });
+             }
+             
+         } else {
+             console.log("Tidak ada pasangan yang bisa dibuang");
+         }
+    }
+
+    enemyAgaintsOneCard(cards:Card[], selectedCard:Card[]){
+        // Mengambil nilai kartu yang dibuang
+        const thrownCardValue = this.getNumericValue(this.state.thrownCards[0]);
+          
+        // Filter kartu yang memiliki nilai lebih besar dari kartu yang dibuang
+        let higherCards = cards.filter(card => 
+          this.getNumericValue(card) > thrownCardValue
+        );
+      
+        // Cari kartu dengan nilai terkecil dari kartu yang tersisa
+        if (higherCards.length > 0) {
+          let smallestCard = higherCards.reduce((smallest, current) => 
+            this.getNumericValue(current) < this.getNumericValue(smallest) ? current : smallest
+          );
+
+      
+          console.log("Kartu terkecil yang lebih besar dari kartu yang dibuang:", smallestCard);
+          if(cards === this.state.enemy1Hand){
+            this.setState({
+                enemy1SelectedCard : selectedCard
+            }, () => {
+                this.handleAnimationEnemy(selectedCard);
+            });
+          }
+          else if(cards === this.state.enemy2Hand){
+            this.setState({
+                enemy2SelectedCard: selectedCard
+            }, ()=> {
+                this.handleAnimationEnemy(selectedCard);
+            });
+          }
+          else if(cards === this.state.enemy3Hand){
+            this.setState({
+                enemy3SelectedCard: selectedCard
+            }, ()=>{
+                this.handleAnimationEnemy(selectedCard);
+            });
+          }
+          // Lakukan tindakan selanjutnya dengan smallestCard
+        } else {
+          console.log("Tidak ada kartu yang lebih besar dari kartu yang dibuang.");
+          // Lakukan tindakan alternatif
+        }
+    }
+
+    turnEnemy1(){
+        // first game
+        console.log("Memulai turnEnemy1");
+    
+        if(this.state.thrownCards.length === 0){
+            this.handleFirstTurnEnemy(this.state.enemy1Hand, this.state.enemy1SelectedCard);
         }
         // againts 1 card
-        else if(this.state.thrownCards.length === 1){
-
+        else if (this.state.thrownCards.length === 1) {
+            this.enemyAgaintsOneCard(this.state.enemy1Hand, this.state.enemy1SelectedCard);
         }
         // againts 2 cards pair
-         else if(this.state.thrownCards.length === 2){
-           // Asumsikan findPairsWithSameValue dan getNumericValue sudah didefinisikan
-            const countedPairs = this.findPairsWithSameValue(this.state.enemy1Hand);
-            let mayThrownPair:Card[][] = [];
-            for (const pairs of countedPairs) {
-                // Cek apakah salah satu dari pasangan memiliki nilai lebih besar
-                let shouldAddPair = pairs.some(pair => 
-                    this.getNumericValue(pair) > this.getNumericValue(this.state.thrownCards[0])
-                );
-
-                if (shouldAddPair) {
-                    mayThrownPair.push(pairs);
-                }
-            }
-            // Iterasi untuk menemukan pasangan dengan nilai terkecil
-            let smallestPair = null;
-            let smallestValue = Infinity;
-
-            for (const pairs of mayThrownPair) {
-                let pairValue = pairs.reduce((acc, card) => acc + this.getNumericValue(card), 0);
-                if (pairValue < smallestValue) {
-                    smallestValue = pairValue;
-                    smallestPair = pairs;
-                }
-            }
-
-            // smallestPair sekarang berisi pasangan kartu dengan nilai total terkecil
-            if (smallestPair) {
-                console.log("Pasangan yang dipilih untuk dibuang:", smallestPair);
-                this.setState({
-                    enemy1SelectedCard: smallestPair
-                },()=>{
-                    this.handleAnimationEnemy(this.state.enemy1SelectedCard);
-                });
-            } else {
-                console.log("Tidak ada pasangan yang bisa dibuang");
-            }
-
-         }
-         else {
-            console.log("Kartu sudah dibuang. Tidak melakukan aksi.");
+        else if(this.state.thrownCards.length === 2){
+            this.enemyAgaintsTwoCardPair(this.state.enemy1Hand, this.state.enemy1SelectedCard);
         }
+        
     }
     
 
