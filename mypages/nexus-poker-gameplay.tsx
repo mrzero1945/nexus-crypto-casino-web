@@ -81,6 +81,7 @@ interface MainState{
     playTurn: string;
     thrownCards: Card[];
     isValidSelectedCard: boolean;
+    currentThrownCard:string
 }
 
 class ThirteenPokerComponent extends Component<Record<string, never>, MainState>{
@@ -105,7 +106,8 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
             enemy2SelectedCard: [],
             enemy3SelectedCard: [],
             thrownCards: [],
-            isValidSelectedCard: false
+            isValidSelectedCard: false,
+            currentThrownCard: ''
         };
     }
     
@@ -241,7 +243,8 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
     finalSelectedCard(cards:Card[], selectedCards:Card[] ){
         if(cards === this.state.enemy1Hand){
             this.setState({
-                enemy1SelectedCard: selectedCards
+                enemy1SelectedCard: selectedCards,
+                currentThrownCard: this.state.playTurn
             }, () => {
                 // Memanggil handleAnimationEnemy hanya jika selectedCard.length tidak 0
                 if(this.state.enemy1SelectedCard.length !== 0){
@@ -251,7 +254,8 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
         }
         else if(cards === this.state.enemy2Hand){
             this.setState({
-                enemy2SelectedCard : selectedCards
+                enemy2SelectedCard : selectedCards,
+                currentThrownCard: this.state.playTurn
             }, () => {
                 // Memanggil handleAnimationEnemy hanya jika selectedCard.length tidak 0
                 if(this.state.enemy2SelectedCard.length !== 0){
@@ -261,7 +265,8 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
         }
         else if(cards === this.state.enemy3Hand){
             this.setState({
-                enemy3SelectedCard : selectedCards
+                enemy3SelectedCard : selectedCards,
+                currentThrownCard: this.state.playTurn
             }, () => {
                 // Memanggil handleAnimationEnemy hanya jika selectedCard.length tidak 0
                 if(this.state.enemy3SelectedCard.length !== 0){
@@ -302,39 +307,44 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
         return maxCardValue1 > maxCardValue2;
     }
 
-    threeCardPair(cards:Card[], selectedCard:Card[]) {
+
+
+    threeCardPair(cards: Card[], selectedCard: Card[]) {
         // Mencari kombinasi tiga kartu berpasangan
         const countedTriples = this.findTriplesWithSameValue(cards);
         let isSameCard: boolean = true;
-
+    
         if (this.state.thrownCards.length > 0) {
             const firstCard = this.state.thrownCards[0];
             for (const thrownCard of this.state.thrownCards) {
                 if (thrownCard !== firstCard) {
                     isSameCard = false;
+                    console.log("Kartu yang dibuang tidak sama.");
                     break;
                 }
             }
         } else {
-            isSameCard= false; // or true, depending on how you want to handle an empty array
-        }        
-        if(countedTriples.length !== 0 && isSameCard){
+            isSameCard = false; // or true, depending on how you want to handle an empty array
+            console.log("Tidak ada kartu yang dibuang sebelumnya.");
+        }
+    
+        if (countedTriples.length !== 0 && isSameCard) {
             let mayThrowTriple = [];
             for (const triple of countedTriples) {
                 // Cek apakah kombinasi memiliki nilai lebih besar
                 let shouldAddTriple = triple.some(tri => 
                     this.getNumericValue(tri) > this.getNumericValue(this.state.thrownCards[0])
                 );
-        
+    
                 if (shouldAddTriple) {
                     mayThrowTriple.push(triple);
                 }
             }
-        
+    
             // Iterasi untuk menemukan kombinasi dengan nilai terkecil
             let smallestTriple = null;
             let smallestValue = Infinity;
-        
+    
             for (const triple of mayThrowTriple) {
                 let tripleValue = triple.reduce((acc, card) => acc + this.getNumericValue(card), 0);
                 if (tripleValue < smallestValue) {
@@ -342,70 +352,30 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
                     smallestTriple = triple;
                 }
             }
-        
+    
             // smallestTriple berisi kombinasi tiga kartu dengan nilai total terkecil
             if (smallestTriple) {
                 console.log("Kombinasi yang dipilih untuk dibuang:", smallestTriple);
-                if(cards === this.state.enemy1Hand){
-                    this.setState({
-                        enemy1SelectedCard: smallestTriple
-                    },()=>{
-                        this.handleAnimationEnemy(this.state.enemy1SelectedCard);
-                    });
-                }
-                else if(cards === this.state.enemy2Hand){
-                    this.setState({
-                        enemy2SelectedCard: smallestTriple
-                    },()=>{
-                        this.handleAnimationEnemy(this.state.enemy2SelectedCard);
-                    })
-                }
-                else if(cards === this.state.enemy3Hand){
-                    this.setState({
-                        enemy3SelectedCard: smallestTriple
-                    },()=>{
-                        this.handleAnimationEnemy(this.state.enemy3SelectedCard);
-                    })
-                }
+                this.finalSelectedCard(cards, smallestTriple);
             } else { 
                 console.log("Tidak ada kombinasi tiga kartu yang bisa dibuang");
             }
-        } 
-        else if(isSameCard){
-            // run card
+        } else if (!isSameCard) {
+            // Run card logic
             const countedCards = this.findConsecutiveCards(3, cards);
-            let mayThrownCards:Card[][] = [] 
-            for(const cards of countedCards){
-                if(this.isRunHigher(cards, this.state.thrownCards)){
-                    mayThrownCards.push(cards);
+            let mayThrownCards: Card[][] = [];
+            for (const cardSet of countedCards) {
+                if (this.isRunHigher(cardSet, this.state.thrownCards)) {
+                    mayThrownCards.push(cardSet);
                 }
             }
-            const thrownCards = this.findSmallesRun(mayThrownCards)
-            if(thrownCards.length !== 0){
+            const thrownCards = this.findSmallesRun(mayThrownCards);
+            if (thrownCards.length !== 0) {
                 console.log("Kombinasi yang dipilih untuk dibuang:", thrownCards);
-                if(cards === this.state.enemy1Hand){
-                    this.setState({
-                        enemy1SelectedCard: thrownCards
-                    },()=>{
-                        this.handleAnimationEnemy(selectedCard);
-                    });
-                }
-                else if(cards === this.state.enemy2Hand){
-                    this.setState({
-                        enemy2SelectedCard: thrownCards
-                    },()=>{
-                        this.handleAnimationEnemy(selectedCard);
-                    })
-                }
-                else if(cards === this.state.enemy3Hand){
-                    this.setState({
-                        enemy3SelectedCard: thrownCards
-                    },()=>{
-                        this.handleAnimationEnemy(selectedCard);
-                    })
-                }
+                this.finalSelectedCard(cards, thrownCards);
+            } else {
+                console.log("Tidak ada kartu berurutan yang bisa dibuang.");
             }
-
         }
     }
 
@@ -475,41 +445,36 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
          if (smallestPair) {
              console.log("Pasangan yang dipilih untuk dibuang:", smallestPair);
 
-             if(cards === this.state.enemy1Hand){
-                this.setState({
-                 enemy1SelectedCard: smallestPair
-                },()=>{
-                    this.handleAnimationEnemy(this.state.enemy1SelectedCard);
-                });
-             }
-             else if(cards === this.state.enemy2Hand){
-                this.setState({
-                    enemy2SelectedCard: smallestPair
-                }, ()=>{
-                    this.handleAnimationEnemy(this.state.enemy2SelectedCard);
-                });
-             }
-             else if(cards === this.state.enemy3Hand){
-                this.setState({
-                    enemy3SelectedCard:smallestPair
-                }, ()=>{
-                    this.handleAnimationEnemy(this.state.enemy3SelectedCard);
-                });
-             }
+             this.finalSelectedCard(cards, smallestPair);
              
          } else {
              console.log("Tidak ada pasangan yang bisa dibuang");
+             this.handlePassEnemy(cards);
          }
     }
 
     enemyAgaintsOneCard(cards:Card[], selectedCard:Card[]){
         // Mengambil nilai kartu yang dibuang
-        const thrownCardValue = this.getNumericValue(this.state.thrownCards[0]);
           
         // Filter kartu yang memiliki nilai lebih besar dari kartu yang dibuang
-        let higherCards = cards.filter(card => 
-          this.getNumericValue(card) > thrownCardValue
-        );
+        let higherCards:Card[] = [];
+        for(const card of cards){
+            if(enumNilai[card.value] > enumNilai[this.state.thrownCards[0].value]){
+                console.log('kartu: %d lebih besar dari %d', enumNilai[card.value], enumNilai[this.state.thrownCards[0].value])
+                higherCards.push(card);
+            }
+            else if(enumNilai[card.value] === enumNilai[this.state.thrownCards[0].value]){
+                const suitValues: any = {
+                    'Spades': 1,
+                    'Clubs': 2,
+                    'Diamonds': 3,
+                    'Hearts': 4
+                };
+                if(suitValues[card.suit] > suitValues[this.state.thrownCards[0].suit]){
+                    higherCards.push(card);
+                }
+            }
+        }
       
         // Cari kartu dengan nilai terkecil dari kartu yang tersisa
         if (higherCards.length > 0) {
@@ -520,35 +485,21 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
       
           console.log("Kartu terkecil yang lebih besar dari kartu yang dibuang:", smallestCard);
           const thrownCards:Card[] = [smallestCard]        
-          if(cards === this.state.enemy1Hand){
-            this.setState({
-                enemy1SelectedCard : thrownCards
-            }, () => {
-                this.handleAnimationEnemy(this.state.enemy1SelectedCard);
-            });
-          }
-          else if(cards === this.state.enemy2Hand){
-            this.setState({
-                enemy2SelectedCard: thrownCards
-            }, ()=> {
-                this.handleAnimationEnemy(this.state.enemy2SelectedCard);
-            });
-          }
-          else if(cards === this.state.enemy3Hand){
-            this.setState({
-                enemy3SelectedCard: thrownCards
-            }, ()=>{
-                this.handleAnimationEnemy(this.state.enemy3SelectedCard);
-            });
-          }
+          this.finalSelectedCard(cards, thrownCards);
           // Lakukan tindakan selanjutnya dengan smallestCard
         } else {
           console.log("Tidak ada kartu yang lebih besar dari kartu yang dibuang.");
           // Lakukan tindakan alternatif
-          if(cards === this.state.enemy1Hand){
+          this.handlePassEnemy(cards);
+        }
+    }
+
+    handlePassEnemy(cards:Card[]){
+        if(cards === this.state.enemy1Hand){
             this.setState({
                 playTurn:'enemy2'
-            })
+            });
+            this.turnEnemy2();
           }
           else if(cards === this.state.enemy2Hand){
             this.setState({
@@ -558,16 +509,32 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
           else if(cards === this.state.enemy3Hand){
             this.setState({
                 playTurn:'enemy1'
-            })
+            });
+            this.turnEnemy1();
           }
+    }
+    
+    findEnemySmallesCard(cards: Card[]){
+        let smallestCard = cards[0];
+        for(const card of cards){
+            if(this.getNumericValue(card) < this.getNumericValue(card)){
+                smallestCard = card
+            }
         }
+        let selectedCards:Card[] = [];
+        selectedCards.push(smallestCard);
+        this.finalSelectedCard(cards, selectedCards)
     }
 
     turnEnemy1(){
-        // first game
+        
         console.log("Memulai turnEnemy1");
-    
-        if(this.state.thrownCards.length === 0){
+        // all enemy pass
+        if(this.state.currentThrownCard === this.state.playTurn){
+            this.findEnemySmallesCard(this.state.enemy1Hand);
+        }
+        // first game
+        else if(this.state.thrownCards.length === 0){
             this.handleFirstTurnEnemy(this.state.enemy1Hand, this.state.enemy1SelectedCard);
         }
         // againts 1 card
@@ -589,8 +556,12 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
 
     turnEnemy2(){
         console.log("Memulai turnEnemy2");
+        // all enemy pass
+        if(this.state.currentThrownCard === this.state.playTurn){
+            this.findEnemySmallesCard(this.state.enemy2Hand);
+        }
 
-        if(this.state.thrownCards.length === 0){
+        else if(this.state.thrownCards.length === 0){
             this.handleFirstTurnEnemy(this.state.enemy2Hand, this.state.enemy2SelectedCard);
         }
         // againts 1 card
@@ -611,6 +582,10 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
 
     turnEnemy3(){
         console.log("Memulai turnEnemy3");
+        // all enemy pass
+        if(this.state.currentThrownCard === this.state.playTurn){
+            this.findEnemySmallesCard(this.state.enemy3Hand);
+        }
 
         if(this.state.thrownCards.length === 0){
             this.handleFirstTurnEnemy(this.state.enemy3Hand, this.state.enemy3SelectedCard);
@@ -634,7 +609,8 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
 
     getNumericValue(card:Card) {
         const valueMap:any = { 'J': 11, 'Q': 12, 'K': 13, 'A': 14, '2':15 };
-        return valueMap[card.value] || parseInt(card.value, 10);
+        console.log(valueMap[card.value] || parseInt(card.value))
+        return valueMap[card.value] || parseInt(card.value);
       }
       
 
@@ -740,24 +716,40 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
                         card.suit === 'Spades' && enumNilai[card.value] === 3
                     );
                     }
+                }
+                     
+
+            
             }
-            // memeriksa jika selectedCard adalah run 
-            if(selectedCardLength >= 3){
-                const isValidRun = this.isValidRun(this.state.selectedCard);
-                if(isValidRun){
-                    isValid = this.state.selectedCard.some(card => 
-                        card.suit === 'Spades' && enumNilai[card.value] === 3
-                    );
+            else if(this.state.thrownCards.length === 1 && this.state.selectedCard.length === 1){
+                const suitValues:any = {
+                    'Spades':1, 'Clubs':2, 'Diamonds':3, 'Hearts':4
+                }
+                if(enumNilai[this.state.selectedCard[0].value] === enumNilai[this.state.thrownCards[0].value]){
+                    if(suitValues[this.state.selectedCard[0].suit] > suitValues[this.state.thrownCards[0].suit]){
+                        isValid = true;
+                    }
+                }
+                if(enumNilai[this.state.selectedCard[0].value] > enumNilai[this.state.thrownCards[0].value]){
+                    isValid = true
                 }
             }
-
+            else {
+                isValid = false;
+            }
             this.setState({
                 isValidSelectedCard: isValid
             });
-}
 
             
         });
+    }
+
+    handlePass(){
+        this.setState({
+            playTurn: 'enemy3'
+        });
+        this.turnEnemy3();
     }
     
 
@@ -773,7 +765,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
         return(
             
             <div ref={this.refAmmosPlayer[index]} className='col'>
-                <img className='img-fluid' width={50} onClick={() => this.setChoosenCard(index, card)} style={choosenCard[index] ? zoomStyle : {}} src={imgArr[card.value + card.suit]}/>
+                <img className='img-fluid position-relative' width={50} onClick={() => this.setChoosenCard(index, card)} style={choosenCard[index] ? zoomStyle : {}} src={imgArr[card.value + card.suit]}/>
             </div>
             
         )
@@ -977,7 +969,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
             {!showStartBtn && <div className='row d-flex justify-content-center mt-md-5'> <div className='col-md-auto col'>
                             <button disabled={this.state.playTurn === 'player' && this.state.isValidSelectedCard ? false : true} className='btn px-md-4 px-5 text-white btn-success' style={{borderRadius:'15px'}}>Play</button>
                         </div><div className='col-md-auto col'>
-                            <button className='btn px-md-4 px-5 text-white btn-warning' style={{borderRadius:'15px'}}>Pass</button>
+                            <button disabled={this.state.playTurn === 'player' ? false : true} onClick={()=> this.handlePass()} className='btn px-md-4 px-5 text-white btn-warning' style={{borderRadius:'15px'}}>Pass</button>
                         </div></div>}
         </div>
 
