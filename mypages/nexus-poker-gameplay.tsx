@@ -305,20 +305,20 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
     threeCardPair(cards:Card[], selectedCard:Card[]) {
         // Mencari kombinasi tiga kartu berpasangan
         const countedTriples = this.findTriplesWithSameValue(cards);
-        let isRunThrownCard: boolean = true;
+        let isSameCard: boolean = true;
 
         if (this.state.thrownCards.length > 0) {
             const firstCard = this.state.thrownCards[0];
             for (const thrownCard of this.state.thrownCards) {
                 if (thrownCard !== firstCard) {
-                    isRunThrownCard = false;
+                    isSameCard = false;
                     break;
                 }
             }
         } else {
-            isRunThrownCard = false; // or true, depending on how you want to handle an empty array
+            isSameCard= false; // or true, depending on how you want to handle an empty array
         }        
-        if(countedTriples.length !== 0 && !isRunThrownCard){
+        if(countedTriples.length !== 0 && isSameCard){
             let mayThrowTriple = [];
             for (const triple of countedTriples) {
                 // Cek apakah kombinasi memiliki nilai lebih besar
@@ -371,7 +371,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
                 console.log("Tidak ada kombinasi tiga kartu yang bisa dibuang");
             }
         } 
-        else if(isRunThrownCard){
+        else if(isSameCard){
             // run card
             const countedCards = this.findConsecutiveCards(3, cards);
             let mayThrownCards:Card[][] = [] 
@@ -730,16 +730,16 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
 
             // first start player
             if (this.state.thrownCards.length === 0) {
-            const selectedCardLength = this.state.selectedCard.length;
+                const selectedCardLength = this.state.selectedCard.length;
 
-            // Memeriksa pair, triple pair, dan fourth pair
-            if (selectedCardLength >= 2 && selectedCardLength <= 4) {
-                if (allCardsHaveSameValue(this.state.selectedCard)) {
-                // Cek kartu 3 Spades untuk semua kombinasi valid
-                isValid = this.state.selectedCard.some(card => 
-                    card.suit === 'Spades' && enumNilai[card.value] === 3
-                );
-                }
+                // Memeriksa pair, triple pair, dan fourth pair
+                if (selectedCardLength >= 2 && selectedCardLength <= 4) {
+                    if (allCardsHaveSameValue(this.state.selectedCard)) {
+                    // Cek kartu 3 Spades untuk semua kombinasi valid
+                    isValid = this.state.selectedCard.some(card => 
+                        card.suit === 'Spades' && enumNilai[card.value] === 3
+                    );
+                    }
             }
             // memeriksa jika selectedCard adalah run 
             if(selectedCardLength >= 3){
