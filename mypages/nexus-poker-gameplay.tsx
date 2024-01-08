@@ -342,7 +342,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
     }
 
 
-
+    //enemy
     threeCardPair(cards: Card[], selectedCard: Card[]) {
         // Mencari kombinasi tiga kartu berpasangan
         const countedTriples = this.findTriplesWithSameValue(cards);
@@ -772,6 +772,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
       
 
     setChoosenCard = (index:number, card:Card) => {
+
         // Membuat salinan dari state yang ada
         let newArr = [...this.state.choosenCard];
         let mySelectedCard = [...this.state.selectedCard];
@@ -798,9 +799,12 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
             // Memeriksa apakah semua kartu dalam array memiliki nilai yang sama
             const allCardsHaveSameValue = (cards:Card[]) => 
             cards.every(card => card.value === cards[0].value);
+            if(this.state.currentThrownCard === this.state.playTurn){
+                //todo:
+            }
 
             // first start player
-            if (this.state.thrownCards.length === 0) {
+            else if (this.state.thrownCards.length === 0) {
                 const selectedCardLength = this.state.selectedCard.length;
 
                 // Memeriksa pair, triple pair, dan fourth pair
@@ -830,7 +834,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
                 }
             }
             else if(this.state.thrownCards.length === 2 && this.state.selectedCard.length === 2){
-                isValid = this.state.selectedCard[0] === this.state.selectedCard[1] && enumNilai[this.state.selectedCard[0].value] > enumNilai[this.state.thrownCards[0].value];
+                isValid = this.state.selectedCard[0].value === this.state.selectedCard[1].value && enumNilai[this.state.selectedCard[0].value] > enumNilai[this.state.thrownCards[0].value];
                 
             }
             else {
@@ -870,6 +874,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
                     const newOffsetX = targetRect.left - ammoRect.left + (i * 25);
                     const newOffsetY = targetRect.top - ammoRect.top;
                     i++;
+                    
                     gsap.to(ammoRef, {
                         x:newOffsetX,
                         y: newOffsetY,
@@ -892,7 +897,8 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
                 }, () => {
                     this.setState({
                         selectedCard:[],
-                        playTurn: 'enemy3'
+                        playTurn: 'enemy3',
+                        currentThrownCard: this.state.playTurn
                     },()=>{
                         this.turnEnemy3();
                     })
@@ -958,7 +964,7 @@ class ThirteenPokerComponent extends Component<Record<string, never>, MainState>
                 const newOffsetY = targetRect.top - ammoRect.top;
     
                 console.log(`Offset untuk kartu ke-${i}: X=${newOffsetX}, Y=${newOffsetY}`);
-    
+                
                 gsap.to(ammoRef, {
                     x: newOffsetX,
                     y: newOffsetY,
