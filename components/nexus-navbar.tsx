@@ -4,7 +4,6 @@ import { CustomConnectButton } from './btn-wallet-connect';
 import Link from 'next/link';
 
 
-
 class NexusNavbar extends Component {
     componentDidMount() {
         if (typeof window !== 'undefined') {

@@ -53,6 +53,7 @@ import cardSpadesQ from '../resources/assets/PNG/Cards/cardSpadesQ.png';
 import cardSpadesK from '../resources/assets/PNG/Cards/cardSpadesK.png';
 import cardSpadesA from '../resources/assets/PNG/Cards/cardSpadesA.png';
 import backgroundImg from '../resources/assets/PNG/background.png';
+import { BlackJackContext, TheBlackJackState } from '../components/context/BlackJackContext';
 
 class Card {
     suit: string;
@@ -116,6 +117,9 @@ class Enemy {
 
   
 }
+
+
+
 
 
 
@@ -347,8 +351,11 @@ interface BlackjackComponentState {
     enemyHand: Card[];
     winner: string;
     isGameEnd: boolean;
+    betAmmount: number;
 }
 class BlackjackComponent extends Component<Record<string, never>, BlackjackComponentState> {
+    static contextType = BlackJackContext;
+
     constructor(props: Record<string, never>) {
         super(props);
         this.state = {
@@ -356,7 +363,8 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             playerHand: [],
             enemyHand: [],
             winner: '',
-            isGameEnd: false
+            isGameEnd: false,
+            betAmmount: 0
         };
         this.startNewGame = this.startNewGame.bind(this);
     }
@@ -368,11 +376,11 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
 
 
     dealInitialCards() {
-        const { game } = this.state;
-        this.setState({
-            playerHand: game.player.hand,
-            enemyHand: game.enemy.hand
-        });
+        //const { game } = this.state;
+        //this.setState({
+          //  playerHand: game.player.hand,
+            //enemyHand: game.enemy.hand
+        //});
     }
 
     startNewGame() {
@@ -423,6 +431,14 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
                 });
         }, 1000)
         
+    }
+
+    handleBetAmmount = (betAmmount:number) => {
+        this.setState({
+            betAmmount: betAmmount
+        }, ()=>{
+            console.log("nilai bet:", this.state.betAmmount);
+        });
     }
 
     renderCard(card: Card, isEnemy:boolean, isFirstimeEnemyCard?:boolean) {
@@ -858,6 +874,8 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
     }
 
     render() {
+        const context = this.context as TheBlackJackState;
+        const {sharedBalance} = context;
         const { playerHand, enemyHand, winner } = this.state;
 
         return (
@@ -870,7 +888,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
                             <div className="position-absolute text-center top-0">
                                 <div className='row d-flex flex-wrap justify-content-center' style={{ maxWidth: '500px', maxHeight: '300px', overflow: 'auto' }}>
                                     <div className='col-md-12 col-12 mt-md-5'>
-                                        <h2>Enemy Hand</h2>
+                                        {playerHand.length !== 0 && <h2>Enemy Hand</h2>}
                                     </div>
                                     {enemyHand.map((card, index:number) => {
                                         // Jika ini adalah kartu pertama musuh
@@ -887,20 +905,33 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
                             <div className='position-absolute text-center bottom-20 mt-md-5'>
                                 <div className='row d-flex flex-wrap justify-content-center' style={{ maxWidth: '500px', maxHeight: '300px', overflow: 'auto' }}>
                                      <div className='col-md-12 col-12'>
-                                        <h2>Player Hand</h2>
+                                        {playerHand.length !== 0 && <h2>Player Hand</h2>}
                                     </div>
                                     <div className='row d-flex justify-content-center w-100 h-100'>
                                         {playerHand.map((card, index) => this.renderCard(card, false))}
                                     </div>
                                     
                                 </div>
-                                
-                                <button className='btn mx-md-3 mx-2 my-2 px-4 my-md-3 px-md-4 btn-success' onClick={this.handleHit} disabled={!!winner}>Hit</button>
-                                <button className='btn mx-md-3 mx-2 my-md-3 px-3 btn-danger' onClick={this.handleStand} disabled={!!winner}>Stand</button>
+                                { playerHand.length !== 0 && <div>
+                                    <button className='btn mx-md-3 mx-2 my-2 px-4 my-md-3 px-md-4 btn-success' onClick={this.handleHit} disabled={!!winner}>Hit</button>
+                                    <button className='btn mx-md-3 mx-2 my-md-3 px-3 btn-danger' onClick={this.handleStand} disabled={!!winner}>Stand</button>
+                                </div>}
+                                    
                                 <div className='position-relative text-center'>
-                                {winner && <div>
+                                {winner || playerHand.length === 0 && <div>
                                     <h3>{winner}</h3>
-                                    <button className='btn btn-primary' onClick={this.startNewGame}>New Game</button>
+                                    <div className='row'>
+                                        <div className='col-md-12'>
+                                            <p>Balance: {sharedBalance}</p>
+                                         </div>
+                                    </div>
+                                    <form>
+                                        <div className="form-group">
+                                            <label htmlFor="inputField">Bet ammount</label>
+                                            <input type="number" className="form-control" id="inputField" placeholder="enter ammount" value={this.state.betAmmount} onChange={(event) => this.handleBetAmmount(parseInt(event.target.value))}/>
+                                        </div>
+                                    </form>
+                                    <button disabled={this.state.betAmmount === 0 || Number.isNaN(this.state.betAmmount) ? true: false} className='btn btn-primary mt-md-2 mt-1' onClick={this.startNewGame}>New Game</button>
                                 </div>} 
                             </div>
                             </div>
