@@ -53,7 +53,8 @@ import cardSpadesQ from '../resources/assets/PNG/Cards/cardSpadesQ.png';
 import cardSpadesK from '../resources/assets/PNG/Cards/cardSpadesK.png';
 import cardSpadesA from '../resources/assets/PNG/Cards/cardSpadesA.png';
 import backgroundImg from '../resources/assets/PNG/background.png';
-import { BlackJackContext, TheBlackJackState } from '../components/context/BlackJackContext';
+import { SharedContext, TheSharedContextState } from '../components/context/SharedContext';
+import axios from 'axios';
 
 class Card {
     suit: string;
@@ -64,6 +65,7 @@ class Card {
         this.value = value;
     }
 }
+
 
 
 class Deck {
@@ -354,7 +356,7 @@ interface BlackjackComponentState {
     betAmmount: number;
 }
 class BlackjackComponent extends Component<Record<string, never>, BlackjackComponentState> {
-    static contextType = BlackJackContext;
+    static contextType = SharedContext;
 
     constructor(props: Record<string, never>) {
         super(props);
@@ -370,12 +372,45 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
     }
 
     componentDidMount() {
-        this.dealInitialCards();
+        //this.dealInitialCards();
     }
 
 
 
-    dealInitialCards() {
+    async dealInitialCards(userAddress:string, bet_ammount:number) {
+        // temp url is localhost
+        const urlRoute = 'https://zero.serveo.net/new_game_bj';
+        const data:any = {
+            address: userAddress,
+            bet_ammount:bet_ammount 
+        };
+          /*          data
+            : 
+            enemy_cards
+            : 
+            (2) [Array(2), Array(2)]
+            game_id
+            : 
+            "948ec5fd-bb60-45f2-b73c-ec690d7cadac"
+            player_cards
+            : 
+            (2) [Array(2), Array(2)]*/
+        try{
+            const response = await axios.post(urlRoute, data);
+            console.log("respon dari server: ",response)
+            let player_hands:Card[] = [];
+            player_hands.push(new Card(this.numberToSuits(response.data.player_cards[1][0]), this.numberToValuCard(response.data.player_cards[0][0])));
+            player_hands.push(new Card(this.numberToSuits(response.data.player_cards[1][1]), this.numberToValuCard(response.data.player_cards[0][1])));
+            let enemy_hands:Card[] = [];
+            enemy_hands.push(new Card(this.numberToSuits(response.data.enemy_cards[1][0]), this.numberToValuCard(response.data.enemy_cards[0][0])));
+            enemy_hands.push(new Card(this.numberToSuits(response.data.enemy_cards[1][1]), this.numberToValuCard(response.data.enemy_cards[0][1])));
+            this.setState({
+                playerHand: player_hands,
+                enemyHand : enemy_hands
+            });
+        }catch (error) {
+            console.error('Error during axios request:', error);
+          }
         //const { game } = this.state;
         //this.setState({
           //  playerHand: game.player.hand,
@@ -383,16 +418,74 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         //});
     }
 
-    startNewGame() {
+    suitsToNumber(suit:string): number{
+        const angka:{[key:string]: number} ={
+            'Spades': 1,
+            'Clubs':2,
+            'Diamonds':3,
+            'Hearts':4
+        }
+        return angka[suit];
+    }
+
+    valueCardToNumber(value:string): number{
+        const angka:{[key:string]: number} ={
+            '3':3,
+            '4':4,
+            '5':5,
+            '6':6,
+            '7':7,
+            '8':8,
+            '9':9,
+            '10':10,
+            'J':11,
+            'Q':12,
+            'K':13,
+            'A':14,
+            '2': 2
+        }
+        return angka[value];
+    }
+
+    numberToSuits(angka:number): string{
+        const suits: {[key:number]: string} ={
+            1:'Spades',
+            2:'Clubs',
+            3:'Diamonds',
+            4:'Hearts'
+        }
+        return suits[angka];
+    }
+
+    numberToValuCard(angka:number): string{
+        const values: {[key:number]: string} = {
+            3:'3',
+            4:'4',
+            5:'5',
+            6:'6',
+            7:'7',
+            8:'8',
+            9:'9',
+            10:'10',
+            11:'J',
+            12:'Q',
+            13:'K',
+            14:'A',
+            15:'2'
+        };
+        return  values[angka];
+    }
+
+    startNewGame(userAddress:string) {
         this.setState({
             game: new BlackjackGame(),
             playerHand: [],
             enemyHand: [],
             winner: '',
             isGameEnd: false
-        }, () => {
+        }, async () => {
             // This callback function will be called after the state is updated
-            this.dealInitialCards();
+            await this.dealInitialCards(userAddress, this.state.betAmmount);
         });
     }
     
@@ -874,8 +967,8 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
     }
 
     render() {
-        const context = this.context as TheBlackJackState;
-        const {sharedBalance} = context;
+        const context = this.context as TheSharedContextState;
+        const {sharedBalance, userAddress} = context;
         const { playerHand, enemyHand, winner } = this.state;
 
         return (
@@ -931,7 +1024,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
                                             <input type="number" className="form-control" id="inputField" placeholder="enter ammount" value={this.state.betAmmount} onChange={(event) => this.handleBetAmmount(parseInt(event.target.value))}/>
                                         </div>
                                     </form>
-                                    <button disabled={this.state.betAmmount === 0 || Number.isNaN(this.state.betAmmount) ? true: false} className='btn btn-primary mt-md-2 mt-1' onClick={this.startNewGame}>New Game</button>
+                                    <button disabled={this.state.betAmmount === 0 || Number.isNaN(this.state.betAmmount) ? true: false} className='btn btn-primary mt-md-2 mt-1' onClick={()=> this.startNewGame(userAddress)}>New Game</button>
                                 </div>} 
                             </div>
                             </div>

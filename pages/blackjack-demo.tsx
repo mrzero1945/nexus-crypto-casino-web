@@ -4,11 +4,11 @@ import { NexusNavbar } from '../components/nexus-navbar';
 import { BlackjackComponent } from '../mypages/nexus-blackjack-gameplay';
 import { NexusFooter } from '../components/nexus-footer';
 import faviconImg from '../resources/favicon.ico'
-import { BlackjackProvider } from '../components/context/BlackJackContext';
+import { SharedProvider } from '../components/context/SharedContext';
 
 const BlackJack: NextPage = () => {
   return (
-    <BlackjackProvider>
+    <SharedProvider>
       <div style={{backgroundColor: " #121724"}}>
         <Head>
           <title>Nexus Crypto Casino</title>
@@ -22,7 +22,7 @@ const BlackJack: NextPage = () => {
           <BlackjackComponent />
           <NexusFooter />
       </div>
-    </BlackjackProvider>
+    </SharedProvider>
   );
 };
 

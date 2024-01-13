@@ -2,14 +2,16 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useBlackJackContext } from './context/BlackJackContext';
+import { useSharedContext } from './context/SharedContext';
+
 
 
 
 
 // Fungsi untuk mengirim data akun ke server
-async function postAccountData(displayName: string, setSharedBalance: (balance: number) => void) {
-  const url = 'http://192.168.1.100:1945/get_bj_save'; // Ganti dengan URL server Anda
+async function postAccountData(displayName: string, setSharedBalance: (balance: number) => void, setUserAddress: (userAddress: string) => void) {
+  setUserAddress(displayName);
+  const url = 'http://192.168.1.100:1945/get_balance'; // Ganti dengan URL server Anda
   const data = {
     address: displayName
   };
@@ -30,10 +32,14 @@ async function postAccountData(displayName: string, setSharedBalance: (balance: 
 
 
 const CustomConnectButton = () => {
-  const {setSharedBalance} = useBlackJackContext();
+  const {setSharedBalance, setUserAddress} = useSharedContext();
   const mySharedsetNumber = (balance:number)=>{
     setSharedBalance(balance);
   }
+  const mySharedsetAddress = (userAdress:string)=>{
+    setUserAddress(userAdress);
+  }
+
   return (
     <ConnectButton.Custom>
       {({
@@ -48,7 +54,7 @@ const CustomConnectButton = () => {
         useEffect(() => {
           if (account) {
             // Memanggil fungsi ketika akun terhubung
-            const the_balance = postAccountData(account.displayName, mySharedsetNumber);
+            const the_balance = postAccountData(account.displayName, mySharedsetNumber, mySharedsetAddress);
           }
         }, [account]);
         const ready = mounted && authenticationStatus !== 'loading';
