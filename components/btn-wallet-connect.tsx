@@ -1,16 +1,15 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSharedContext } from './context/SharedContext';
-
+import { Address } from 'cluster';
 
 
 
 
 // Fungsi untuk mengirim data akun ke server
 async function postAccountData(displayName: string, setSharedBalance: (balance: number) => void, setUserAddress: (userAddress: string) => void) {
-  setUserAddress(displayName);
   const url = 'http://192.168.1.100:1945/get_balance'; // Ganti dengan URL server Anda
   const data = {
     address: displayName
@@ -18,6 +17,7 @@ async function postAccountData(displayName: string, setSharedBalance: (balance: 
 
   try {
     const response = await axios.post(url, data);
+    setUserAddress(displayName);
     setSharedBalance(response.data.balance);
 
     // Menampilkan response JSON dari server
@@ -31,7 +31,10 @@ async function postAccountData(displayName: string, setSharedBalance: (balance: 
 
 
 
+
+
 const CustomConnectButton = () => {
+  const [my_account, set_my_account] = useState<any>(null);
   const {setSharedBalance, setUserAddress} = useSharedContext();
   const mySharedsetNumber = (balance:number)=>{
     setSharedBalance(balance);
@@ -39,6 +42,12 @@ const CustomConnectButton = () => {
   const mySharedsetAddress = (userAdress:string)=>{
     setUserAddress(userAdress);
   }
+  useEffect(() => {
+    if (my_account) {
+      postAccountData(my_account.displayName, setSharedBalance, setUserAddress);
+    }
+  }, [my_account]);
+  
 
   return (
     <ConnectButton.Custom>
@@ -51,15 +60,10 @@ const CustomConnectButton = () => {
         authenticationStatus,
         mounted,
       }) => {
-        useEffect(() => {
-          if (account) {
-            // Memanggil fungsi ketika akun terhubung
-            const the_balance = postAccountData(account.displayName, mySharedsetNumber, mySharedsetAddress);
-          }
-        }, [account]);
+        set_my_account(account);
         const ready = mounted && authenticationStatus !== 'loading';
         const connected = ready && account && chain && (!authenticationStatus || authenticationStatus === 'authenticated');
-
+        
         if (!connected) {
           // Tombol untuk menghubungkan dompet
           return (
