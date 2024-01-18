@@ -30,7 +30,10 @@ import reel2_7 from './proto-slots/reel_2/07_reel_2.png';
 // Define the state type
 interface NexusSlotsGamePlayState {
     isSpin: boolean;
-    animation_slots: string[]
+    animation_slots: string[];
+    random_reels: number[];
+    bet_ammount: number;
+    game_start: boolean;
 }
 
 class NexusSlotsGamePlay extends React.Component<{}, NexusSlotsGamePlayState> {
@@ -38,7 +41,10 @@ class NexusSlotsGamePlay extends React.Component<{}, NexusSlotsGamePlayState> {
         super(props);
         this.state = {
             isSpin : false,
-            animation_slots : []
+            animation_slots : [],
+            random_reels: [],
+            bet_ammount: 0, 
+            game_start: false
         }
     }
     
@@ -76,6 +82,29 @@ class NexusSlotsGamePlay extends React.Component<{}, NexusSlotsGamePlayState> {
         7: reel2_7.src
     };
 
+    postSlotsDecision = async ()=>{
+        const url_route = 'https://zero.serveo.net/slots_start';
+        const data = {
+            player_address: ''
+        }
+        try{
+            const response = await fetch(url_route, {
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+            if(!response.ok){
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const result = await response.json();
+            // result json
+        } catch(error){
+            console.error('Error in making request:',error);
+        }
+    }
+
     animationStart = () => {
         // Set the interval to update the reels
         const intervalId = setInterval(() => {
@@ -95,28 +124,63 @@ class NexusSlotsGamePlay extends React.Component<{}, NexusSlotsGamePlayState> {
             clearInterval(intervalId);
             //this.setState({ isSpin: false }); // Optionally set isSpin to false after stopping
         }, 5000); // Stop after 3000 milliseconds (3 seconds)
+        this.setState({
+
+        });
     }
+
+    handleInputChange = (event:any) => {
+        //setBetAmount(event.target.value);
+        this.setState({
+            bet_ammount: event.target.value
+        });
+      };
+    
+    handleSubmit = (event:any) => {
+        event.preventDefault();
+        // Handle the submission logic here
+        console.log('Bet Amount:', this.state.bet_ammount);
+      };
     
     
     render() {
         return (
-            <div className='container' style={{minHeight: 425}}>
+            <div className='container' style={{minHeight: 500}}>
+                <div className="container">
+                    <div className="row justify-content-center text-white mt-md-3">
+                        <div className="col-md-3">
+                        <form onSubmit={this.handleSubmit} className="form-group">
+                            <label htmlFor="betAmount">Bet ammount</label>
+                            <input 
+                            type="number" 
+                            className="form-control" 
+                            id="betAmount" 
+                            value={this.state.bet_ammount} 
+                            onChange={this.handleInputChange} 
+                            placeholder="Enter bet amount" 
+                            />
+                            <button type="submit" className="btn btn-primary mt-3">Submit</button>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+              
                 <div className='row d-flex justify-content-center mt-md-3'>
                     <div className='col-1'>
-                        <img className='img-fluid' src={this.state.isSpin ? this.state.animation_slots[0] :this.reel0[0] } alt="Reel 1"/>
+                    {this.state.game_start &&<img className='img-fluid' src={this.state.isSpin ? this.state.animation_slots[0] :this.reel0[0] } alt="Reel 1"/>}
                     </div>
                     <div className='col-1'>
-                        <img className='img-fluid' src={this.state.isSpin ? this.state.animation_slots[1] : this.reel1[0]} alt="Reel 2"/>
+                        {this.state.game_start && <img className='img-fluid' src={this.state.isSpin ? this.state.animation_slots[1] : this.reel1[0]} alt="Reel 2"/>}
                     </div>
                     <div className='col-1'>
-                        <img className='img-fluid' src={this.state.isSpin ? this.state.animation_slots[2] : this.reel2[0]} alt="Reel 3"/>
+                       {this.state.game_start && <img className='img-fluid' src={this.state.isSpin ? this.state.animation_slots[2] : this.reel2[0]} alt="Reel 3"/>}
                     </div>
                 </div>
                 <div className='row d-flex justify-content-center mt-md-3'>
                     <div className='col-md-1'>
-                        <button onClick={() => this.animationStart()} className='btn btn-success px-md-4' style={{borderRadius: "15px"}}>
+                       {this.state.game_start && <button onClick={() => this.animationStart()} className='btn btn-success px-md-4' style={{borderRadius: "15px"}}>
                             Spin
-                        </button>
+                        </button>}
                     </div>
                     
                 </div>

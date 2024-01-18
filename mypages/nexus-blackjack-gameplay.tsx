@@ -354,6 +354,7 @@ interface BlackjackComponentState {
     winner: string;
     isGameEnd: boolean;
     betAmmount: number;
+    game_id:string;
 }
 class BlackjackComponent extends Component<Record<string, never>, BlackjackComponentState> {
     static contextType = SharedContext;
@@ -366,7 +367,8 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             enemyHand: [],
             winner: '',
             isGameEnd: false,
-            betAmmount: 0
+            betAmmount: 0,
+            game_id: ''
         };
         this.startNewGame = this.startNewGame.bind(this);
     }
@@ -406,7 +408,8 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             enemy_hands.push(new Card(this.numberToSuits(response.data.enemy_cards[1][1]), this.numberToValuCard(response.data.enemy_cards[0][1])));
             this.setState({
                 playerHand: player_hands,
-                enemyHand : enemy_hands
+                enemyHand : enemy_hands,
+                game_id : response.data.game_id
             });
         }catch (error) {
             console.error('Error during axios request:', error);
@@ -490,8 +493,8 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
     }
     
 
-    handleHit = () => {
-        const { game } = this.state;
+    handleHit = async () => {
+       /* const { game } = this.state;
         game.playerHit();
         const currentScore = game.calculateScore(game.player.hand);
         if(currentScore > 21){
@@ -502,7 +505,49 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         }
         this.setState({
             playerHand: [...game.player.hand]
-        });
+        });*/
+        const urlRoute = 'https://zero.serveo.net/bj_hit';
+        let player_cards:number[][] = [[], []];
+        let enemy_cards:number[][] = [[], []];        
+        for(const card of this.state.playerHand){
+            //suit dim ke 2
+            // value dim ke 1
+            player_cards[1].push(this.suitsToNumber(card.suit));
+            player_cards[0].push(this.valueCardToNumber(card.value));
+            
+        }
+        for(const card of this.state.enemyHand){
+            enemy_cards[1].push(this.suitsToNumber(card.suit));
+            enemy_cards[0].push(this.valueCardToNumber(card.value));
+        }
+        const data:any = {
+            game_id: this.state.game_id,
+            isPlayer: true,
+            player_cards: player_cards,
+            enemy_cards: enemy_cards
+        }
+
+        try{
+            const response = await axios.post(urlRoute, data);
+            let playerHand:Card[] = [];
+           // Pastikan bahwa kedua array memiliki panjang yang sama
+            if (response.data.player_cards[0].length === response.data.player_cards[1].length) {
+                for (let i = 0; i < response.data.player_cards[0].length; i++) {
+                    const suit = response.data.player_cards[1][i];
+                    const value = response.data.player_cards[0][i];
+                    playerHand.push(new Card(this.numberToSuits(suit), this.numberToValuCard(value)));
+                }
+            } else {
+                // Handle error atau situasi dimana panjang array tidak sama
+                console.error("Error: The lengths of suits and values arrays are not the same.");
+            }
+
+            this.setState({
+                playerHand:playerHand
+            });
+        } catch(error){
+            console.error("error", error);
+        }
     }
 
     setEnemyTurn = (value: Card[]) => {

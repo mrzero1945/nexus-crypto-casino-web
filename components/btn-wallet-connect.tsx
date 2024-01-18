@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSharedContext } from './context/SharedContext';
-import { Address } from 'cluster';
+
 
 
 
@@ -36,17 +36,8 @@ async function postAccountData(displayName: string, setSharedBalance: (balance: 
 const CustomConnectButton = () => {
   const [my_account, set_my_account] = useState<any>(null);
   const {setSharedBalance, setUserAddress} = useSharedContext();
-  const mySharedsetNumber = (balance:number)=>{
-    setSharedBalance(balance);
-  }
-  const mySharedsetAddress = (userAdress:string)=>{
-    setUserAddress(userAdress);
-  }
-  useEffect(() => {
-    if (my_account) {
-      postAccountData(my_account.displayName, setSharedBalance, setUserAddress);
-    }
-  }, [my_account]);
+
+  
   
 
   return (
@@ -60,7 +51,7 @@ const CustomConnectButton = () => {
         authenticationStatus,
         mounted,
       }) => {
-        set_my_account(account);
+        
         const ready = mounted && authenticationStatus !== 'loading';
         const connected = ready && account && chain && (!authenticationStatus || authenticationStatus === 'authenticated');
         
@@ -87,7 +78,14 @@ const CustomConnectButton = () => {
             </button>
           );
         }
-
+        if(my_account === null){
+          set_my_account(account);
+         
+        }
+        if(my_account){
+          postAccountData(my_account.displayName, setSharedBalance, setUserAddress);
+        }
+        
         // UI ketika dompet sudah terhubung
         return (
           <div className='text-white mt-2' style={{ display: 'flex', gap: '12px' }}>
