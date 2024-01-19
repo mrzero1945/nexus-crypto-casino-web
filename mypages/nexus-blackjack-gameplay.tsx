@@ -366,7 +366,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             playerHand: [],
             enemyHand: [],
             winner: '',
-            isGameEnd: false,
+            isGameEnd: true,
             betAmmount: 0,
             game_id: ''
         };
@@ -445,7 +445,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             'Q':12,
             'K':13,
             'A':14,
-            '2': 2
+            '2': 15
         }
         return angka[value];
     }
@@ -530,6 +530,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
         try{
             const response = await axios.post(urlRoute, data);
             let playerHand:Card[] = [];
+            console.log(response.data);
            // Pastikan bahwa kedua array memiliki panjang yang sama
             if (response.data.player_cards[0].length === response.data.player_cards[1].length) {
                 for (let i = 0; i < response.data.player_cards[0].length; i++) {
@@ -543,7 +544,14 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
             }
 
             this.setState({
-                playerHand:playerHand
+                playerHand:playerHand,
+                isGameEnd: response.data.is_game_end
+            }, ()=> {
+                if(this.state.isGameEnd){
+                    this.setState({
+                        winner: this.state.game.checkWinner()
+                    })
+                }
             });
         } catch(error){
             console.error("error", error);
@@ -1056,8 +1064,9 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
                                 </div>}
                                     
                                 <div className='position-relative text-center'>
-                                {winner || playerHand.length === 0 && <div>
-                                    <h3>{winner}</h3>
+                                {winner && <h3>{winner}</h3>}
+                                {this.state.isGameEnd && <div>
+                                    
                                     <div className='row'>
                                         <div className='col-md-12'>
                                             <p>Balance: {sharedBalance}</p>
