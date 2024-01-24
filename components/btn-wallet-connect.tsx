@@ -1,6 +1,6 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useSharedContext } from './context/SharedContext';
 
@@ -78,12 +78,9 @@ const CustomConnectButton = () => {
             </button>
           );
         }
-        if(my_account === null){
-          set_my_account(account);
-         
-        }
-        if(my_account){
-          postAccountData(my_account.displayName, setSharedBalance, setUserAddress);
+      
+        if(account && connected){
+          postAccountData(account.displayName, setSharedBalance, setUserAddress);
         }
         
         // UI ketika dompet sudah terhubung
