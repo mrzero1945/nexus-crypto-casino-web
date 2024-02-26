@@ -8,6 +8,8 @@ import blackJackImg from '../resources/black-jack.png'
 import slotMachineImg from '../resources/slot-machine.png'
 import lotteryImg from '../resources/lot-icon.png'
 import lowPriceImg from '../resources/low-price.png'
+import Link from 'next/link';
+
 
 class NexusHome extends Component {
     render() {
@@ -26,9 +28,12 @@ class NexusHome extends Component {
                             }}>
                                 "Step into the future of gaming with Nexus's Crypto Casino where cutting-edge technology meets the thrill of the win. Secure, fast, and filled with endless possibilities. Play now and join the digital revolution of entertainment!"
                             </p>
-                            <button className="btn text-white" style={{ borderRadius: "15px", background: "#59BE43" }}>
-                                Play Now
-                            </button>
+                            <Link href="/play">
+                                <button className="btn text-white" style={{ borderRadius: "15px", background: "#59BE43" }}>
+                                    Play Now
+                                </button>
+                            </Link>
+                            
                         </div>
                         <div className="col-md-6">
                             <img src={cardImg.src} className="img-fluid" alt="Card"/>

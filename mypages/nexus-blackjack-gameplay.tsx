@@ -53,8 +53,55 @@ import cardSpadesQ from '../resources/assets/PNG/Cards/cardSpadesQ.png';
 import cardSpadesK from '../resources/assets/PNG/Cards/cardSpadesK.png';
 import cardSpadesA from '../resources/assets/PNG/Cards/cardSpadesA.png';
 import backgroundImg from '../resources/assets/PNG/background.png';
-import { SharedContext, TheSharedContextState } from '../components/context/SharedContext';
+import Web3 from 'web3';
+import { NexusSmartContract } from '../smart_contract/nexus_smart_contract';
 import axios from 'axios';
+
+class BlackJackSmartContract{
+    private static async approve_usdt(){
+        const web3 = new Web3(window.ethereum);
+        const usdt_contract = new web3.eth.Contract(NexusSmartContract.usdt_abi, NexusSmartContract.usdt_token_addr);
+        const amount_to_approve = web3.utils.toWei('999999999999', 'ether');
+        const from_addr = window.ethereum.selectedAddress;
+        try{
+            const approve_result = await usdt_contract.methods.approve(NexusSmartContract.bj_bet_addr, amount_to_approve).send({from:from_addr});
+            console.log("Token approved: ", approve_result);
+        } catch (error){
+            console.error("error in approving token: ", error);
+        }
+    }
+
+    public static async check_approve_usdt(amount:number){
+        const web3 = new Web3(window.ethereum);
+        const bj_contract = new web3.eth.Contract(NexusSmartContract.bj_bet_abi, NexusSmartContract.bj_bet_addr);
+        const amount_to_deposit = web3.utils.toWei(amount.toString(), 'ether');
+        try{
+            const result = await bj_contract.methods.is_allowance_sufficient(amount_to_deposit).call({from: window.ethereum.selectedAddress});
+            if(result){
+
+            } else{
+
+            }
+        } catch(error){
+            console.error("error:", error)
+        }
+    }
+
+    private static async add_bet_usdt(amount:number){
+        try{
+            const web3 = new Web3(window.ethereum);
+            const bj_contract = new web3.eth.Contract(NexusSmartContract.bj_bet_abi, NexusSmartContract.bj_bet_addr);
+            const amount_to_deposit = web3.utils.toWei(amount.toString(), 'ether');
+             // Panggil method add_bet dari kontrak
+        const receipt = await bj_contract.methods.add_bet(amount_to_deposit).send({ from: window.ethereum.selectedAddress });
+        // Tampilkan log hasil transaksi
+        console.log("Transaksi berhasil:", receipt);
+        } catch (error) {
+            // Tangani kesalahan yang mungkin terjadi
+            console.error("Error saat melakukan add_bet:", error);
+        }
+    }
+}
 
 class Card {
     suit: string;
@@ -357,7 +404,6 @@ interface BlackjackComponentState {
     game_id:string;
 }
 class BlackjackComponent extends Component<Record<string, never>, BlackjackComponentState> {
-    static contextType = SharedContext;
 
     constructor(props: Record<string, never>) {
         super(props);
@@ -1020,8 +1066,6 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
     }
 
     render() {
-        const context = this.context as TheSharedContextState;
-        const {sharedBalance, userAddress} = context;
         const { playerHand, enemyHand, winner } = this.state;
 
         return (
@@ -1069,7 +1113,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
                                     
                                     <div className='row'>
                                         <div className='col-md-12'>
-                                            <p>Balance: {sharedBalance}</p>
+                                            <p>Balance: 0</p>
                                          </div>
                                     </div>
                                     <form>
@@ -1078,7 +1122,7 @@ class BlackjackComponent extends Component<Record<string, never>, BlackjackCompo
                                             <input type="number" className="form-control" id="inputField" placeholder="enter ammount" value={this.state.betAmmount} onChange={(event) => this.handleBetAmmount(parseInt(event.target.value))}/>
                                         </div>
                                     </form>
-                                    <button disabled={this.state.betAmmount === 0 || Number.isNaN(this.state.betAmmount) ? true: false} className='btn btn-primary mt-md-2 mt-1' onClick={()=> this.startNewGame(userAddress)}>New Game</button>
+                                    <button disabled={this.state.betAmmount === 0 || Number.isNaN(this.state.betAmmount) ? true: false} className='btn btn-primary mt-md-2 mt-1' onClick={()=> this.startNewGame("")}>New Game</button>
                                 </div>} 
                             </div>
                             </div>

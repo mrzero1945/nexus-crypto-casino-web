@@ -29,6 +29,7 @@ import real_reel_1 from './proto-slots/real_reel/orange_1.png';
 import real_reel_2 from './proto-slots/real_reel/banana_2.png';
 import real_reel_3 from './proto-slots/real_reel/pear_3.png';
 import real_reel_4 from './proto-slots/real_reel/apple_4.png';
+import { NexusSmartContract } from '../smart_contract/nexus_smart_contract';
 
 const real_reels:any = {
   1 : real_reel_1.src,
@@ -40,9 +41,9 @@ const real_reels:any = {
 
 async function approveERC20() {
     const web3 = new Web3(window.ethereum);
-    const tokenContractAddress = '0x337610d27c682E347C9cD60BD4b3b107C9d34dDd'; // Alamat kontrak ERC20
-    const nexusContractAddress = '0xa8682F6ef9cC29A9e05E874EcD5C84A00ccdFc9D'; // Alamat kontrak NexusTesting
-    const tokenABI = [{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"constant":true,"inputs":[],"name":"_decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"_name","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"_symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"subtractedValue","type":"uint256"}],"name":"decreaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"getOwner","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"addedValue","type":"uint256"}],"name":"increaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"mint","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"renounceOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}];
+    const tokenContractAddress = NexusSmartContract.usdt_token_addr; // Alamat kontrak ERC20
+    const nexusContractAddress = NexusSmartContract.slots_bet_contract_addr; // Alamat kontrak NexusTesting
+    const tokenABI = NexusSmartContract.usdt_abi;
     const tokenContract = new web3.eth.Contract(tokenABI, tokenContractAddress);
 
     const amountToApprove = web3.utils.toWei('9999999999', 'ether'); // Contoh jumlah untuk di-approve
@@ -58,134 +59,8 @@ async function approveERC20() {
 
 async function checkApproveERC20(amount:number, animationStart:() => void, setRealReels:(src:string[]) => void, animationStop:() => void){
   const web3 = new Web3(window.ethereum);
-  const contractAddress = '0xa8682F6ef9cC29A9e05E874EcD5C84A00ccdFc9D';
-  const contractABI = [
-    {
-      "inputs": [],
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "internalType": "uint256[3]",
-          "name": "randomNumbers",
-          "type": "uint256[3]"
-        }
-      ],
-      "name": "DepositMade",
-      "type": "event"
-    },
-    {
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [],
-      "name": "tokenContract",
-      "outputs": [
-        {
-          "internalType": "contract IERC20",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "deposit",
-      "outputs": [
-        {
-          "internalType": "uint256[3]",
-          "name": "",
-          "type": "uint256[3]"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "deposit_owner",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "withdraw",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "get_deposit",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "isAllowanceSufficient",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    }
-  ];
+  const contractAddress = NexusSmartContract.slots_bet_contract_addr;
+  const contractABI = NexusSmartContract.slots_bet_abi;
   const contract = new web3.eth.Contract(contractABI, contractAddress);
   const amountToDeposit = web3.utils.toWei(amount.toString(), 'ether'); // Contoh jumlah deposit
   try {
@@ -210,134 +85,8 @@ async function checkApproveERC20(amount:number, animationStart:() => void, setRe
 async function callSmartContract(amount:number, animationStart:() => void, setRealReels:(src:string[]) => void, animationStop:() => void) {
     try{
         const web3 = new Web3(window.ethereum); // Menggunakan provider dari wallet
-        const contractAddress = '0xa8682F6ef9cC29A9e05E874EcD5C84A00ccdFc9D';
-        const contractABI =   [
-          {
-            "inputs": [],
-            "stateMutability": "nonpayable",
-            "type": "constructor"
-          },
-          {
-            "anonymous": false,
-            "inputs": [
-              {
-                "indexed": false,
-                "internalType": "uint256[3]",
-                "name": "randomNumbers",
-                "type": "uint256[3]"
-              }
-            ],
-            "name": "DepositMade",
-            "type": "event"
-          },
-          {
-            "inputs": [],
-            "name": "owner",
-            "outputs": [
-              {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "constant": true
-          },
-          {
-            "inputs": [],
-            "name": "tokenContract",
-            "outputs": [
-              {
-                "internalType": "contract IERC20",
-                "name": "",
-                "type": "address"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "constant": true
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-              }
-            ],
-            "name": "deposit",
-            "outputs": [
-              {
-                "internalType": "uint256[3]",
-                "name": "",
-                "type": "uint256[3]"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-              }
-            ],
-            "name": "deposit_owner",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-              }
-            ],
-            "name": "withdraw",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-          },
-          {
-            "inputs": [],
-            "name": "get_deposit",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "constant": true
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-              }
-            ],
-            "name": "isAllowanceSufficient",
-            "outputs": [
-              {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "constant": true
-          }
-        ]// ABI dari kontrak Anda
+        const contractAddress = NexusSmartContract.slots_bet_contract_addr;
+        const contractABI =   NexusSmartContract.slots_bet_abi// ABI dari kontrak Anda
 
         const contract = new web3.eth.Contract(contractABI, contractAddress);
 
@@ -500,43 +249,41 @@ setRealReels = (real_reels:string[])=> {
     
     render() {
         return (
-            <div className='container' style={{minHeight: 500}}>
+            <div className='container' style={{ minHeight: 500 }}>
 
-                            <div className='row d-flex justify-content-center mt-md-3'>
-                                <div className='col-1'>
-                                <img className='img-fluid' src={this.state.isSpin ? this.state.animation_slots[0] :this.state.real_reels[0] } alt="Reel 1"/>
-                                </div>
-                                <div className='col-1'>
-                                   <img className='img-fluid' src={this.state.isSpin ? this.state.animation_slots[1] : this.state.real_reels[1]} alt="Reel 2"/>
-                                </div>
-                                <div className='col-1'>
-                                  <img className='img-fluid' src={this.state.isSpin ? this.state.animation_slots[2] : this.state.real_reels[2]} alt="Reel 3"/>
-                                </div>
-                            </div>
-                           
-              
-                <div className="container">
-                    <div className="row justify-content-center text-white mt-md-3">
-                        <div className="col-md-3">
-                        <form onSubmit={this.handleSubmit} className="form-group">
-                            <label htmlFor="betAmount">Bet ammount</label>
-                            <input 
-                            type="number" 
-                            className="form-control" 
-                            id="betAmount" 
-                            value={this.state.bet_ammount} 
-                            onChange={this.handleInputChange} 
-                            placeholder="Enter bet amount" 
-                            />
-                            <button type="submit" className="btn btn-primary mt-3">Submit</button>
-                        </form>
-                        </div>
-                    </div>
-                </div>
-              
-                
-        
-            </div>
+  <div className='row d-flex justify-content-center mt-md-5'>
+    <div className='col-1 py-md-3' style={{ backgroundColor: 'rgb(25,31,45)' }}>
+      <img className='img-fluid' src={this.state.isSpin ? this.state.animation_slots[0] : this.state.real_reels[0] } alt="Reel 1"/>
+    </div>
+    <div className='col-1 py-md-3' style={{ backgroundColor: 'rgb(25,31,45)' }}>
+      <img className='img-fluid' src={this.state.isSpin ? this.state.animation_slots[1] : this.state.real_reels[1]} alt="Reel 2"/>
+    </div>
+    <div className='col-1 py-md-3' style={{ backgroundColor: 'rgb(25,31,45)' }}>
+      <img className='img-fluid' src={this.state.isSpin ? this.state.animation_slots[2] : this.state.real_reels[2]} alt="Reel 3"/>
+    </div>
+  </div>
+
+  <div className="container mt-md-3">
+    <div className="row justify-content-center text-white">
+      <div className="col-md-3" style={{ backgroundColor: 'rgb(25,31,45)' }}>
+        <form onSubmit={this.handleSubmit} className="form-group">
+          <label htmlFor="betAmount">Bet amount</label>
+          <input 
+            type="number" 
+            className="form-control" 
+            id="betAmount" 
+            value={this.state.bet_ammount} 
+            onChange={this.handleInputChange} 
+            placeholder="Enter bet amount" 
+          />
+          <button type="submit" className="btn btn-primary mt-3">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
         );
     }
 }
