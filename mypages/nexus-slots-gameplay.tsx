@@ -251,7 +251,7 @@ setRealReels = (real_reels:string[])=> {
         return (
           <div className='container' style={{ minHeight: 500 }}>
           <div className='row justify-content-between align-items-center mt-md-5'>
-            <div className="col-md-3 text-white mb-3 mb-md-0" style={{ backgroundColor: 'rgb(25,31,45)', borderRadius: 20 }}>
+            <div className="col-md-4 text-white mb-3 mb-md-0" style={{ backgroundColor: 'rgb(25,31,45)', borderRadius: 20 }}>
               <div className="mt-md-2">
                 <h3 className='text-center'>Current Rewards</h3>
                 <div className='col-md-12 col-sm-12 d-flex justify-content-center py-md-3'>
@@ -284,12 +284,17 @@ setRealReels = (real_reels:string[])=> {
                 <p className='text-center'>5X</p>
               </div>
             </div>
-            <div className='col-md-6 col-sm-12 d-flex flex-column justify-content-center align-item-center py-md-3 ms-md-1'>
-              <div className='col-md-5'>
-                 <div className='text-center' style={{backgroundColor:"rgb(77,6,97)", borderTopLeftRadius: 100, borderTopRightRadius:100, overflow:"hidden", border:"10px solid", borderColor:"rgb(255,215,0)", color:"rgb(255,215,0)"}}>BIG WIN</div>
+            <div className='col-md-4 col-sm-12 d-flex flex-column justify-content-center align-item-center py-md-3 ms-md-1'>
+              <div className='col-md-10'>
+               
+
+                 <div className='text-center' style={{backgroundColor:"rgb(77,6,97)", borderTopLeftRadius: 100, borderTopRightRadius:100, overflow:"hidden", border:"10px solid", borderColor:"rgb(255,215,0)", color:"rgb(255,215,0)"}}>BIG WIN
+                  {/* dollar coin */}
+                <div className="ms-md-3 col-md-1 d-flex justify-content-center align-items-center rounded-circle text-center" style={{ backgroundColor: 'rgb(153,101,21', border:"2px solid" ,borderColor:"rgb(255,215,0)", color:"rgb(255,215,0)"}}>$</div>
+                 </div>
               </div>
              
-              <div className='d-inline-flex align-items-center p-md-2 col-md-5' style={{ backgroundColor:"rgb(77,6,97)", border:"10px solid", borderColor:"rgb(255,215,0)" }}>
+              <div className='d-flex justify-content-center align-items-center p-md-2 col-md-10' style={{ backgroundColor: "rgb(77,6,97)", border: "10px solid", borderColor: "rgb(255,215,0)" }}>
                 <div className='px-2'>
                   <img className='img-fluid' width={50} src={this.state.isSpin ? this.state.animation_slots[0] : this.state.real_reels[0]} style={{ borderRadius: 15 }} alt="Reel 1" />
                 </div>
@@ -300,7 +305,7 @@ setRealReels = (real_reels:string[])=> {
                   <img className='img-fluid' width={50} src={this.state.isSpin ? this.state.animation_slots[2] : this.state.real_reels[2]} style={{ borderRadius: 15 }} alt="Reel 3" />
                 </div>
               </div>
-              <form onSubmit={this.handleSubmit} className="form-group px-md-2 col-md-5" style={{ backgroundColor:"rgb(77,6,97)", border: "10px solid", borderColor:"rgb(255,215,0"}}>
+              <form onSubmit={this.handleSubmit} className="form-group px-md-5 col-md-10 text-center" style={{ backgroundColor: "rgb(77,6,97)", border: "10px solid", borderColor: "rgb(255,215,0)" }}>
                 <label className='text-white' htmlFor="betAmount">Bet amount</label>
                 <input 
                   type="number" 
@@ -312,6 +317,7 @@ setRealReels = (real_reels:string[])=> {
                 />
                 <button type="submit" className="btn btn-primary my-md-3" style={{ borderRadius: 15, backgroundColor: 'rgb(89,190,67)' }}>Submit</button>
               </form>
+
               
             </div>
             <div className="col-md-3">
