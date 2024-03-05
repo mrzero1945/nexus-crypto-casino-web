@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import {NexusChat} from '../components/nexus-chat.tsx';
+import {NexusChat} from '../components/nexus-chat';
 import reel0_0 from './proto-slots/reel_0/00_reel_0.png';
 import reel0_1 from './proto-slots/reel_0/01_reel_0.png';
 import reel0_2 from './proto-slots/reel_0/02_reel_0.png';
