@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-
+import {NexusChat} from '../components/nexus-chat-global.tsx';
 import reel0_0 from './proto-slots/reel_0/00_reel_0.png';
 import reel0_1 from './proto-slots/reel_0/01_reel_0.png';
 import reel0_2 from './proto-slots/reel_0/02_reel_0.png';
@@ -286,15 +286,42 @@ setRealReels = (real_reels:string[])=> {
             </div>
             <div className='col-md-4 col-sm-12 d-flex flex-column justify-content-center align-item-center py-md-3 ms-md-1'>
               <div className='col-md-10'>
-               
+                <div className='row'>
+                  <div className='text-center col-md-12' style={{backgroundColor:"rgb(77,6,97)", borderTopLeftRadius: 100, borderTopRightRadius:100, overflow:"hidden", border:"10px solid", borderBottom:0 ,borderColor:"rgb(255,215,0)", color:"rgb(255,215,0)"}}>BIG WIN
+                  </div>
+                </div>
+                <div className='row position-relative d-flex justify-content-center align-items-center' style={{ borderLeft: '10px solid rgb(255,215,0)', borderRight: '10px solid rgb(255,215,0)', borderBottom: '10px solid rgb(255,215,0)', backgroundColor: 'rgb(77,6,97)', minHeight: '80px' }}>
+                  {/* Koin pertama dan kedua diatur ulang tanpa transform inline yang spesifik */}
+                  <div className="position-absolute top-50 start-50 translate-middle">
+                    <div className="col-md-1 d-flex justify-content-center align-items-center rounded-circle text-center" style={{ backgroundColor: 'rgb(153,101,21)', border: '2px solid rgb(255,215,0)', color: 'rgb(255,215,0)' }}>
+                      $
+                    </div>
+                  </div>
+                  <div className="position-absolute top-50 start-50 translate-middle ms-2">
+                    <div className="col-md-1 d-flex justify-content-center align-items-center rounded-circle text-center" style={{ backgroundColor: 'rgb(153,101,21)', border: '2px solid rgb(255,215,0)', color: 'rgb(255,215,0)' }}>
+                      $
+                    </div>
+                  </div>
+                  {/* Gambar di tengah menggunakan flexbox untuk alignment */}
+                  <div className='d-flex justify-content-center col-12'>
+                    <div className='px-2'>
+                        <img className='img-fluid' width={50} src={real_reel_4.src} style={{ borderRadius: 15 }} alt="Reel 1" />
+                      </div>
+                      <div className='px-2'>
+                        <img className='img-fluid' width={50} src={real_reel_4.src} style={{ borderRadius: 15 }} alt="Reel 2" />
+                      </div>
+                      <div className='px-2'>
+                        <img className='img-fluid' width={50} src={real_reel_4.src} style={{ borderRadius: 15 }} alt="Reel 3" />
+                      </div>
+                  </div>
+                </div>
 
-                 <div className='text-center' style={{backgroundColor:"rgb(77,6,97)", borderTopLeftRadius: 100, borderTopRightRadius:100, overflow:"hidden", border:"10px solid", borderColor:"rgb(255,215,0)", color:"rgb(255,215,0)"}}>BIG WIN
-                  {/* dollar coin */}
-                <div className="ms-md-3 col-md-1 d-flex justify-content-center align-items-center rounded-circle text-center" style={{ backgroundColor: 'rgb(153,101,21', border:"2px solid" ,borderColor:"rgb(255,215,0)", color:"rgb(255,215,0)"}}>$</div>
-                 </div>
+                 
+                 
+                 
               </div>
              
-              <div className='d-flex justify-content-center align-items-center p-md-2 col-md-10' style={{ backgroundColor: "rgb(77,6,97)", border: "10px solid", borderColor: "rgb(255,215,0)" }}>
+              <div className='d-flex justify-content-center align-items-center p-md-2 col-md-10' style={{ backgroundColor: "rgb(77,6,97)", border: "10px solid", borderTop:0, borderBottom:0, borderColor: "rgb(255,215,0)" }}>
                 <div className='px-2'>
                   <img className='img-fluid' width={50} src={this.state.isSpin ? this.state.animation_slots[0] : this.state.real_reels[0]} style={{ borderRadius: 15 }} alt="Reel 1" />
                 </div>
@@ -321,6 +348,7 @@ setRealReels = (real_reels:string[])=> {
               
             </div>
             <div className="col-md-3">
+              <NexusChat/>
               {/* Kolom kosong untuk menjaga jarak di bagian kanan */}
             </div>
           </div>
