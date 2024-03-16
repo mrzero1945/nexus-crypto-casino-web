@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import {NexusChat} from '../components/nexus-chat';
+import { NexusFormChat } from '../components/nexus-chat-form';
 import reel0_0 from './proto-slots/reel_0/00_reel_0.png';
 import reel0_1 from './proto-slots/reel_0/01_reel_0.png';
 import reel0_2 from './proto-slots/reel_0/02_reel_0.png';
@@ -30,6 +30,11 @@ import real_reel_2 from './proto-slots/real_reel/banana_2.png';
 import real_reel_3 from './proto-slots/real_reel/pear_3.png';
 import real_reel_4 from './proto-slots/real_reel/apple_4.png';
 import { NexusSmartContract } from '../smart_contract/nexus_smart_contract';
+
+let web3:any;
+if(typeof window !== "undefined" && window.ethereum){
+  web3 = new Web3(window.ethereum)
+}
 
 const real_reels:any = {
   1 : real_reel_1.src,
@@ -143,6 +148,7 @@ interface NexusSlotsGamePlayState {
     real_reels:string[]
     bet_amount: number;
     game_start: boolean;
+    is_wallet_connected: boolean;
 }
 
 class NexusSlotsGamePlay extends React.Component<{}, NexusSlotsGamePlayState> {
@@ -153,7 +159,8 @@ class NexusSlotsGamePlay extends React.Component<{}, NexusSlotsGamePlayState> {
             animation_slots : [],
             real_reels : [real_reels['1'],real_reels['1'],real_reels['1']],
             bet_amount: 0, 
-            game_start: false
+            game_start: false,
+            is_wallet_connected: false
         }
     }
 
@@ -162,6 +169,8 @@ class NexusSlotsGamePlay extends React.Component<{}, NexusSlotsGamePlayState> {
         animation_slots : randomNumber
       });
     }
+
+    
 
     intervalId:any; // Deklarasi properti intervalId
     animationStart = () => {
@@ -245,17 +254,66 @@ setRealReels = (real_reels:string[])=> {
     handle_call_smart_contract = async () => {
        await checkApproveERC20(this.state.bet_amount, this.animationStart, this.setRealReels, this.animationStop);
     }
+
+   
+
+
     
     
     render() {
         return (
-          <div className='container' style={{ minHeight: 500 }}>
-          <div className='row justify-content-between align-items-center mt-md-5'>
-            <div className="col-md-4 text-white mb-3 mb-md-0" style={{ backgroundColor: 'rgb(25,31,45)', borderRadius: 20 }}>
-              <div className="mt-md-2">
-                <h3 className='text-center'>Current Rewards</h3>
-                <div className='col-md-12 col-sm-12 d-flex justify-content-center py-md-3'>
-                  <div className='d-inline-flex align-items-center p-md-2' style={{ backgroundColor: 'rgb(25,31,45)', borderRadius: 20 }}>
+          <div className='container'>
+            <div className='row justify-content-between align-items-center mt-3 mt-md-5'>
+              {/* Rewards Section */}
+              <div className='px-4'>
+                  <div className="col-12 col-md-4 text-white py-3 mb-3" style={{ backgroundColor: 'rgb(25,31,45)', borderRadius: 20 }}>
+                    <h3 className='text-center'>Current Rewards</h3>
+                    {[{src: real_reel_4.src, multiplier: "10X"}, {src: real_reel_3.src, multiplier: "5X"}, {src: real_reel_2.src, multiplier: "3X"}, {src: real_reel_1.src, multiplier: "2X"}].map((reward, index) => (
+                      <div key={index} className='d-flex justify-content-center py-3'>
+                        <div className='d-inline-flex align-items-center p-2' style={{ backgroundColor: 'rgb(25,31,45)', borderRadius: 20 }}>
+                          <div className='px-2'>
+                            <img className='img-fluid' width={50} src={reward.src} style={{ borderRadius: 15 }} alt={`Reel ${index * 3 + 1}`} />
+                          </div>
+                          <div className='px-2'>
+                            <img className='img-fluid' width={50} src={reward.src} style={{ borderRadius: 15 }} alt={`Reel ${index * 3 + 2}`} />
+                          </div>
+                          <div className='px-2'>
+                            <img className='img-fluid' width={50} src={reward.src} style={{ borderRadius: 15 }} alt={`Reel ${index * 3 + 3}`} />
+                          </div>
+                        </div>
+                        <p className='text-center'>{reward.multiplier}</p>
+                      </div>
+                    ))}
+                  </div>
+              </div>
+            
+
+              {/* Slot Machine Visual Section */}
+              <div className='col-md-4 px-3 col-sm-12 d-flex flex-column justify-content-center align-items-center py-md-3 ms-md-1'>
+                {/* Big Win Header */}
+                <div className='col-12' style={{ backgroundColor: "rgb(77,6,97)", borderTopLeftRadius: 100, borderTopRightRadius: 100, overflow: "hidden", border: "10px solid rgb(255,215,0)", borderBottom: 0, color: "rgb(255,215,0)" }}>
+                  <div className='text-center'>BIG WIN</div>
+                </div>
+
+                {/* Slot Machine Reels */}
+                <div className="col-12 position-relative d-flex justify-content-center align-items-center" style={{ backgroundColor: 'rgb(77,6,97)', borderLeft: '10px solid rgb(255,215,0)', borderRight: '10px solid rgb(255,215,0)', borderBottom: '10px solid rgb(255,215,0)', minHeight: '80px' }}>
+                {/* Central $ Symbol, further adjusted to the left */}
+                  <div className="position-absolute" style={{ top: '50%', left: '10%', transform: 'translate(-50%, -50%)' }}>
+                    <div className="d-inline-flex justify-content-center align-items-center rounded-circle text-center" style={{ backgroundColor: 'rgb(153,101,21)', border: '2px solid rgb(255,215,0)', color: 'rgb(255,215,0)', width: '40px', height: '40px' }}>
+                      $
+                    </div>
+                  </div>
+                  
+                  <div className="position-absolute" style={{ top: '50%', left: '90%', transform: 'translate(-50%, -50%)' }}>
+                    <div className="d-inline-flex justify-content-center align-items-center rounded-circle text-center" style={{ backgroundColor: 'rgb(153,101,21)', border: '2px solid rgb(255,215,0)', color: 'rgb(255,215,0)', width: '40px', height: '40px' }}>
+                      $
+                    </div>
+                  </div>
+
+                  
+
+                  {/* Reel Images */}
+                  <div className='d-flex justify-content-center'>
                     <div className='px-2'>
                       <img className='img-fluid' width={50} src={real_reel_4.src} style={{ borderRadius: 15 }} alt="Reel 1" />
                     </div>
@@ -267,93 +325,33 @@ setRealReels = (real_reels:string[])=> {
                     </div>
                   </div>
                 </div>
-                <p className='text-center'>10X</p>
-                <div className='col-md-12 col-sm-12 d-flex justify-content-center py-md-3'>
-                  <div className='d-inline-flex align-items-center p-md-2' style={{ backgroundColor: 'rgb(25,31,45)', borderRadius: 20 }}>
-                    <div className='px-2'>
-                      <img className='img-fluid' width={50} src={real_reel_3.src} style={{ borderRadius: 15 }} alt="Reel 1" />
-                    </div>
-                    <div className='px-2'>
-                      <img className='img-fluid' width={50} src={real_reel_3.src} style={{ borderRadius: 15 }} alt="Reel 2" />
-                    </div>
-                    <div className='px-2'>
-                      <img className='img-fluid' width={50} src={real_reel_3.src} style={{ borderRadius: 15 }} alt="Reel 3" />
-                    </div>
-                  </div>
-                </div>
-                <p className='text-center'>5X</p>
-              </div>
-            </div>
-            <div className='col-md-4 col-sm-12 d-flex flex-column justify-content-center align-item-center py-md-3 ms-md-1'>
-              <div className='col-md-10'>
-                <div className='row'>
-                  <div className='text-center col-md-12' style={{backgroundColor:"rgb(77,6,97)", borderTopLeftRadius: 100, borderTopRightRadius:100, overflow:"hidden", border:"10px solid", borderBottom:0 ,borderColor:"rgb(255,215,0)", color:"rgb(255,215,0)"}}>BIG WIN
-                  </div>
-                </div>
-                <div className='row position-relative d-flex justify-content-center align-items-center' style={{ borderLeft: '10px solid rgb(255,215,0)', borderRight: '10px solid rgb(255,215,0)', borderBottom: '10px solid rgb(255,215,0)', backgroundColor: 'rgb(77,6,97)', minHeight: '80px' }}>
-                  {/* Koin pertama dan kedua diatur ulang tanpa transform inline yang spesifik */}
-                  <div className="position-absolute top-50 start-50 translate-middle">
-                    <div className="col-md-1 d-flex justify-content-center align-items-center rounded-circle text-center" style={{ backgroundColor: 'rgb(153,101,21)', border: '2px solid rgb(255,215,0)', color: 'rgb(255,215,0)' }}>
-                      $
-                    </div>
-                  </div>
-                  <div className="position-absolute top-50 start-50 translate-middle ms-2">
-                    <div className="col-md-1 d-flex justify-content-center align-items-center rounded-circle text-center" style={{ backgroundColor: 'rgb(153,101,21)', border: '2px solid rgb(255,215,0)', color: 'rgb(255,215,0)' }}>
-                      $
-                    </div>
-                  </div>
-                  {/* Gambar di tengah menggunakan flexbox untuk alignment */}
-                  <div className='d-flex justify-content-center col-12'>
-                    <div className='px-2'>
-                        <img className='img-fluid' width={50} src={real_reel_4.src} style={{ borderRadius: 15 }} alt="Reel 1" />
-                      </div>
-                      <div className='px-2'>
-                        <img className='img-fluid' width={50} src={real_reel_4.src} style={{ borderRadius: 15 }} alt="Reel 2" />
-                      </div>
-                      <div className='px-2'>
-                        <img className='img-fluid' width={50} src={real_reel_4.src} style={{ borderRadius: 15 }} alt="Reel 3" />
-                      </div>
-                  </div>
-                </div>
 
-                 
-                 
-                 
-              </div>
-             
-              <div className='d-flex justify-content-center align-items-center p-md-2 col-md-10' style={{ backgroundColor: "rgb(77,6,97)", border: "10px solid", borderTop:0, borderBottom:0, borderColor: "rgb(255,215,0)" }}>
-                <div className='px-2'>
-                  <img className='img-fluid' width={50} src={this.state.isSpin ? this.state.animation_slots[0] : this.state.real_reels[0]} style={{ borderRadius: 15 }} alt="Reel 1" />
-                </div>
-                <div className='px-2'>
-                  <img className='img-fluid' width={50} src={this.state.isSpin ? this.state.animation_slots[1] : this.state.real_reels[1]} style={{ borderRadius: 15 }} alt="Reel 2" />
-                </div>
-                <div className='px-2'>
-                  <img className='img-fluid' width={50} src={this.state.isSpin ? this.state.animation_slots[2] : this.state.real_reels[2]} style={{ borderRadius: 15 }} alt="Reel 3" />
-                </div>
-              </div>
-              <form onSubmit={this.handleSubmit} className="form-group px-md-5 col-md-10 text-center" style={{ backgroundColor: "rgb(77,6,97)", border: "10px solid", borderColor: "rgb(255,215,0)" }}>
-                <label className='text-white' htmlFor="betAmount">Bet amount</label>
-                <input 
-                  type="number" 
-                  className="form-control" 
-                  id="betAmount" 
-                  value={this.state.bet_amount} 
-                  onChange={this.handleInputChange} 
-                  placeholder="Enter bet amount" 
-                />
-                <button type="submit" className="btn btn-primary my-md-3" style={{ borderRadius: 15, backgroundColor: 'rgb(89,190,67)' }}>Submit</button>
-              </form>
+               {/* Betting Form */}
+                <form onSubmit={this.handleSubmit} className="form-group px-md-5 col-12 text-center" style={{ backgroundColor: "rgb(77,6,97)", border: "10px solid rgb(255,215,0)" }}>
+                  <label className='text-white' htmlFor="betAmount">Bet amount</label>
+                  <div className="d-flex justify-content-center"> {/* Container baru untuk centering */}
+                    <input 
+                      type="number" 
+                      className="form-control" 
+                      id="betAmount" 
+                      value={this.state.bet_amount} 
+                      onChange={this.handleInputChange} 
+                      placeholder="Enter bet amount" 
+                      style={{ maxWidth: "200px" }} // Memastikan input tidak terlalu lebar
+                    />
+                  </div>
+                  <button type="submit" className="btn btn-primary my-md-3 my-3" style={{ borderRadius: 15 }}>Submit</button>
+                </form>
 
-              
-            </div>
-            <div className="col-md-3">
-              <NexusChat/>
-              {/* Kolom kosong untuk menjaga jarak di bagian kanan */}
+              </div>
+
+              {/* Chat Component Placeholder */}
+              <div className="col-md-3">
+                <NexusFormChat/>
+              </div>
             </div>
           </div>
-        </div>
-        
+
         
 
 

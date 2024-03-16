@@ -1,20 +1,84 @@
 import React from "react";
+import Web3 from "web3";
+
+
+
 
 interface INexusChatState {
     message: string;
     messages: string[];
 }
 
-class NexusChat extends React.Component<{}, INexusChatState> {
+interface INexusChatProps{
+    username:string;
+    address:string
+}
+
+class NexusChat extends React.Component<INexusChatProps, INexusChatState> {
     private scrollRef = React.createRef<HTMLDivElement>(); // Membuat ref untuk elemen scroll
 
-    constructor(props: {}) {
+    constructor(props: INexusChatProps) {
         super(props);
         this.state = {
             message: '',
-            messages: []
+            messages: [],
         };
+        
+        this.ws = this.connectToWebSocket();
+        
     }
+
+    private ws:WebSocket;
+
+
+    connectToWebSocket(){
+        // Membuat URL untuk WebSocket
+        const wsUrl = 'ws://192.168.1.100:8080';
+
+        // data json
+        const data = {
+            address: this.props.address,
+            username: this.props.username,
+            message: this.state.message
+        }
+
+        // convert obj js to json string
+        const dataString = JSON.stringify(data);
+
+        
+        // Membuat instance WebSocket
+        const ws = new WebSocket(wsUrl);
+
+        // Mendengarkan event ketika koneksi berhasil terbuka
+        ws.onopen = function(event) {
+            console.log('Connected to the WebSocket server');
+            ws.send(dataString);
+        };
+
+        // Mendengarkan pesan dari server
+        ws.onmessage = (event:any) => {
+            console.log('Message from server:', event.data);
+            this.setState(prevState =>({
+                messages: [...prevState.messages, event.data]
+            }));
+        }
+
+        // Mendengarkan error
+        ws.onerror = function(event) {
+            console.error('WebSocket error:', event);
+        };
+
+        // Mendengarkan ketika koneksi ditutup
+        ws.onclose = function(event) {
+            console.log('WebSocket connection closed', event);
+        };
+        
+        // Fungsi ini dapat diperluas dengan menambahkan kemampuan untuk mengirim pesan ke server,
+        // menangani lebih banyak jenis event, dan melakukan koneksi ulang jika perlu.
+        
+        return ws; // Mengembalikan instance WebSocket
+    }
+
 
     componentDidUpdate() {
         // Scroll ke bagian bawah setiap kali komponen diperbarui
@@ -26,22 +90,26 @@ class NexusChat extends React.Component<{}, INexusChatState> {
 
     handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({ message: event.target.value });
+       
     };
 
     handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        
         if (!this.state.message.trim()) return;
 
-        this.setState(prevState => ({
-            messages: [...prevState.messages, prevState.message],
+        this.ws.send(this.state.message);
+
+        this.setState({
+            //messages: [...prevState.messages, prevState.message],
             message: ''
-        }));
+        });
     };
 
     render() {
         return (
             <div className="container d-flex flex-column p-3 text-white position-relative" style={{ backgroundColor: 'rgb(25,31,45)', height: '50vh' }}>
-                <div className="text-center text-white mb-md-3" style={{fontWeight:"bold"}}>Nexus Chat</div>
+                <div className="text-center text-white mb-md-3" style={{fontWeight:"bold"}}>Nexus Chat {this.props.username}</div>
                 {/* Menambahkan ref ke div scrollview */}
                 <div className="overflow-auto mb-3 pe-3" style={{ maxHeight: 'calc(50vh - 60px)' }} ref={this.scrollRef}>
                     {this.state.messages.map((msg, index) => (
