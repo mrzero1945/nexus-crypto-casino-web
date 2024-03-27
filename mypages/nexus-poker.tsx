@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 //import chipRedImg from '../resources/assets/PNG/Chips/chipRedWhite_side.png';
 
@@ -6,13 +6,62 @@ import ASImg from '../resources/assets/PNG/Cards/cardClubsA.png';
 import cardDiamondsA from '../resources/assets/PNG/Cards/cardDiamondsA.png';
 import cardHeartsA from '../resources/assets/PNG/Cards/cardHeartsA.png';
 import cardSpadesA from '../resources/assets/PNG/Cards/cardSpadesA.png';
+import { NexusSmartContract } from "../smart_contract/nexus_smart_contract";
 
-class NexusPoker extends Component{
+
+
+interface INexusPoker{
+    bet_ammount:number;
+    address:string;
+}
+
+class NexusPoker extends Component<{}, INexusPoker>{
+
+    private bet_sc = async (bet_amount:number) => {
+        
+    }
+
+    constructor(props:{}){
+        super(props);
+        this.state = {
+            bet_ammount:0,
+            address:""
+        };
+    }
+
+    set_address = (address:string)=>{
+        this.setState({address:address}, ()=>{
+            console.log("address: ", this.state.address);
+        });
+    }
+
+    private handleSubmitBetAmount = async (event:React.FormEvent<HTMLFormElement>)=>{
+        event.preventDefault();
+        
+        if(await NexusSmartContract.is_connect_wallet(this.set_address)){
+            console.log("dompet terhubung");
+            await NexusSmartContract.call_poker_smart_contract(this.state.bet_ammount, 0.001);
+        } else{
+            console.log("wallet not connected");
+        }
+        // todo:call smart contract
+        
+    }
+
+    private handleChangeBetAmount = (event:React.ChangeEvent<HTMLInputElement>)=>{
+        this.setState({
+            bet_ammount:parseInt(event.target.value)
+        }, ()=>{
+            console.log("bet amount is: ", this.state.bet_ammount);
+        });
+    }
+
+    
     render(){
         return(
             <div className='container'>
                     <div className='row d-flex justify-content-center mt-md-4'>
-                    <div className="col-md-8 d-flex align-items-center justify-content-center position-relative" style={{ backgroundColor:"#304D30"}}>
+                    <div className="col-md-8 d-flex align-items-center justify-content-center position-relative" style={{ backgroundColor:"rgb(25,31,45)"}}>
                         {/*<img className="img-fluid position-absolute w-100 h-100" src={backgroundImg.src} alt="Deskripsi Gambar"/>*/}
                         
                         <div className="text-center">
@@ -20,8 +69,15 @@ class NexusPoker extends Component{
                                 <div className='col-md-12'>
                                     <h2 className="text-white">Tien Len ( Vietnamese Poker) ( Thirteen Tienlen )</h2>
                                 </div>
-                                <div className='my-md-5 col-md-12'>
-                                    <button className="btn btn-primary px-5 py-2" style={{borderRadius:"25px"}}>Play</button>
+                                <div className='my-md-5 col-md-12 d-flex justify-content-center'>
+                                    <form onSubmit={this.handleSubmitBetAmount}>
+                                        <div className="col-md-10 mb-3">
+                                            <label htmlFor="username" className="form-label text-white">Bet Amount</label>
+                                            <input type="number" className="form-control text-center" id="username" placeholder="min 1" onChange={this.handleChangeBetAmount}/>
+                                            <button className="text-white btn mt-md-2" style={{backgroundColor:"rgb(89,190,67)", borderRadius:15}}>Submit</button>
+                                        </div>
+                                        
+                                    </form>
                                 </div>
                                 <div className="col-md-3">
                                     <img className="img-fluid" src={ASImg.src}/>

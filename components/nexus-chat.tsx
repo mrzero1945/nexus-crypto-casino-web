@@ -38,8 +38,7 @@ class NexusChat extends React.Component<INexusChatProps, INexusChatState> {
         // data json
         const data = {
             address: this.props.address,
-            username: this.props.username,
-            message: this.state.message
+            command: "connect_chat"
         }
 
         // convert obj js to json string

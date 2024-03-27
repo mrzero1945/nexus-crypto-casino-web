@@ -1,13 +1,10 @@
 import React from "react";
-import Web3 from 'web3';
+import { NexusSmartContract } from "../smart_contract/nexus_smart_contract";
 
 // Asumsi Anda memiliki komponen NexusChat di path yang sama
 import { NexusChat } from "./nexus-chat";
 
-let web3:any;
-if (typeof window !== 'undefined' && window.ethereum) {
-  web3 = new Web3(window.ethereum);
-}
+
 
 interface INexusFormChatState {
     status_form: boolean;
@@ -30,34 +27,19 @@ class NexusFormChat extends React.Component<{}, INexusFormChatState> {
     }
 
     async componentDidMount() {
-        if(await this.getAddressFromWeb3()){
+        if(await NexusSmartContract.is_connect_wallet(this.set_address)){
             this.initiateWebSocketConnection();
-            this.checkAccount();
         }
        
        
     }
 
-    // Misalnya, ini adalah fungsi untuk mendapatkan alamat pengguna dari Web3
-    getAddressFromWeb3 = async () => {
-        try {
-            // Pastikan web3 diinisialisasi dan siap
-            const accounts = await web3.eth.getAccounts();
-            if (accounts.length > 0) {
-                const address = accounts[0];
-                this.setState({ address }); // Memperbarui state address
-                return true;
-            } else {
-                console.error('No accounts found. Make sure Ethereum client is connected.');
-                return false;
-            }
-        } catch (error) {
-            // Menangkap dan menangani kesalahan
-            console.error('An error occurred while fetching accounts:', error);
-            return false;
-        }
-    };
-    
+  
+    // set address func
+    private set_address = (address:string)=>{
+        this.setState({address:address});
+    }
+                                                                                            
   // Pastikan memanggil getAddressFromWeb3 pada lifecycle method yang sesuai, misal componentDidMount atau sebagai respons terhadap aksi pengguna
   
 
@@ -75,13 +57,15 @@ class NexusFormChat extends React.Component<{}, INexusFormChatState> {
         
         ws.onopen = () => {
             console.log("Connected to server");
-            this.setState({ ws });
+            this.setState({ ws }, ()=>{
+                this.checkAccount();
+            });
         };
 
         ws.onmessage = (event) => {
             console.log("message from server: ", event.data);
             if(event.data !== "Account not found. Please register.") {
-                this.setState({ status_form: true, username: this.state.username }, ()=>{
+                this.setState({ status_form: true, username: event.data }, ()=>{
                     
                 });
             } else {
@@ -96,7 +80,7 @@ class NexusFormChat extends React.Component<{}, INexusFormChatState> {
 
         ws.onclose = (event) => {
             console.log('WebSocket connection closed', event);
-            this.attemptReconnect();
+            //this.attemptReconnect();
         };
     }
 
@@ -119,14 +103,23 @@ class NexusFormChat extends React.Component<{}, INexusFormChatState> {
 
     handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        const { username, address } = this.state;
-        if (username && address) {
-            const dataset = { command: "add_account", address: address, username: username};
-            this.sendWebSocketMessage(JSON.stringify(dataset));
-            this.setState({ statusMessage: '' });
-        } else {
-            this.setState({ statusMessage: 'Please enter a username and make sure your wallet is connected.' });
+        const ws_url = "ws://192.168.1.100:8080";
+        const ws = new WebSocket(ws_url);
+        ws.onopen = (event) =>{
+            this.setState({
+                ws: ws
+            }, ()=>{
+                 const { username, address } = this.state;
+                if (username && address) {
+                    const dataset = { command: "add_account", address: address, username: username};
+                    this.sendWebSocketMessage(JSON.stringify(dataset));
+                    this.setState({ statusMessage: '' });
+                } else {
+                    this.setState({ statusMessage: 'Please enter a username and make sure your wallet is connected.' });
+                }
+            });
         }
+       
     };
 
     handleChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,13 +137,13 @@ class NexusFormChat extends React.Component<{}, INexusFormChatState> {
                     <NexusChat username={username} address={address}/>
                 ) : (
                     <div className="container mt-5" style={{backgroundColor: 'rgb(25, 31, 45)', borderRadius: '8px'}}>
-                        <h3 className="text-white text-center">Nexus Chat Registration</h3>
+                        <h3 className="text-white text-center">Nexus Chat</h3>
                         <form>
                             <div className="mb-3">
                                 <label htmlFor="username" className="form-label text-white">Username</label>
                                 <input type="text" className="form-control" id="username" placeholder="Enter username" onChange={this.handleChangeUsername} value={username}/>
                             </div>
-                            <button onClick={this.handleSubmit} className="btn btn-primary mb-md-3" style={{borderRadius:15}}>Register</button>
+                            <button onClick={this.handleSubmit} className="btn mb-md-3 text-white" style={{borderRadius:15, backgroundColor:"rgb(89,190,67)"}}>Register</button>
                             <div className="text-white text-center pb-md-2" style={{minHeight:20}}>
                                 {statusMessage}
                             </div>

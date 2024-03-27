@@ -45,7 +45,6 @@ const real_reels:any = {
 
 
 async function approveERC20() {
-    const web3 = new Web3(window.ethereum);
     const tokenContractAddress = NexusSmartContract.usdt_token_addr; // Alamat kontrak ERC20
     const nexusContractAddress = NexusSmartContract.slots_bet_contract_addr; // Alamat kontrak NexusTesting
     const tokenABI = NexusSmartContract.usdt_abi;
@@ -63,7 +62,6 @@ async function approveERC20() {
 }
 
 async function checkApproveERC20(amount:number, animationStart:() => void, setRealReels:(src:string[]) => void, animationStop:() => void){
-  const web3 = new Web3(window.ethereum);
   const contractAddress = NexusSmartContract.slots_bet_contract_addr;
   const contractABI = NexusSmartContract.slots_bet_abi;
   const contract = new web3.eth.Contract(contractABI, contractAddress);
@@ -265,71 +263,61 @@ setRealReels = (real_reels:string[])=> {
           <div className='container'>
             <div className='row justify-content-between align-items-center mt-3 mt-md-5'>
               {/* Rewards Section */}
-              <div className='px-4'>
-                  <div className="col-12 col-md-4 text-white py-3 mb-3" style={{ backgroundColor: 'rgb(25,31,45)', borderRadius: 20 }}>
-                    <h3 className='text-center'>Current Rewards</h3>
-                    {[{src: real_reel_4.src, multiplier: "10X"}, {src: real_reel_3.src, multiplier: "5X"}, {src: real_reel_2.src, multiplier: "3X"}, {src: real_reel_1.src, multiplier: "2X"}].map((reward, index) => (
-                      <div key={index} className='d-flex justify-content-center py-3'>
-                        <div className='d-inline-flex align-items-center p-2' style={{ backgroundColor: 'rgb(25,31,45)', borderRadius: 20 }}>
-                          <div className='px-2'>
-                            <img className='img-fluid' width={50} src={reward.src} style={{ borderRadius: 15 }} alt={`Reel ${index * 3 + 1}`} />
-                          </div>
-                          <div className='px-2'>
-                            <img className='img-fluid' width={50} src={reward.src} style={{ borderRadius: 15 }} alt={`Reel ${index * 3 + 2}`} />
-                          </div>
-                          <div className='px-2'>
-                            <img className='img-fluid' width={50} src={reward.src} style={{ borderRadius: 15 }} alt={`Reel ${index * 3 + 3}`} />
-                          </div>
-                        </div>
-                        <p className='text-center'>{reward.multiplier}</p>
+              <div className='col-md-4 px-4 ms-md-1 px-md-0 text-white' style={{ backgroundColor: 'rgb(25,31,45)', borderRadius: 20 }}>
+                <h3 className='text-center'>Current Rewards</h3>
+                {[{src: real_reel_4.src, multiplier: "10X"}, {src: real_reel_3.src, multiplier: "5X"}, {src: real_reel_2.src, multiplier: "3X"}, {src: real_reel_1.src, multiplier: "2X"}].map((reward, index) => (
+                  <div key={index} className='d-flex justify-content-center py-3'>
+                    <div className='d-inline-flex align-items-center p-2' style={{ backgroundColor: 'rgb(25,31,45)', borderRadius: 20 }}>
+                      <div className='px-2'>
+                        <img className='img-fluid' width={50} src={reward.src} style={{ borderRadius: 15 }} alt={`Reel ${index * 3 + 1}`} />
                       </div>
-                    ))}
+                      <div className='px-2'>
+                        <img className='img-fluid' width={50} src={reward.src} style={{ borderRadius: 15 }} alt={`Reel ${index * 3 + 2}`} />
+                      </div>
+                      <div className='px-2'>
+                        <img className='img-fluid' width={50} src={reward.src} style={{ borderRadius: 15 }} alt={`Reel ${index * 3 + 3}`} />
+                      </div>
+                    </div>
+                    <p className='text-center'>{reward.multiplier}</p>
                   </div>
+                ))}
               </div>
-            
 
               {/* Slot Machine Visual Section */}
-              <div className='col-md-4 px-3 col-sm-12 d-flex flex-column justify-content-center align-items-center py-md-3 ms-md-1'>
-                {/* Big Win Header */}
+              <div className='col-md-4 px-3 px-md-0 d-flex flex-column justify-content-center align-items-center'>
                 <div className='col-12' style={{ backgroundColor: "rgb(77,6,97)", borderTopLeftRadius: 100, borderTopRightRadius: 100, overflow: "hidden", border: "10px solid rgb(255,215,0)", borderBottom: 0, color: "rgb(255,215,0)" }}>
                   <div className='text-center'>BIG WIN</div>
                 </div>
 
-                {/* Slot Machine Reels */}
                 <div className="col-12 position-relative d-flex justify-content-center align-items-center" style={{ backgroundColor: 'rgb(77,6,97)', borderLeft: '10px solid rgb(255,215,0)', borderRight: '10px solid rgb(255,215,0)', borderBottom: '10px solid rgb(255,215,0)', minHeight: '80px' }}>
-                {/* Central $ Symbol, further adjusted to the left */}
                   <div className="position-absolute" style={{ top: '50%', left: '10%', transform: 'translate(-50%, -50%)' }}>
                     <div className="d-inline-flex justify-content-center align-items-center rounded-circle text-center" style={{ backgroundColor: 'rgb(153,101,21)', border: '2px solid rgb(255,215,0)', color: 'rgb(255,215,0)', width: '40px', height: '40px' }}>
                       $
                     </div>
                   </div>
-                  
+
                   <div className="position-absolute" style={{ top: '50%', left: '90%', transform: 'translate(-50%, -50%)' }}>
                     <div className="d-inline-flex justify-content-center align-items-center rounded-circle text-center" style={{ backgroundColor: 'rgb(153,101,21)', border: '2px solid rgb(255,215,0)', color: 'rgb(255,215,0)', width: '40px', height: '40px' }}>
                       $
                     </div>
                   </div>
 
-                  
-
-                  {/* Reel Images */}
                   <div className='d-flex justify-content-center'>
                     <div className='px-2'>
                       <img className='img-fluid' width={50} src={real_reel_4.src} style={{ borderRadius: 15 }} alt="Reel 1" />
                     </div>
                     <div className='px-2'>
-                      <img className='img-fluid' width={50} src={real_reel_4.src} style={{ borderRadius: 15 }} alt="Reel 2" />
+                      <img className='img-fluid' width={50} src={real_reel_3.src} style={{ borderRadius: 15 }} alt="Reel 2" />
                     </div>
                     <div className='px-2'>
-                      <img className='img-fluid' width={50} src={real_reel_4.src} style={{ borderRadius: 15 }} alt="Reel 3" />
+                      <img className='img-fluid' width={50} src={real_reel_2.src} style={{ borderRadius: 15 }} alt="Reel 3" />
                     </div>
                   </div>
                 </div>
 
-               {/* Betting Form */}
                 <form onSubmit={this.handleSubmit} className="form-group px-md-5 col-12 text-center" style={{ backgroundColor: "rgb(77,6,97)", border: "10px solid rgb(255,215,0)" }}>
                   <label className='text-white' htmlFor="betAmount">Bet amount</label>
-                  <div className="d-flex justify-content-center"> {/* Container baru untuk centering */}
+                  <div className="d-flex justify-content-center">
                     <input 
                       type="number" 
                       className="form-control" 
@@ -337,12 +325,11 @@ setRealReels = (real_reels:string[])=> {
                       value={this.state.bet_amount} 
                       onChange={this.handleInputChange} 
                       placeholder="Enter bet amount" 
-                      style={{ maxWidth: "200px" }} // Memastikan input tidak terlalu lebar
+                      style={{ maxWidth: "200px" }}
                     />
                   </div>
-                  <button type="submit" className="btn btn-primary my-md-3 my-3" style={{ borderRadius: 15 }}>Submit</button>
+                  <button type="submit" className="btn text-white my-md-3 my-3" style={{ borderRadius: 15, backgroundColor:"rgb(89,190,67)" }}>Submit</button>
                 </form>
-
               </div>
 
               {/* Chat Component Placeholder */}
@@ -351,6 +338,7 @@ setRealReels = (real_reels:string[])=> {
               </div>
             </div>
           </div>
+
 
         
 
